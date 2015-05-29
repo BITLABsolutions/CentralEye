@@ -48,7 +48,7 @@ Throughout the year there are special functions in the school that need the serv
 exams, sportmeet.......
 
 
-(d) description of the client requirements - You are required to provide a detailed
+(d) description of the client requirements
 
 There is a complete database on academic staff (about  160 )But the data is sotred as Excell sheets and They find it dificult to query those data when it needed.
 
@@ -61,5 +61,5 @@ Some students neglect to return the books they borrowed from the library in time
 
 To improve the quality of the staff, there should be a way to give them open feedback which those teachers and the principals only can view.
 
-The school web site need to be updated realtime about the activities by the clubs, sorts societies etc.. So it would be very convenient if a reprecentatve of each clubs and societies could feed the web site like a social web site. ( a decentralized system with responcible and quick data entry )
+The school web site need to be updated realtime about the activities by the clubs, sports societies etc.. So it would be very convenient if a reprecentative of each clubs and societies could feed the web site like a social web site. ( a decentralized system with responcible and quick data entry )
 
