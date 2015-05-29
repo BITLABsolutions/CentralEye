@@ -34,3 +34,7 @@ by Chanaka
 To do that we also have to design a web page for the school.
 If we can design our softwear with auto update ability, then we dont have to go there and install the system again all the time.
 What operating system they are having? Most probably it is windows XP or 7. But very soon it will change
+
+29 / 05 / 2015
+
+Hostel - Principal need to know how many vacancies and if a student is currently staying at the hostel. (add number)
