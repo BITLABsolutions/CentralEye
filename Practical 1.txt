@@ -3,25 +3,28 @@ P01 - Client Identification and Requirements Description
 (a) name of the project team/company name/company logo/responsibilities -
 
 
-BITLAB Solutions
-project - Central Eye
-logo - done
+Company Name - BITLAB Solutions
+ (Vision - We know that we know nothing. We know that we can learn. So we do what we shoud do.)
+ (Mission - Learn the basics of programming such as languages, data bases, web designing, networking and client handling, and complete the semester 3 project without errors or blames but appreciations, and also get the highest marks for the module.)
+project Name - Central Eye
+logo - done(needs to be uploaded)
 company letter head - on going - chamin
+
 
 (b) composition of the project team 
 
-Team leader
-Document manager
+Team leader - Mr. Chamin Wikramarathne
+Document manager - Mr. Malith Thilakarathne
 ... other roles?? - see book
 
 (c) description of the client 
 
 C.W.W. Kannangara Central College - Matugama
-A national school - controled by central government...
+A national school - controlled by central government...
 
-""""""   vision - To deliver the education policy of eminent Mr.C.W.W Kannangara the father of the free education, to the students of Kalutara district enabling them to enhance & enlighten their future while fulfilling their potential.
+""""""   Their vision - To deliver the education policy of eminent Mr.C.W.W Kannangara the father of the free education, to the students of Kalutara district enabling them to enhance & enlighten their future while fulfilling their potential.
 
-mission - mould the students to be intelligent, efficient ,honest, patient, sensitive while inculcating patriotism & teaching them to be respectful towards the other religions & casts.   """""""
+Their mission - Mould the students to be intelligent, efficient ,honest, patient, sensitive while inculcating patriotism & teaching them to be respectful towards the other religions & casts.   """""""
 
 The school office has a large database on 1) Students 2) Academic staff and 3) non - Academic staff. 
 The principal has the maximum privilege to the system. There is a vice principal and three depauty princials. their responsibilities are as below. 
@@ -63,3 +66,10 @@ To improve the quality of the staff, there should be a way to give them open fee
 
 The school web site need to be updated realtime about the activities by the clubs, sports societies etc.. So it would be very convenient if a reprecentative of each clubs and societies could feed the web site like a social web site. ( a decentralized system with responcible and quick data entry )
 
+
+
+by Chanaka,
+The logo needs to be uploaded.
+I'm not sure about the number of academic staff (160).
+If they have excel sheets then we don't need enter them again manually. we can read details from them.
+Does the "CentralEye" update those events to the web site or does it download the details from web site??
