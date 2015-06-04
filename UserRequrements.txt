@@ -38,3 +38,7 @@ What operating system they are having? Most probably it is windows XP or 7. But 
 29 / 05 / 2015
 
 Hostel - Principal need to know how many vacancies and if a student is currently staying at the hostel. (add number)
+
+by chamin
+
+what about language? . Did they ask to design all interfaces in Sinhala?
