@@ -136,12 +136,10 @@ public class testStudent extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Student stu = new Student(jTextField3.getText().toString(), "Prabath", jTextField1.getText().toString(), "", "ghgh", "ghgh", "ghgh", "ghgh", "ghgh", "dfdf", "ghgh");
-        try {
-            studentDAO.addStudent(stu);
-        } catch (SQLException ex) {
-            Logger.getLogger(testStudent.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        //Student stu = new Student(jTextField3.getText(), "Prabath", jTextField1.getText(), "", "ghgh", "ghgh", "ghgh", "ghgh", "ghgh", "dfdf", "ghgh");
+       
+           // studentDAO.addStudent(stu);
+       
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
@@ -192,6 +190,8 @@ public class testStudent extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(testStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 

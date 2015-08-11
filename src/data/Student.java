@@ -1,20 +1,22 @@
 package data;
 
+import java.sql.Date;
+
 public class Student {
 
     String AdmissionNumber;
     String FullNameEnglish;
     String FullNameSinhala;
-    String BirthDate;
+    Date BirthDate;
     String House;
     String Religion;
     String Address;
     String TelephoneNumber;
-    String DateOfAdmission;
+    Date DateOfAdmission;
     String ClassOfAdmission;
     String Gender;
 
-    public Student(String AdmissionNumber, String FullNameEnglish, String FullNameSinhala, String BirthDate, String House, String Religion, String Address, String TelephoneNumber, String DateOfAdmission, String ClassOfAdmission, String Gender) {
+    public Student(String AdmissionNumber, String FullNameEnglish, String FullNameSinhala, Date BirthDate, String House, String Religion, String Address, String TelephoneNumber, Date DateOfAdmission, String ClassOfAdmission, String Gender) {
         this.AdmissionNumber = AdmissionNumber;
         this.FullNameEnglish = FullNameEnglish;
         this.FullNameSinhala = FullNameSinhala;
@@ -48,7 +50,7 @@ public class Student {
         return FullNameSinhala;
     }
 
-    public String getBirthDate() {
+    public Date getBirthDate() {
         return BirthDate;
     }
 
@@ -68,7 +70,7 @@ public class Student {
         return TelephoneNumber;
     }
 
-    public String getDateOfAdmission() {
+    public Date getDateOfAdmission() {
         return DateOfAdmission;
     }
 
@@ -88,7 +90,7 @@ public class Student {
         this.FullNameSinhala = FullNameSinhala;
     }
 
-    public void setBirthDate(String BirthDate) {
+    public void setBirthDate(Date BirthDate) {
         this.BirthDate = BirthDate;
     }
 
@@ -108,7 +110,7 @@ public class Student {
         this.TelephoneNumber = TelephoneNumber;
     }
 
-    public void setDateOfAdmission(String DateOfAdmission) {
+    public void setDateOfAdmission(Date DateOfAdmission) {
         this.DateOfAdmission = DateOfAdmission;
     }
 

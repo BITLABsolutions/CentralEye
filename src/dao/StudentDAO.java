@@ -5,6 +5,7 @@ import data.Student;
 import java.util.List;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,12 +31,12 @@ public class StudentDAO {
             myStmt.setString(1, student.getAdmissionNumber());
             myStmt.setString(2, student.getFullNameEnglish());
             myStmt.setString(3, student.getFullNameSinhala());
-            myStmt.setString(4, student.getBirthDate());
+            myStmt.setDate(4, student.getBirthDate());
             myStmt.setString(5, student.getHouse());
             myStmt.setString(6, student.getReligion());
             myStmt.setString(7, student.getAddress());
             myStmt.setString(8, student.getTelephoneNumber());
-            myStmt.setString(9, student.getDateOfAdmission());
+            myStmt.setDate(9, student.getDateOfAdmission());
             myStmt.setString(10, student.getClassOfAdmission());
             myStmt.setString(11, student.getGender());
 
@@ -78,12 +79,12 @@ public class StudentDAO {
         String AdmissionNumber = myRs.getString(1);
         String FullNameEnglish = myRs.getString(2);
         String FullNameSinhala = myRs.getString(3);
-        String BirthDate = myRs.getString(4);
+        Date BirthDate = myRs.getDate(4);
         String House = myRs.getString(5);
         String Religion = myRs.getString(6);
         String Address = myRs.getString(7);
         String TelephoneNumber = myRs.getString(8);
-        String DateOfAdmission = myRs.getString(9);
+        Date DateOfAdmission = myRs.getDate(9);
         String ClassOfAdmission = myRs.getString(10);
         String Gender = myRs.getString(11);
         Student tempStudent = new Student(AdmissionNumber, FullNameEnglish, FullNameSinhala, BirthDate, House, Religion, Address, TelephoneNumber, DateOfAdmission, ClassOfAdmission, Gender);
