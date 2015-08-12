@@ -47,8 +47,10 @@ CREATE TABLE `teacher` (
   `GradeOfService` varchar(5) DEFAULT NULL,
   `DateOfPromotion` date DEFAULT NULL,
   `SectionTaught` varchar(10) DEFAULT NULL,
-  `ServiceRecord` varchar(10) DEFAULT NULL,
+  `ServiceRecord` varchar(1000) DEFAULT NULL,
   `PositionInSchool` varchar(20) DEFAULT NULL,
+  `AccessPriviledge` int(11) NOT NULL,
+  `ClubIncharge` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`NIC`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -59,7 +61,6 @@ CREATE TABLE `teacher` (
 
 LOCK TABLES `teacher` WRITE;
 /*!40000 ALTER TABLE `teacher` DISABLE KEYS */;
-INSERT INTO `teacher` (`NIC`, `RNo`, `NameWithIn`, `FullName`, `Gender`, `Dob`, `CivilStatus`, `Address`, `TelNoMobile`, `TelNoRecident`, `DateOfAssignmentAsTeacher`, `DateOfAssignmentToSchool`, `EducationQual`, `ProffessionalQual`, `SubjectsAndClasses`, `SubjectsWishToTeach`, `GradesWishToTeach`, `NatureOfPresentPost`, `GradeOfService`, `DateOfPromotion`, `SectionTaught`, `ServiceRecord`, `PositionInSchool`) VALUES ('033662306v','dfdfd','prabath','sandaruwan','male','2015-08-07','Unmarried','no62/ambagahagoda/beragama/agalawatta','0719561619','','2015-08-06','2015-08-06','*dfdfdf\n*dfdf\n*dfdf','*dfdf\n*dfd\n*dfdf\n','','','','','df','2015-08-07','Primary','','teacher');
 /*!40000 ALTER TABLE `teacher` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
