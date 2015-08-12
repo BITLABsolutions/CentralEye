@@ -1,4 +1,5 @@
-package ui;
+package malith.ui;
+
 
 import com.jtattoo.plaf.bernstein.BernsteinLookAndFeel;
 import core.Teacher;
@@ -11,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import ui.TeacherTableModel;
 
 /**
  *

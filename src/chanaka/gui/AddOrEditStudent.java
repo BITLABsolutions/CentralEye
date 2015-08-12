@@ -1,6 +1,7 @@
-package gui;
+package chanaka.gui;
 
-import dao.StudentDAO;
+
+import chanaka.dao.StudentDAO;
 import data.Student;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -11,10 +12,25 @@ import javax.swing.JOptionPane;
 public class AddOrEditStudent extends javax.swing.JDialog {
 
     StudentDAO studentDAO;
+    private Student selectedStudent;
+    private String previousAdmissionNumber;
+    boolean This_is_AddMode_but_not_EditMode;
 
     public AddOrEditStudent(StudentDAO studentDao) {
         initComponents();
         studentDAO = studentDao;
+        This_is_AddMode_but_not_EditMode = true;
+    }
+
+    public AddOrEditStudent(StudentDAO studentDao, Student student) {
+        initComponents();
+        studentDAO = studentDao;
+        this.previousAdmissionNumber = student.getAdmissionNumber();
+        this.selectedStudent = student;
+        This_is_AddMode_but_not_EditMode = false;
+        txtAdmissionNo.setEnabled(false);
+        populateData(student);
+        btnAdd.setText("Save");
     }
 
     /**
@@ -54,7 +70,6 @@ public class AddOrEditStudent extends javax.swing.JDialog {
         jLabel23 = new javax.swing.JLabel();
         txtAdmissionNo = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         dchBirthDate = new com.toedter.calendar.JDateChooser();
         dchDateOfAdmission = new com.toedter.calendar.JDateChooser();
 
@@ -95,6 +110,8 @@ public class AddOrEditStudent extends javax.swing.JDialog {
 
         jLabel9.setText("Full name (Sinhala):");
 
+        txtFullNameSinhala.setFont(new java.awt.Font("Iskoola Pota", 0, 11)); // NOI18N
+
         jLabel15.setText("House:");
 
         jLabel20.setText("Religion:");
@@ -109,13 +126,6 @@ public class AddOrEditStudent extends javax.swing.JDialog {
 
         jLabel10.setText("Admission number:");
 
-        jButton1.setText("delete this next time");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -129,60 +139,49 @@ public class AddOrEditStudent extends javax.swing.JDialog {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2)
                                     .addComponent(jLabel3))
+                                .addGap(274, 274, 274)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtFullnameEnglish, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtNameWithInitial, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtFullNameSinhala, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(697, 697, 697)
-                                        .addComponent(btnAdd))
+                                        .addGap(94, 94, 94)
+                                        .addComponent(rdoFemale))
+                                    .addComponent(rdoMale)
+                                    .addComponent(txtAdmissionNo, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(274, 274, 274)
+                                        .addGap(3, 3, 3)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtFullnameEnglish, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtNameWithInitial, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtFullNameSinhala, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGap(94, 94, 94)
-                                                .addComponent(rdoFemale))
-                                            .addComponent(rdoMale)
-                                            .addComponent(txtAdmissionNo, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGap(3, 3, 3)
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                                        .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 296, Short.MAX_VALUE)
-                                                        .addComponent(jButton1))
-                                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                            .addComponent(dchBirthDate, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                            .addComponent(txtTelephone, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                        .addGap(0, 0, Short.MAX_VALUE))))))))
+                                            .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(dchBirthDate, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtTelephone, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel20)
+                            .addComponent(jLabel10)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel9)
-                                    .addComponent(jLabel11)
-                                    .addComponent(jLabel12)
-                                    .addComponent(jLabel20)
-                                    .addComponent(jLabel23)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(370, 370, 370)
-                                        .addComponent(txtClassOfAdmission, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel10)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel15)
-                                            .addComponent(jLabel13))
-                                        .addGap(281, 281, 281)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(txtHouse, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
-                                            .addComponent(txtReligion, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
-                                            .addComponent(dchDateOfAdmission, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                                    .addComponent(jLabel15)
+                                    .addComponent(jLabel13)
+                                    .addComponent(jLabel23))
+                                .addGap(279, 279, 279)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtClassOfAdmission, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(txtHouse, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+                                        .addComponent(txtReligion, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+                                        .addComponent(dchDateOfAdmission, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(553, 553, 553)
                         .addComponent(jLabel1)))
-                .addGap(133, 133, 133))
+                .addGap(133, 521, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnAdd)
+                .addGap(202, 202, 202))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -211,18 +210,13 @@ public class AddOrEditStudent extends javax.swing.JDialog {
                     .addComponent(rdoMale)
                     .addComponent(rdoFemale))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(dchBirthDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel11)
-                            .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(7, 7, 7)
-                        .addComponent(jButton1)))
+                    .addComponent(dchBirthDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(28, 28, 28)
@@ -246,9 +240,9 @@ public class AddOrEditStudent extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel23)
                     .addComponent(txtClassOfAdmission, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(513, 513, 513)
+                .addGap(38, 38, 38)
                 .addComponent(btnAdd)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(486, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jPanel1);
@@ -277,39 +271,49 @@ public class AddOrEditStudent extends javax.swing.JDialog {
         }
         if (!"".equals(txtAdmissionNo.getText())) {
 
-            if ("".equals(txtFullnameEnglish.getText()) ){
+            if ("".equals(txtFullnameEnglish.getText())) {
                 txtFullnameEnglish.setText(JOptionPane.showInputDialog("Enter full name in English"));
             }
             if (!"".equals(txtFullnameEnglish.getText())) {
-                if (rdoMale.isSelected() | rdoMale.isSelected()) {
+                if (rdoMale.isSelected() || rdoFemale.isSelected()) {
                     try {
-                        saveStudent();
+                        saveOrUpdateStudent();
+                        JOptionPane.showMessageDialog(rootPane, "Saved succesfully");
+                        this.dispose();
                     } catch (SQLException ex) {
                         Logger.getLogger(AddOrEditStudent.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } else {
                     JOptionPane.showMessageDialog(rdoFemale, "Select the gender");
                 }
-                
+
             }
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        btnAddActionPerformed(evt);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    public void saveStudent() throws SQLException {
+    public void saveOrUpdateStudent() throws SQLException {
 
         String admissionNumber = txtAdmissionNo.getText();
         String fullNameEnglish = txtFullnameEnglish.getText();
         String fullNameSinhala = txtFullNameSinhala.getText();
-        Date birthDate = new java.sql.Date(dchBirthDate.getDate().getTime());
+        Date birthDate;
+
+        try {
+            birthDate = new java.sql.Date(dchBirthDate.getDate().getTime());
+        } catch (NullPointerException e) {
+            birthDate = null;
+        }
+
         String house = txtHouse.getText();
         String religion = txtReligion.getText();
         String address = txtAddress.getText();
         String telephoneNumber = txtTelephone.getText();
-        Date dateOfAdmission = new java.sql.Date(dchDateOfAdmission.getDate().getTime());
+        Date dateOfAdmission;
+        try {
+            dateOfAdmission = new java.sql.Date(dchDateOfAdmission.getDate().getTime());
+        } catch (NullPointerException e) {
+            dateOfAdmission = null;
+        }
         String classOfAdmission = txtClassOfAdmission.getText();
 
         String gender = null;
@@ -319,22 +323,67 @@ public class AddOrEditStudent extends javax.swing.JDialog {
             gender = "Female";
         }
 
-        Student tempStudent = new Student(admissionNumber, fullNameEnglish, fullNameSinhala, birthDate, house, religion, address, telephoneNumber, dateOfAdmission, classOfAdmission, gender);
+        
+        
+        Student tempStudent = null;
 
-        studentDAO.addStudent(tempStudent);
+        
+        
+        
+        
+        if (This_is_AddMode_but_not_EditMode) {
+            tempStudent = new Student(admissionNumber, fullNameEnglish, fullNameSinhala, birthDate, house, religion, address, telephoneNumber, dateOfAdmission, classOfAdmission, gender);
+            studentDAO.addStudent(tempStudent);
+
+        } else if (!This_is_AddMode_but_not_EditMode) {
+
+            tempStudent = selectedStudent;
+
+            tempStudent.setAdmissionNumber(admissionNumber);
+            tempStudent.setFullNameEnglish(fullNameEnglish);
+            tempStudent.setFullNameSinhala(fullNameSinhala);
+            tempStudent.setBirthDate(birthDate);
+            tempStudent.setHouse(house);
+            tempStudent.setReligion(religion);
+            tempStudent.setAddress(address);
+            tempStudent.setTelephoneNumber(telephoneNumber);
+            tempStudent.setDateOfAdmission(dateOfAdmission);
+            tempStudent.setClassOfAdmission(classOfAdmission);
+            tempStudent.setGender(gender);
+
+            studentDAO.updateStudent(tempStudent, previousAdmissionNumber);
+        }
     }
 
-    /**
-     * @param args the command line arguments
-     */
-   
+    public void populateData(Student student) {
+        txtAdmissionNo.setText(student.getAdmissionNumber());
+        txtFullnameEnglish.setText(student.getFullNameEnglish());
+        txtFullNameSinhala.setText(student.getFullNameSinhala());
+        dchBirthDate.setDate(student.getBirthDate());
+        txtHouse.setText(student.getHouse());
+        txtReligion.setText(student.getReligion());
+        txtAddress.setText(student.getAddress());
+        txtTelephone.setText(student.getTelephoneNumber());
+        dchDateOfAdmission.setDate(student.getDateOfAdmission());
+        txtClassOfAdmission.setText(student.getClassOfAdmission());
+
+        String gender = student.getGender();
+        switch (gender) {
+            case "Male":
+                rdoMale.setSelected(true);
+                break;
+            case "Female":
+                rdoFemale.setSelected(true);
+                break;
+        }
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.ButtonGroup buttonGroupGender;
     private com.toedter.calendar.JDateChooser dchBirthDate;
     private com.toedter.calendar.JDateChooser dchDateOfAdmission;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

@@ -3,7 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ui;
+package malith.ui;
+
 
 import com.jtattoo.plaf.bernstein.BernsteinLookAndFeel;
 import core.Teacher;
@@ -24,6 +25,7 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.table.DefaultTableModel;
+import ui.AddService;
 
 /**
  *

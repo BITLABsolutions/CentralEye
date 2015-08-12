@@ -1,4 +1,4 @@
-package dao;
+package chanaka.dao;
 
 //This is the controller class for add a student
 import data.Student;
@@ -47,13 +47,36 @@ public class StudentDAO {
 
     }
 
+    public void updateStudent(Student selectedStudent, String previousAdmissionNumber) throws SQLException {
+        PreparedStatement myStmt = null;
+        try {
+            myStmt = myConn.prepareStatement("update student set FullNameEnglish=?, FullNameSinhala=?, BirthDate=?, House=?, Religion=?, Address=?, TelephoneNumber=?, DateOfAdmission=?, ClassOfAdmission=?, Gender=? where AdmissionNumber=?");
+
+            myStmt.setString(1, selectedStudent.getFullNameEnglish());
+            myStmt.setString(2, selectedStudent.getFullNameSinhala());
+            myStmt.setDate(3, selectedStudent.getBirthDate());
+            myStmt.setString(4, selectedStudent.getHouse());
+            myStmt.setString(5, selectedStudent.getReligion());
+            myStmt.setString(6, selectedStudent.getAddress());
+            myStmt.setString(7, selectedStudent.getTelephoneNumber());
+            myStmt.setDate(8, selectedStudent.getDateOfAdmission());
+            myStmt.setString(9, selectedStudent.getClassOfAdmission());
+            myStmt.setString(10, selectedStudent.getGender());
+            myStmt.setString(11, previousAdmissionNumber);
+
+            myStmt.executeUpdate();
+        } catch (Exception e) {
+        } finally {
+            close(myStmt);
+        }
+    }
+
     public List<Student> searchStudent(String keyWord) throws SQLException {
         PreparedStatement myStmt = null;
         ResultSet myRs = null;
         List<Student> list = new ArrayList<>();
         try {
 
-            
             keyWord += "%";
             String query = "select * from student where AdmissionNumber like ? or FullNameEnglish like ? or FullNameSinhala like ? or BirthDate like ? or House like ? or Religion like ? or Address like ? or TelephoneNumber like ? or DateOfAdmission like ? or ClassOfAdmission like ? or Gender like ?";
             myStmt = myConn.prepareStatement(query);
