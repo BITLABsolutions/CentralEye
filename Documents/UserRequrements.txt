@@ -1,0 +1,40 @@
+CentralEye
+C.W.W.Kannangara College Data Management System (OOSD module Project
+
+1) Staff personal information system- full access to principal. Access for each indivitual teachers.. ???
+
+2) Annual time table creation app.
+
+3) student record database ( General info, achievements, punishments, library books lended)
+
+General info - by a data entry team || clerk at the office.
+
+Library books- library assiatance has a terminal which can mark the book when lending and receiving..... ( we can add barcodes and barcode reader...... ) Very useful when giving the leacing certificate.
+
+Achievements- student can enter an achievement via the clerk, but has to approved by the aubject or sports coorsinater or the principal. ( approval can be asked from a pending password sent to the higher grade officer)
+
+Punishments- can act like the ordinary 'FILE'. Students will fear to be added a punishment to their record. These will be considered when a student getting the leaving Certificate. ( By this, our project will directly support to develop the discipline of the students.)
+
+---- students have a low level access to their own record from the web.
+
+4) staff attendance ?????? ( staff doesn't like this.... ????)
+
+5) students scholarship granting system. (Need more informatiin)
+
+6) student feedback about teachers, school- principal can view this....
+
+7) School societies, clubs, sports, prefect guild can access to their page of the system and update those like our lecturers updates the moodle. We can give each society coordinator an access... This data can be directly supplied to the school wesite..(This Data can be applied using web too (-Chanaka-))
+
+8)
+
+Contacts... Mr. Roshan (IT head) - Mis Thrisholi (IT teacher) - 071 301 7410
+
+by Chanaka
+
+To do that we also have to design a web page for the school.
+If we can design our softwear with auto update ability, then we dont have to go there and install the system again all the time.
+What operating system they are having? Most probably it is windows XP or 7. But very soon it will change
+
+29 / 05 / 2015
+
+Hostel - Principal need to know how many vacancies and if a student is currently staying at the hostel. (add number)

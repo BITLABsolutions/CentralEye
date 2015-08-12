@@ -1,0 +1,75 @@
+P01 - Client Identification and Requirements Description
+
+(a) name of the project team/company name/company logo/responsibilities -
+
+
+Company Name - BITLAB Solutions
+ (Vision - We know that we know nothing. We know that we can learn. So we do what we shoud do.)
+ (Mission - Learn the basics of programming such as languages, data bases, web designing, networking and client handling, and complete the semester 3 project without errors or blames but appreciations, and also get the highest marks for the module.)
+project Name - Central Eye
+logo - done(needs to be uploaded)
+company letter head - on going - chamin
+
+
+(b) composition of the project team 
+
+Team leader - Mr. Chamin Wikramarathne
+Document manager - Mr. Malith Thilakarathne
+... other roles?? - see book
+
+(c) description of the client 
+
+C.W.W. Kannangara Central College - Matugama
+A national school - controlled by central government...
+
+""""""   Their vision - To deliver the education policy of eminent Mr.C.W.W Kannangara the father of the free education, to the students of Kalutara district enabling them to enhance & enlighten their future while fulfilling their potential.
+
+Their mission - Mould the students to be intelligent, efficient ,honest, patient, sensitive while inculcating patriotism & teaching them to be respectful towards the other religions & casts.   """""""
+
+The school office has a large database on 1) Students 2) Academic staff and 3) non - Academic staff. 
+The principal has the maximum privilege to the system. There is a vice principal and three depauty princials. their responsibilities are as below. 
+
+(ask from miss Trisholi)
+Principal - 
+Vice Principal -
+depeuty principals -----
+
+ The clerk section (need a proper name) of the office do following services.
+
+.
+.
+.
+..
+.
+.
+.
+.
+.
+.
+Throughout the year there are special functions in the school that need the services of the office.
+
+exams, sportmeet.......
+
+
+(d) description of the client requirements
+
+There is a complete database on academic staff (about  160 )But the data is sotred as Excell sheets and They find it dificult to query those data when it needed.
+
+They face a huge challenge designing the timetable for teachers every once a year because of the complexity of the data.
+
+Students face many difficulties when they need to get the character certificate while leaving the school.
+Currently they have a record book to keep record of their academic and extra curricular activities. but, there are also lots of problems with that bookkeeping system. Some students damage or lost their record book. Some doesn't update it constantly. And the worst fact is that sometimes it is not 100% trustworthy.
+
+Some students neglect to return the books they borrowed from the library in time. But they have to return the book and fines when they are getting the leaving certificate. But there should be a mechanism to collect those ..... books not .... until they are leaving the school.
+
+To improve the quality of the staff, there should be a way to give them open feedback which those teachers and the principals only can view.
+
+The school web site need to be updated realtime about the activities by the clubs, sports societies etc.. So it would be very convenient if a reprecentative of each clubs and societies could feed the web site like a social web site. ( a decentralized system with responcible and quick data entry )
+
+
+
+by Chanaka,
+The logo needs to be uploaded.
+I'm not sure about the number of academic staff (160).
+If they have excel sheets then we don't need enter them again manually. we can read details from them.
+Does the "CentralEye" update those events to the web site or does it download the details from web site??
