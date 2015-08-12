@@ -1,9 +1,10 @@
 
-package ui;
+package malith.ui;
 
-import core.Teacher;
+
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
+import prabath.data.Teacher;
 
 /**
  *

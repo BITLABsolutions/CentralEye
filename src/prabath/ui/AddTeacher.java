@@ -23,6 +23,7 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.table.DefaultTableModel;
+import malith.ui.TeacherViewer;
 
 /**
  *
@@ -40,34 +41,46 @@ public class AddTeacher extends javax.swing.JDialog {
     ManageTables manageTables1;
     ManageTables manageTables2;
     SubjectsAndClasses subjectsAndClasses;
+    
+    TeacherViewer teacherViewer;
+    boolean updateMode;
+    Teacher selectedTeacher;
+    String previousNIC;
 
+    // default constructor
     public AddTeacher(java.awt.Frame parent, boolean modal) {
+    }
+
+    public AddTeacher( TeacherViewer parent, boolean modal, TeacherDAO teacherDAO, boolean updateMode, Teacher selectedTeacher) {
+        
         super(parent, modal);
         initComponents();
-        
+
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        DateFormat df1=new SimpleDateFormat("MM/dd/yyyy");
-       // bDayDateChooser.setDateFormat(df1);
+        DateFormat df1 = new SimpleDateFormat("MM/dd/yyyy");
+        // bDayDateChooser.setDateFormat(df1);
         //this.setLocation(dim.width/2-this.getWidth()/2, dim.height/2-this.getHeight()/2);
         this.setSize(dim.width, dim.height - 35);
         jScrollPane1.setSize(dim.width, dim.height - 35);
-        
 
-        try {
-            dbConnector = new DbConnector();
-            teacherDAO = new TeacherDAO(dbConnector.getMyConn());
-        } catch (IOException ex) {
-            Logger.getLogger(AddTeacher.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(AddTeacher.class.getName()).log(Level.SEVERE, null, ex);
+        this.teacherViewer = parent;
+        this.teacherDAO = teacherDAO;
+        this.updateMode = updateMode;
+        this.selectedTeacher = selectedTeacher;
+
+        addService = new AddService(parent, modal);
+        manageTables1 = new ManageTables(addService.getTable(), 5, 10);
+        subjectsAndClasses = new SubjectsAndClasses(parent, modal);
+        manageTables2 = new ManageTables(subjectsAndClasses.getTable(), 2, 10);
+
+        if (updateMode) {
+            setTitle("Update Teacher");
+            //call the method to populate gui with current teacher details
+            populateGUI(selectedTeacher);
+            previousNIC = selectedTeacher.getNIC();
         }
-        addService=new AddService(parent, modal);
-        manageTables1=new ManageTables(addService.getTable(),5,10);
-        subjectsAndClasses=new SubjectsAndClasses(parent, modal);
-        manageTables2=new ManageTables(subjectsAndClasses.getTable(), 2, 10);
     }
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -312,9 +325,8 @@ public class AddTeacher extends javax.swing.JDialog {
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
                             .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(add1Btn, javax.swing.GroupLayout.Alignment.LEADING)))
+                        .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(add1Btn, javax.swing.GroupLayout.Alignment.LEADING))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(maleRadioBtn)
                         .addGap(80, 80, 80)
@@ -474,19 +486,19 @@ public class AddTeacher extends javax.swing.JDialog {
     private void add2BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add2BtnActionPerformed
         // TODO add your handling code here:
         int k = 0;
-        int r=0;
-        DateFormat df=new SimpleDateFormat("MM/dd/yyyy");
+        int r = 0;
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
         //bDayDateChooser.se
         //String a=df.format(dobDateChooser.getDate());
         //System.out.println(dobDateChooser.getDate());
         //jDateChooser2.setDate(jDateChooser1.getDate());
-        java.util.Date u=new java.util.Date();
-            //u=dobDateChooser.getDate();
-            //java.sql.Date d=new java.sql.Date(u.getTime());
-            //System.out.println("Sql date:"+d);
-            //java.util.Date ua=new java.util.Date(d.getTime());
-            //String aa=df.format(ua);
-            //System.out.println("util date:"+aa);
+        java.util.Date u = new java.util.Date();
+        //u=dobDateChooser.getDate();
+        //java.sql.Date d=new java.sql.Date(u.getTime());
+        //System.out.println("Sql date:"+d);
+        //java.util.Date ua=new java.util.Date(d.getTime());
+        //String aa=df.format(ua);
+        //System.out.println("util date:"+aa);
         if (nameWithInTxt.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Name with initials must be given");
             k = 1;
@@ -508,8 +520,8 @@ public class AddTeacher extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Teacher ID must be given");
             k = 1;
         } else if (!mobileTelTxt.getText().equals("")) {
-            System.out.println("inside:"+mobileTelTxt.getText().length());
-            
+            System.out.println("inside:" + mobileTelTxt.getText().length());
+
             try {
                 Integer.parseInt(mobileTelTxt.getText());
             } catch (NumberFormatException ex) {
@@ -517,14 +529,12 @@ public class AddTeacher extends javax.swing.JDialog {
                 k = 1;
             }
             if (mobileTelTxt.getText().length() != 10) {
-                System.out.println("inside if:"+mobileTelTxt.getText().length());
-               JOptionPane.showMessageDialog(this, "Invalid mobile telephone number");
+                System.out.println("inside if:" + mobileTelTxt.getText().length());
+                JOptionPane.showMessageDialog(this, "Invalid mobile telephone number");
                 k = 1;
             }
-            
-        } 
-        
-            else if (!recidentTelNo.getText().equals("")) {
+
+        } else if (!recidentTelNo.getText().equals("")) {
             System.out.println("inside recident");
             try {
                 Integer.parseInt(recidentTelNo.getText());
@@ -533,66 +543,57 @@ public class AddTeacher extends javax.swing.JDialog {
                 k = 1;
             }
             if (recidentTelNo.getText().length() != 10) {
-                
-               JOptionPane.showMessageDialog(this, "Invalid mobile telephone number");
-                k = 1;
-           }
-            
 
-        } 
-        
-        else if (nicTxt.getText().length() != 10) {
+                JOptionPane.showMessageDialog(this, "Invalid mobile telephone number");
+                k = 1;
+            }
+
+        } else if (nicTxt.getText().length() != 10) {
             JOptionPane.showMessageDialog(this, "Invalid NIC");
-            k=1;
-        }
-        
-        else if(r==0){
-            try{
-                Date a=new java.sql.Date(dobDateChooser.getDate().getTime());
-            }
-            catch(NullPointerException e){
+            k = 1;
+        } else if (r == 0) {
+            try {
+                Date a = new java.sql.Date(dobDateChooser.getDate().getTime());
+            } catch (NullPointerException e) {
                 JOptionPane.showMessageDialog(this, "Date of birth should be given");
-                k=1;
+                k = 1;
             }
         }
-        
+
         if (k == 0) {
             //java.sql.Date sqldate1=new java.sql.Date(new java.util.Date().getDate());
-            String serviceRecordStr=null;
-            String subjectsAndClassesStr=null;
+            String serviceRecordStr = null;
+            String subjectsAndClassesStr = null;
             System.out.println("inside 1");
-            if(manageTables1.getK() == 1){
-                serviceRecordStr=manageTables1.encodeDataFormTable();
+            if (manageTables1.getK() == 1) {
+                serviceRecordStr = manageTables1.encodeDataFormTable();
             }
-            if(manageTables2.getK() ==1){
-               subjectsAndClassesStr=manageTables2.encodeDataFormTable();
+            if (manageTables2.getK() == 1) {
+                subjectsAndClassesStr = manageTables2.encodeDataFormTable();
             }
-            
-            
-            
-            Date dateOfAssignmentAsTeacher=null;
-            try{
+
+            Date dateOfAssignmentAsTeacher = null;
+            try {
                 dateOfAssignmentAsTeacher = new java.sql.Date(doaDateChooser.getDate().getTime());
+            } catch (NullPointerException e) {
             }
-            catch(NullPointerException e){}
-            
-            Date dateOfAssignmentToSchool=null;
-            try{
+
+            Date dateOfAssignmentToSchool = null;
+            try {
                 dateOfAssignmentToSchool = new java.sql.Date(dosDateChooser.getDate().getTime());
+            } catch (NullPointerException e) {
             }
-            catch(NullPointerException e){}
-            
-            
-            Date dateOfPromotion=null;
-            try{
+
+            Date dateOfPromotion = null;
+            try {
                 dateOfPromotion = new java.sql.Date(dopDateChooser.getDate().getTime());
+            } catch (NullPointerException e) {
             }
-            catch(NullPointerException e){}
             String nameWithIn = nameWithInTxt.getText();
             String fullName = fullNameTxt.getText();
             String rNo = idTxt.getText();
             String gender = getTheGender(maleRadioBtn, femaleRadioBtn);
-            Date dob =new java.sql.Date(dobDateChooser.getDate().getTime());
+            Date dob = new java.sql.Date(dobDateChooser.getDate().getTime());
             String nic = nicTxt.getText();
             String civilStates = civilCbox.getSelectedItem().toString();
             String address = addressTxt.getText();
@@ -600,23 +601,73 @@ public class AddTeacher extends javax.swing.JDialog {
             String telNoMobile = mobileTelTxt.getText();
             System.out.println(telNoMobile);
             String telNoRecident = recidentTelNo.getText();
-           // Date dateOfAssignmentAsTeacher = new java.sql.Date(doaDateChooser.getDate().getTime());
-           // Date dateOfAssignmentToSchool = new java.sql.Date(dosDateChooser.getDate().getTime());
+            // Date dateOfAssignmentAsTeacher = new java.sql.Date(doaDateChooser.getDate().getTime());
+            // Date dateOfAssignmentToSchool = new java.sql.Date(dosDateChooser.getDate().getTime());
             String educationalQual = eQualTxt.getText();
             String proffessionalQual = pQualTxt.getText();
             String subjectsWishToTeach = subjectWishToTeachTxt.getText();
             String gradesWishToTeach = gradesWishToTeachTxt.getText();
             String natureOfPresentPossition = natureCbox.getSelectedItem().toString();
             String gradeOfService = grdTxt.getText();
-           // Date dateOfPromotion = new java.sql.Date(dopDateChooser.getDate().getTime());
+            // Date dateOfPromotion = new java.sql.Date(dopDateChooser.getDate().getTime());
             String sectionTaught = sectionCbox.getSelectedItem().toString();
             String positionInSchool = positionTxt.getText();
-            Teacher teacher = new Teacher(nic, rNo, nameWithIn, fullName, gender, dob, civilStates, address, telNoMobile, telNoRecident, dateOfAssignmentAsTeacher, dateOfAssignmentToSchool, educationalQual, proffessionalQual, subjectsAndClassesStr, subjectsWishToTeach, gradesWishToTeach, natureOfPresentPossition, gradeOfService, dateOfPromotion, sectionTaught, serviceRecordStr, positionInSchool);
-            try {
-                teacherDAO.addTeacher(teacher);
-                System.out.println(dob);
 
-                //Teacher teacher=new Teacher();
+            Teacher tempTeacher;
+            if (updateMode) {
+                tempTeacher = selectedTeacher;
+
+                /*
+                 // this should be optimizes to select from only updated fields...
+                 tempPerson.setFirstName(firstName);
+                 tempPerson.setLastName(lastName);
+                 tempPerson.setGroup(group);
+                 tempPerson.setTags(tags);
+                 tempPerson.setNic(nic);
+                 tempPerson.setSex(sex);
+                 tempPerson.setMobileOne(mobileOne);
+                 tempPerson.setMobileTwo(mobileTwo);
+                 tempPerson.setHome(home);
+                 tempPerson.setOffice(office);
+                 tempPerson.setFax(fax);
+                 tempPerson.setPersonalAddress(personalAddress);
+                 tempPerson.setOfficeAddress(officeAddress);
+                 tempPerson.setBusiness(business);
+                 tempPerson.setNotes(notes);
+                 tempPerson.setBirthday(birthday);
+                 tempPerson.setAcNumber(acNumber);
+                 tempPerson.setNickName(nickName);
+                 tempPerson.setBranch(branch);
+                 tempPerson.setCifNo(cifNo);
+                 //tempPerson.setAcType(acType);
+                 tempPerson.setEmailPersonal(emailPersonal);
+                 tempPerson.setEmailBusiness(emailBusiness);
+                 tempPerson.setWebPagePersonal(webPagePersonal);
+                 tempPerson.setWebPageBusiness(webPageBusiness);
+                 */
+            } else {
+                tempTeacher = new Teacher(nic, rNo, nameWithIn, fullName, gender, dob, civilStates, address, telNoMobile, telNoRecident, dateOfAssignmentAsTeacher, dateOfAssignmentToSchool, educationalQual, proffessionalQual, subjectsAndClassesStr, subjectsWishToTeach, gradesWishToTeach, natureOfPresentPossition, gradeOfService, dateOfPromotion, sectionTaught, serviceRecordStr, positionInSchool);
+
+            }
+
+            try {
+
+                if (updateMode) {
+                    teacherDAO.updateTeacher(tempTeacher, previousNIC);
+                } else {
+                    teacherDAO.addTeacher(tempTeacher);
+                }
+
+                //close addNewContact dialog
+                setVisible(false);
+                dispose();
+                
+                //refersh GUI
+                teacherViewer.refreshGUI();
+                
+                // show success message
+                JOptionPane.showMessageDialog(null, "Teacher saved successfully");
+
             } catch (SQLException ex) {
                 Logger.getLogger(AddTeacher.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -662,6 +713,39 @@ public class AddTeacher extends javax.swing.JDialog {
             s = "female";
         }
         return s;
+    }
+//populate GUI with a given person object
+
+    public void populateGUI(Teacher teacher) {
+        /*
+         //get data from teacher object and set them in GUI
+         firstNameTxt.setText(teacher.getFirstName());
+         lastNameTxt.setText(teacher.getLastName());
+         cmbGroup.setSelectedItem(teacher.getGroup());
+         cmbTags.setSelectedItem(teacher.getTags());
+         txtNic.setText(teacher.getNic());
+         txtSex.setText(teacher.getSex());
+         mobile1Txt.setText(teacher.getMobileOne());
+         mobile2Txt.setText(teacher.getMobileTwo());
+         homeTxt.setText(teacher.getHome());
+         phoneOfficeTxt.setText(teacher.getOffice());
+         FaxTxt.setText(teacher.getFax());
+         addressPersonalTxt.setText(teacher.getPersonalAddress());
+         addressBusinessTxt.setText(teacher.getOfficeAddress());
+         businessNameTxt.setText(teacher.getBusiness());
+         notesTxt.setText(teacher.getNotes());
+         txtDOB.setText(teacher.getBirthday());
+         //teacher_image // later
+         accountNOTxt.setText(teacher.getAcNumber());
+         nickNameTxt.setText(teacher.getNickName());
+         branchTxt.setText(teacher.getBranch());
+         cifTxt.setText(teacher.getCifNo());
+         // txtAcType.setText(teacher.getAcType());
+         emailPersonalTxt.setText(teacher.getEmailPersonal());
+         emailBusinessTxt.setText(teacher.getEmailBusiness());
+         webPagePersonalTxt.setText(teacher.getWebPagePersonal());
+         webPageBusinessTxt.setText(teacher.getWebPageBusiness());
+         */
     }
 
     /**

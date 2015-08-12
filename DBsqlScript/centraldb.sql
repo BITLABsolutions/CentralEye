@@ -100,7 +100,7 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
-INSERT INTO `student` VALUES ('130274U','Charuni kaushalya Karunanayake','චාරුනී කෞශල්‍යා කරුණානායක','1993-07-19','ගැමුණු','Buddism','Bulath kela paara, Padikkama, Gampaha.','0712324256','2014-03-03','6C','Female'),('130281M','Karunarathne Mudiyanselage karunarathne','කරුණාරත්න මුදියන්සේලාගේ චානක මධුරංග කරුණාරත්න','1993-10-26','Sura','Buddhism','29/A, \"Sumadura\" Bandaranayaka mawatha, Maththumagala, Ragama.','0717899366','2014-03-03','6J','Male');
+INSERT INTO `student` VALUES ('130274U','Charuni kaushalya Karunanayake','චාරුනී කෞශල්‍යා කරුණානායක','1993-07-19','ගැමුණු','Buddism','Bulath kela paara, Padikkama, Gampaha.','0712324256','2014-03-03','6C','Female'),('130281M','Karunarathne Mudiyanselage karunarathne','චානක මධුරංග කරුණාරත්න','1993-10-26','Sura','Buddhism','29/A, \"Sumadura\" Bandaranayaka mawatha, Maththumagala, Ragama.','0717899366','2014-03-03','6J','Male');
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

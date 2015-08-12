@@ -1,6 +1,9 @@
 package malith.ui;
 
 
+import chanaka.dao.StudentDAO;
+import chanaka.data.Student;
+import chanaka.gui.AddOrEditStudent;
 import com.jtattoo.plaf.bernstein.BernsteinLookAndFeel;
 import common.DbConnector;
 
@@ -12,35 +15,33 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
-import prabath.dao.TeacherDAO;
-import prabath.data.Teacher;
-import prabath.ui.AddTeacher;
+
 
 
 /**
  *
  * @author Malith - malith.13@cse.mrt.ac.lk
  */
-public class TeacherViewer extends javax.swing.JFrame {
+public class StudentViewer extends javax.swing.JFrame {
 
     DbConnector dbConnector;
-    TeacherDAO teacherDAO;
+    StudentDAO studentDAO;
 
     /**
      * Creates new form ContactsBook
      */
-    public TeacherViewer(int accessPriviledge) {
+    public StudentViewer(int accessPriviledge) {
      
         initComponents();
 
         try {
             // create the central DAO
             dbConnector = new DbConnector();
-            // make a DAO for Teacher class by sending in the DB Connection from dbConnector
-            teacherDAO = new TeacherDAO(dbConnector.getMyConn());
+            // make a DAO for Student class by sending in the DB Connection from dbConnector
+            studentDAO = new StudentDAO(dbConnector.getMyConn());
 
         } catch (IOException | SQLException ex) {
-            JOptionPane.showMessageDialog(TeacherViewer.this, "Error: " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(StudentViewer.this, "Error: " + ex, "Error", JOptionPane.ERROR_MESSAGE);
         }
          switch (accessPriviledge) {
             case (1): // if a clerk has logged in        
@@ -115,21 +116,21 @@ public class TeacherViewer extends javax.swing.JFrame {
 
         jLabel1.setText("Search by");
 
-        btnNewContact.setText("Add New Teacher");
+        btnNewContact.setText("Add New Student");
         btnNewContact.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNewContactActionPerformed(evt);
             }
         });
 
-        btnUpdateContact.setText("Update Teacher");
+        btnUpdateContact.setText("Update Student");
         btnUpdateContact.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdateContactActionPerformed(evt);
             }
         });
 
-        btnDeleteContact.setText("Delete Teacher");
+        btnDeleteContact.setText("Delete Student");
         btnDeleteContact.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteContactActionPerformed(evt);
@@ -224,27 +225,27 @@ public class TeacherViewer extends javax.swing.JFrame {
             // get what to search from combo box
             String searchPara = comboPara.getSelectedItem().toString();
 
-            List<Teacher> teacher = null;
+            List<Student> student = null;
 
-            // Call DAO and get teachers relevent to the "searchpara"
+            // Call DAO and get students relevent to the "searchpara"
             if (keyWord != null && keyWord.trim().length() > 0) {
-                teacher = teacherDAO.searchTeacher(keyWord, searchPara);
+                student = studentDAO.searchStudent(keyWord, searchPara);
             } else {
                 // If last name is empty, then get all employees
-                teacher = teacherDAO.getAllTeacher();
+                student = studentDAO.getAllStudent();
             }
 
             // create the model and update the "table"
-            TeacherTableModel model = new TeacherTableModel(teacher);
+            StudentTableModel model = new StudentTableModel(student);
             table.setModel(model);
 
         } catch (Exception exc) {
-            JOptionPane.showMessageDialog(TeacherViewer.this, "Error: " + exc, "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(StudentViewer.this, "Error: " + exc, "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnNewContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewContactActionPerformed
-        new AddTeacher(this, rootPaneCheckingEnabled, teacherDAO, false, null).setVisible(true);
+        new AddOrEditStudent(studentDAO).setVisible(true);
 
     }//GEN-LAST:event_btnNewContactActionPerformed
 
@@ -254,12 +255,13 @@ public class TeacherViewer extends javax.swing.JFrame {
 
         //make sure a row is selected
         if (row < 0) {
-            JOptionPane.showMessageDialog(TeacherViewer.this, "You must select a teacher first!", "Selection Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(StudentViewer.this, "You must select a student first!", "Selection Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        // get the selected current Teacher
-        Teacher tempTeacher = (Teacher) table.getValueAt(row, TeacherTableModel.OBJECT_COL);
+        // get the selected current Student
+        Student tempStudent = (Student) table.getValueAt(row, StudentTableModel.OBJECT_COL);
         
+        new AddOrEditStudent(studentDAO, tempStudent).setVisible(true);
         
 
     }//GEN-LAST:event_btnUpdateContactActionPerformed
@@ -267,21 +269,21 @@ public class TeacherViewer extends javax.swing.JFrame {
     private void btnDeleteContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteContactActionPerformed
         int row = table.getSelectedRow();
         if (row < 0) {
-            JOptionPane.showMessageDialog(rootPane, "You must select a teacher", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(rootPane, "You must select a student", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         int response = JOptionPane.showConfirmDialog(rootPane, "This will delete this Contact!!!", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (response != JOptionPane.YES_OPTION) {
             return;
         }
-        Teacher tempTeacher = (Teacher) table.getValueAt(row, TeacherTableModel.OBJECT_COL);
+        Student tempStudent = (Student) table.getValueAt(row, StudentTableModel.OBJECT_COL);
         try {
-            teacherDAO.deleteTeacher(tempTeacher.getNIC());
+            studentDAO.deleteStudent(tempStudent.getAdmissionNumber());
         } catch (SQLException ex) {
-            Logger.getLogger(TeacherViewer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StudentViewer.class.getName()).log(Level.SEVERE, null, ex);
         }
         refreshGUI();
-        JOptionPane.showMessageDialog(TeacherViewer.this, "Teacher deleted successfully", "Teacher deleted", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(StudentViewer.this, "Student deleted successfully", "Student deleted", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnDeleteContactActionPerformed
 
     private void tableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMousePressed
@@ -295,15 +297,15 @@ public class TeacherViewer extends javax.swing.JFrame {
      */
     public void refreshGUI() {
         try {
-            // get all teacher theough the DAO to a tempory List
-            List teacherList = teacherDAO.getAllTeacher();
+            // get all student theough the DAO to a tempory List
+            List studentList = studentDAO.getAllStudent();
 
             // create the model and update the "table"
-            TeacherTableModel model = new TeacherTableModel(teacherList);
+            StudentTableModel model = new StudentTableModel(studentList);
             table.setModel(model);
 
         } catch (Exception exc) {
-            JOptionPane.showMessageDialog(TeacherViewer.this, "Error: " + exc, "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(StudentViewer.this, "Error: " + exc, "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -326,7 +328,7 @@ public class TeacherViewer extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TeacherViewer(2).setVisible(true);
+                new StudentViewer(2).setVisible(true);
             }
         });
     }

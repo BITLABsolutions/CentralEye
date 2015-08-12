@@ -1,4 +1,4 @@
-package gui;
+package chanaka.gui;
 
 public class Principal extends javax.swing.JDialog {
 

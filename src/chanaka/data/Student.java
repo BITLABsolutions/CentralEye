@@ -1,4 +1,4 @@
-package data;
+package chanaka.data;
 
 import java.sql.Date;
 

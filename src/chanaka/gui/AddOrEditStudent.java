@@ -1,7 +1,7 @@
 package chanaka.gui;
 
 import chanaka.dao.StudentDAO;
-import data.Student;
+import chanaka.data.Student;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.logging.Level;

@@ -1,7 +1,8 @@
 package chanaka.dao;
 
 //This is the controller class for add a student
-import data.Student;
+
+import chanaka.data.Student;
 import java.util.List;
 import java.io.IOException;
 import java.sql.Connection;
@@ -24,6 +25,31 @@ public class StudentDAO {
         return myConn;
     }
 
+      /**
+     * get all student to a List
+     *
+     */
+    public List<Student> getAllStudent() throws Exception {
+
+        List<Student> list = new ArrayList<>();
+        Statement myStmt = null;
+        ResultSet myRs = null;
+
+        try {
+            myStmt = myConn.createStatement();
+            myRs = myStmt.executeQuery("select * from student");
+
+            // load each student object to the Student List
+            while (myRs.next()) {
+                Student tempStudent = convertRowToStudent(myRs);
+                list.add(tempStudent);
+            }
+            return list;
+        } finally {
+            close(myStmt, myRs);
+        }
+    }
+    
     public void addStudent(Student student) throws SQLException {
         PreparedStatement myStmt = null;
         try {
@@ -107,6 +133,29 @@ public class StudentDAO {
         }
     }
 
+    
+    /**
+     * delete student
+     *
+     * @param admissionNo
+     * @throws SQLException
+     */
+    public void deleteStudent(String admissionNumber) throws SQLException {
+        PreparedStatement myStmt = null;
+        try {
+            // prepare statement
+            myStmt = myConn.prepareStatement("delete from student where AdmissionNumber =?");
+
+            //set param
+            myStmt.setString(1, admissionNumber);
+
+            //execute statement
+            myStmt.executeUpdate();
+        } finally {
+            close(myStmt);
+        }
+    }
+    
     private Student convertRowToStudent(ResultSet myRs) throws SQLException {
         String AdmissionNumber = myRs.getString(1);
         String FullNameEnglish = myRs.getString(2);
@@ -124,11 +173,11 @@ public class StudentDAO {
 
     }
 
-    private void close(PreparedStatement myStmt, ResultSet myRs) throws SQLException {
+    private void close(Statement myStmt, ResultSet myRs) throws SQLException {
         close(null, myStmt, myRs);
     }
 
-    private void close(PreparedStatement myStmt) throws SQLException {
+    private void close(Statement myStmt) throws SQLException {
         close(null, myStmt, null);
     }
 

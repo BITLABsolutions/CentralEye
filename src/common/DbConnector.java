@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dao;
+package common;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,7 +12,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-
+/**
+ *
+ * @author Malith
+ */
 public class DbConnector {
     private final Connection myConn;
 

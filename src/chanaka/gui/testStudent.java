@@ -6,8 +6,8 @@
 package chanaka.gui;
 
 import chanaka.dao.StudentDAO;
-import dao.DbConnector;
-import data.Student;
+import common.DbConnector;
+import chanaka.data.Student;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;

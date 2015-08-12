@@ -6,7 +6,6 @@
 package prabath.dao;
 
 import prabath.data.Teacher;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -61,8 +60,7 @@ public class TeacherDAO {
 
             myStmnt.executeUpdate();
 
-        } catch (com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException ed) {
-            System.out.println("duplicate");
+   
         } finally {
             close(myStmnt);
         }
@@ -82,7 +80,7 @@ public class TeacherDAO {
         }
     }
 
-    public List<Teacher> getAllPerson() throws Exception {
+    public List<Teacher> getAllTeacher() throws Exception {
 
         List<Teacher> list = new ArrayList<>();
         Statement myStmt = null;
@@ -92,7 +90,7 @@ public class TeacherDAO {
             myStmt = myCon.createStatement();
             myRs = myStmt.executeQuery("select * from Teacher");
 
-            // load each person object to the Person List
+            // load each teacher object to the Teacher List
             while (myRs.next()) {
                 Teacher tempTeacher = convertRowToTeacher(myRs);
                 list.add(tempTeacher);
@@ -105,11 +103,11 @@ public class TeacherDAO {
     }
 
     /**
-     * search persons for given input parameters = last name, tel number, id, AC
+     * search teachers for given input parameters = last name, tel number, id, AC
      * number
      *
      */
-    public List<Teacher> searchPerson(String keyWord, String searchPara) throws Exception {
+    public List<Teacher> searchTeacher(String keyWord, String searchPara) throws Exception {
 
         List<Teacher> list = new ArrayList<>();
         PreparedStatement myStmt = null;
@@ -157,7 +155,7 @@ public class TeacherDAO {
             // execute statement
             myRs = myStmt.executeQuery();
 
-            //load persons to a Person List
+            //load teachers to a Teacher List
             while (myRs.next()) {
                 Teacher tempTeacher = convertRowToTeacher(myRs);
                 list.add(tempTeacher);
@@ -170,7 +168,7 @@ public class TeacherDAO {
         }
     }
 
-    public void updatePerson(Teacher teacher, String previousNIC) throws SQLException {
+    public void updateTeacher(Teacher teacher, String previousNIC) throws SQLException {
         PreparedStatement myStmt = null;
         try {
             //prepare the statement
@@ -244,7 +242,7 @@ public class TeacherDAO {
         String ProffessionalQual = myRs.getString(14);
         String SubjectsAndClasses = myRs.getString(15);
         String SubjectsWishToTeach = myRs.getString(16);
-        //person_image // later
+        //teacher_image // later
         String GradesWishToTeach = myRs.getString(17);
         String NatureOfPresentPost = myRs.getString(18);
         String GradeOfPromotion = myRs.getString(19);
