@@ -50,19 +50,19 @@ public class StudentDAO {
     public void updateStudent(Student selectedStudent, String previousAdmissionNumber) throws SQLException {
         PreparedStatement myStmt = null;
         try {
-            myStmt = myConn.prepareStatement("update student set FullNameEnglish=?, FullNameSinhala=?, BirthDate=?, House=?, Religion=?, Address=?, TelephoneNumber=?, DateOfAdmission=?, ClassOfAdmission=?, Gender=? where AdmissionNumber=?");
-
-            myStmt.setString(1, selectedStudent.getFullNameEnglish());
-            myStmt.setString(2, selectedStudent.getFullNameSinhala());
-            myStmt.setDate(3, selectedStudent.getBirthDate());
-            myStmt.setString(4, selectedStudent.getHouse());
-            myStmt.setString(5, selectedStudent.getReligion());
-            myStmt.setString(6, selectedStudent.getAddress());
-            myStmt.setString(7, selectedStudent.getTelephoneNumber());
-            myStmt.setDate(8, selectedStudent.getDateOfAdmission());
-            myStmt.setString(9, selectedStudent.getClassOfAdmission());
-            myStmt.setString(10, selectedStudent.getGender());
-            myStmt.setString(11, previousAdmissionNumber);
+            myStmt = myConn.prepareStatement("update student set AdmissionNumber=?, FullNameEnglish=?, FullNameSinhala=?, BirthDate=?, House=?, Religion=?, Address=?, TelephoneNumber=?, DateOfAdmission=?, ClassOfAdmission=?, Gender=? where AdmissionNumber=?");
+            myStmt.setString(1, selectedStudent.getAdmissionNumber());
+            myStmt.setString(2, selectedStudent.getFullNameEnglish());
+            myStmt.setString(3, selectedStudent.getFullNameSinhala());
+            myStmt.setDate(4, selectedStudent.getBirthDate());
+            myStmt.setString(5, selectedStudent.getHouse());
+            myStmt.setString(6, selectedStudent.getReligion());
+            myStmt.setString(7, selectedStudent.getAddress());
+            myStmt.setString(8, selectedStudent.getTelephoneNumber());
+            myStmt.setDate(9, selectedStudent.getDateOfAdmission());
+            myStmt.setString(10, selectedStudent.getClassOfAdmission());
+            myStmt.setString(11, selectedStudent.getGender());
+            myStmt.setString(12, previousAdmissionNumber);
 
             myStmt.executeUpdate();
         } catch (Exception e) {
@@ -71,17 +71,26 @@ public class StudentDAO {
         }
     }
 
-    public List<Student> searchStudent(String keyWord) throws SQLException {
+    public List<Student> searchStudent(String keyWord, String searchPara) throws SQLException {
+
         PreparedStatement myStmt = null;
         ResultSet myRs = null;
         List<Student> list = new ArrayList<>();
+        String query;
         try {
-
             keyWord += "%";
-            String query = "select * from student where AdmissionNumber like ? or FullNameEnglish like ? or FullNameSinhala like ? or BirthDate like ? or House like ? or Religion like ? or Address like ? or TelephoneNumber like ? or DateOfAdmission like ? or ClassOfAdmission like ? or Gender like ?";
-            myStmt = myConn.prepareStatement(query);
-            for (int i = 1; i < 12; i++) {
-                myStmt.setString(i, keyWord);
+
+            if (!"".equals(searchPara)) {
+                query = "select * from student where " + searchPara + " like ?";
+
+                myStmt = myConn.prepareStatement(query);
+                myStmt.setString(1, keyWord);
+            } else {
+                query = "select * from student where AdmissionNumber like ? or FullNameEnglish like ? or FullNameSinhala like ? or BirthDate like ? or House like ? or Religion like ? or Address like ? or TelephoneNumber like ? or DateOfAdmission like ? or ClassOfAdmission like ? or Gender like ?";
+                myStmt = myConn.prepareStatement(query);
+                for (int i = 1; i < 12; i++) {
+                    myStmt.setString(i, keyWord);
+                }
             }
 
             myRs = myStmt.executeQuery();

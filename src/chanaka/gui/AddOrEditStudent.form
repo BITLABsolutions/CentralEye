@@ -87,22 +87,20 @@
                                   <Component id="jLabel9" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel11" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel12" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel20" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel10" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="jLabel15" alignment="0" min="-2" max="-2" attributes="0"/>
                                           <Component id="jLabel13" alignment="0" min="-2" max="-2" attributes="0"/>
                                           <Component id="jLabel23" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabel20" alignment="0" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace min="-2" pref="279" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="cboReligion" min="-2" max="-2" attributes="0"/>
                                           <Component id="txtClassOfAdmission" min="-2" pref="151" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                              <Component id="txtHouse" pref="151" max="32767" attributes="0"/>
-                                              <Component id="txtReligion" pref="151" max="32767" attributes="0"/>
-                                              <Component id="dchDateOfAdmission" alignment="0" max="32767" attributes="0"/>
-                                          </Group>
+                                          <Component id="dchDateOfAdmission" alignment="0" min="-2" pref="151" max="-2" attributes="0"/>
+                                          <Component id="cboHouse" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -180,12 +178,12 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel15" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtHouse" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cboHouse" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel20" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtReligion" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cboReligion" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -289,14 +287,10 @@
                 <Property name="text" type="java.lang.String" value="House:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="txtHouse">
-            </Component>
             <Component class="javax.swing.JLabel" name="jLabel20">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Religion:"/>
               </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="txtReligion">
             </Component>
             <Component class="javax.swing.JTextField" name="txtClassOfAdmission">
             </Component>
@@ -318,6 +312,33 @@
             <Component class="com.toedter.calendar.JDateChooser" name="dchBirthDate">
             </Component>
             <Component class="com.toedter.calendar.JDateChooser" name="dchDateOfAdmission">
+            </Component>
+            <Component class="javax.swing.JComboBox" name="cboReligion">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="4">
+                    <StringItem index="0" value="Buddism"/>
+                    <StringItem index="1" value="Catholic"/>
+                    <StringItem index="2" value="Hindu"/>
+                    <StringItem index="3" value="Islam"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="cboHouse">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Iskoola Pota" size="11" style="0"/>
+                </Property>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="4">
+                    <StringItem index="0" value="&#xdc0;&#xdd2;&#xda2;&#xdba;"/>
+                    <StringItem index="1" value="&#xd9c;&#xdd0;&#xdb8;&#xdd4;&#xdab;&#xdd4;"/>
+                    <StringItem index="2" value="&#xdb4;&#xdbb;&#xdcf;&#xd9a;&#xdca;&#x200d;&#xdbb;&#xdb8;"/>
+                    <StringItem index="3" value="&#xdad;&#xdd2;&#xdc3;&#xdca;&#xdc3;"/>
+                  </StringArray>
+                </Property>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>

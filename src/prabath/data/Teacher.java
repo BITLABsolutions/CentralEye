@@ -5,7 +5,6 @@
  */
 package prabath.data;
 
-import central_eye.externalUser;
 import java.sql.Date;
 import java.util.ArrayList;
 //import java.util.Date;
@@ -15,7 +14,7 @@ import java.util.ArrayList;
  * @author prabath s
  */
 public class Teacher {
-    
+
     private String NIC;
     private String RNo;
     private String nameWithin;
@@ -89,14 +88,8 @@ public class Teacher {
         this.sectionTaught = sectionTaught;
         this.serviceRecord = serviceRecord;
         this.positionInSchool = positionInSchool;
-        
-    }
 
-    
-    
-    
-    
-    
+    }
 
     public String getNIC() {
         return NIC;
@@ -258,7 +251,6 @@ public class Teacher {
         this.positionInSchool = positionInSchool;
     }
 
-    
     public ArrayList<String> getSubjects() {
         return subjects;
     }
@@ -266,6 +258,5 @@ public class Teacher {
     public void setSubjects(ArrayList<String> subjects) {
         this.subjects = subjects;
     }
-    
-    
+
 }

@@ -1,6 +1,5 @@
 package chanaka.gui;
 
-
 import chanaka.dao.StudentDAO;
 import data.Student;
 import java.sql.Date;
@@ -28,7 +27,6 @@ public class AddOrEditStudent extends javax.swing.JDialog {
         this.previousAdmissionNumber = student.getAdmissionNumber();
         this.selectedStudent = student;
         This_is_AddMode_but_not_EditMode = false;
-        txtAdmissionNo.setEnabled(false);
         populateData(student);
         btnAdd.setText("Save");
     }
@@ -63,15 +61,15 @@ public class AddOrEditStudent extends javax.swing.JDialog {
         jLabel9 = new javax.swing.JLabel();
         txtFullNameSinhala = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        txtHouse = new javax.swing.JTextField();
         jLabel20 = new javax.swing.JLabel();
-        txtReligion = new javax.swing.JTextField();
         txtClassOfAdmission = new javax.swing.JTextField();
         jLabel23 = new javax.swing.JLabel();
         txtAdmissionNo = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         dchBirthDate = new com.toedter.calendar.JDateChooser();
         dchDateOfAdmission = new com.toedter.calendar.JDateChooser();
+        cboReligion = new javax.swing.JComboBox();
+        cboHouse = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Add or edit student details");
@@ -126,6 +124,11 @@ public class AddOrEditStudent extends javax.swing.JDialog {
 
         jLabel10.setText("Admission number:");
 
+        cboReligion.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Buddism", "Catholic", "Hindu", "Islam" }));
+
+        cboHouse.setFont(new java.awt.Font("Iskoola Pota", 0, 11)); // NOI18N
+        cboHouse.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "විජය", "ගැමුණු", "පරාක්‍රම", "තිස්ස" }));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -160,20 +163,19 @@ public class AddOrEditStudent extends javax.swing.JDialog {
                             .addComponent(jLabel9)
                             .addComponent(jLabel11)
                             .addComponent(jLabel12)
-                            .addComponent(jLabel20)
                             .addComponent(jLabel10)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel15)
                                     .addComponent(jLabel13)
-                                    .addComponent(jLabel23))
+                                    .addComponent(jLabel23)
+                                    .addComponent(jLabel20))
                                 .addGap(279, 279, 279)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cboReligion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtClassOfAdmission, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(txtHouse, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
-                                        .addComponent(txtReligion, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
-                                        .addComponent(dchDateOfAdmission, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                                    .addComponent(dchDateOfAdmission, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cboHouse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(553, 553, 553)
                         .addComponent(jLabel1)))
@@ -231,11 +233,11 @@ public class AddOrEditStudent extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
-                    .addComponent(txtHouse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cboHouse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(15, 15, 15)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel20)
-                    .addComponent(txtReligion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cboReligion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel23)
@@ -304,8 +306,8 @@ public class AddOrEditStudent extends javax.swing.JDialog {
             birthDate = null;
         }
 
-        String house = txtHouse.getText();
-        String religion = txtReligion.getText();
+        String house = cboHouse.getSelectedItem().toString();
+        String religion = cboReligion.getSelectedItem().toString();
         String address = txtAddress.getText();
         String telephoneNumber = txtTelephone.getText();
         Date dateOfAdmission;
@@ -323,14 +325,8 @@ public class AddOrEditStudent extends javax.swing.JDialog {
             gender = "Female";
         }
 
-        
-        
         Student tempStudent = null;
 
-        
-        
-        
-        
         if (This_is_AddMode_but_not_EditMode) {
             tempStudent = new Student(admissionNumber, fullNameEnglish, fullNameSinhala, birthDate, house, religion, address, telephoneNumber, dateOfAdmission, classOfAdmission, gender);
             studentDAO.addStudent(tempStudent);
@@ -360,8 +356,8 @@ public class AddOrEditStudent extends javax.swing.JDialog {
         txtFullnameEnglish.setText(student.getFullNameEnglish());
         txtFullNameSinhala.setText(student.getFullNameSinhala());
         dchBirthDate.setDate(student.getBirthDate());
-        txtHouse.setText(student.getHouse());
-        txtReligion.setText(student.getReligion());
+        cboHouse.setSelectedItem(student.getHouse());
+        cboReligion.setSelectedItem(student.getReligion());
         txtAddress.setText(student.getAddress());
         txtTelephone.setText(student.getTelephoneNumber());
         dchDateOfAdmission.setDate(student.getDateOfAdmission());
@@ -382,6 +378,8 @@ public class AddOrEditStudent extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.ButtonGroup buttonGroupGender;
+    private javax.swing.JComboBox cboHouse;
+    private javax.swing.JComboBox cboReligion;
     private com.toedter.calendar.JDateChooser dchBirthDate;
     private com.toedter.calendar.JDateChooser dchDateOfAdmission;
     private javax.swing.JLabel jLabel1;
@@ -406,9 +404,7 @@ public class AddOrEditStudent extends javax.swing.JDialog {
     private javax.swing.JTextField txtClassOfAdmission;
     private javax.swing.JTextField txtFullNameSinhala;
     private javax.swing.JTextField txtFullnameEnglish;
-    private javax.swing.JTextField txtHouse;
     private javax.swing.JTextField txtNameWithInitial;
-    private javax.swing.JTextField txtReligion;
     private javax.swing.JTextField txtTelephone;
     // End of variables declaration//GEN-END:variables
 }
