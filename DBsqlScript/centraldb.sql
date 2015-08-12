@@ -74,6 +74,7 @@ UNLOCK TABLES;
 
 -- Dump completed
 
+
 DROP TABLE IF EXISTS `student`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -99,7 +100,7 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
-INSERT INTO `student` (`AdmissionNumber`, `FullNameEnglish`, `FullNameSinhala`, `BirthDate`, `House`, `Religion`, `Address`, `TelephoneNumber`, `DateOfAdmission`, `ClassOfAdmission`, `Gender`) VALUES ('51','Prabath','චානක',NULL,'ghgh','ghgh','ghgh','ghgh',NULL,'dfdf','Female'),('5m','Prabath','චානක',NULL,'ghgh','ghgh','ghgh','ghgh',NULL,'dfdf','Female'),('hj','hj','',NULL,'','','','',NULL,'','Female'),('rtrt','trtr','',NULL,'','','','',NULL,'','Female'),('trtrt','rtrtrtrtrtrtrt','',NULL,'','','','',NULL,'','Female');
+INSERT INTO `student` VALUES ('130274U','Charuni kaushalya Karunanayake','චාරුනී කෞශල්‍යා කරුණානායක','1993-07-19','ගැමුණු','Buddism','Bulath kela paara, Padikkama, Gampaha.','0712324256','2014-03-03','6C','Female'),('130281M','Karunarathne Mudiyanselage karunarathne','කරුණාරත්න මුදියන්සේලාගේ චානක මධුරංග කරුණාරත්න','1993-10-26','Sura','Buddhism','29/A, \"Sumadura\" Bandaranayaka mawatha, Maththumagala, Ragama.','0717899366','2014-03-03','6J','Male');
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -112,4 +113,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-08-12 22:15:19
+-- Dump completed on 2015-08-13  0:05:16
