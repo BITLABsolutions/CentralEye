@@ -1,50 +1,55 @@
 package malith.ui;
 
-import chanaka.dao.StudentDAO;
-import chanaka.data.Student;
-import chanaka.gui.AddOrEditStudent;
+
+import chamin.dao.ClubDAO;
+import chamin.data.Club;
+import chamin.gui.AddClub;
+import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
 import com.jtattoo.plaf.bernstein.BernsteinLookAndFeel;
+import com.jtattoo.plaf.graphite.GraphiteLookAndFeel;
+import com.jtattoo.plaf.luna.LunaLookAndFeel;
 import common.DbConnector;
+
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+
 
 /**
  *
  * @author Malith - malith.13@cse.mrt.ac.lk
  */
-public class StudentViewer extends javax.swing.JFrame {
+public class ClubViewer extends javax.swing.JFrame {
 
     DbConnector dbConnector;
-    StudentDAO studentDAO;
+    ClubDAO clubDAO;
 
     /**
      * Creates new form ContactsBook
      */
-    public StudentViewer(int accessPriviledge) {
-
+    public ClubViewer(int accessPriviledge) {
+     
         initComponents();
-        jDateChooser1.setVisible(false);
+
         try {
             // create the central DAO
             dbConnector = new DbConnector();
-            // make a DAO for Student class by sending in the DB Connection from dbConnector
-            studentDAO = new StudentDAO(dbConnector.getMyConn());
+            // make a DAO for Club class by sending in the DB Connection from dbConnector
+            clubDAO = new ClubDAO(dbConnector.getMyConn());
 
         } catch (IOException | SQLException ex) {
-            JOptionPane.showMessageDialog(StudentViewer.this, "Error: " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(ClubViewer.this, "Error: " + ex, "Error", JOptionPane.ERROR_MESSAGE);
         }
-        switch (accessPriviledge) {
+         switch (accessPriviledge) {
             case (1): // if a clerk has logged in        
             case (2): // if the principal has logged in
-
+                  
         }
     }
 
@@ -69,7 +74,6 @@ public class StudentViewer extends javax.swing.JFrame {
         comboPara = new javax.swing.JComboBox();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtQuickPane = new javax.swing.JEditorPane();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Central Eye");
@@ -106,8 +110,6 @@ public class StudentViewer extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(table);
 
-        txtSearch.setFont(new java.awt.Font("Iskoola Pota", 0, 11)); // NOI18N
-
         btnSearch.setText("Search");
         btnSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -117,21 +119,21 @@ public class StudentViewer extends javax.swing.JFrame {
 
         jLabel1.setText("Search by");
 
-        btnNewContact.setText("Add New Student");
+        btnNewContact.setText("Add New Teacher");
         btnNewContact.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNewContactActionPerformed(evt);
             }
         });
 
-        btnUpdateContact.setText("Update Student");
+        btnUpdateContact.setText("Update Teacher");
         btnUpdateContact.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdateContactActionPerformed(evt);
             }
         });
 
-        btnDeleteContact.setText("Delete Student");
+        btnDeleteContact.setText("Delete Teacher");
         btnDeleteContact.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteContactActionPerformed(evt);
@@ -162,35 +164,12 @@ public class StudentViewer extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        comboPara.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Name", "Admission number", "Telephone", "Address", "Birth date", "Religion", "All" }));
-        comboPara.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                comboParaItemStateChanged(evt);
-            }
-        });
-        comboPara.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
-            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
-                comboParaPopupMenuCanceled(evt);
-            }
-            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
-            }
-            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
-            }
-        });
+        comboPara.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Club Name", "Club Id" }));
 
         txtQuickPane.setEditable(false);
         txtQuickPane.setContentType("text/html"); // NOI18N
         txtQuickPane.setToolTipText("");
         jScrollPane2.setViewportView(txtQuickPane);
-
-        jDateChooser1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jDateChooser1MouseExited(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jDateChooser1MouseReleased(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -204,11 +183,9 @@ public class StudentViewer extends javax.swing.JFrame {
                             .addComponent(jLabel1)
                             .addGap(18, 18, 18)
                             .addComponent(comboPara, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(12, 12, 12)
+                            .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
                             .addComponent(btnSearch)
                             .addGap(5, 5, 5))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 691, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -226,16 +203,14 @@ public class StudentViewer extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel1)
-                                .addComponent(comboPara, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(3, 3, 3)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(btnSearch)))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnSearch)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel1)
+                                .addComponent(comboPara, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE))
                     .addComponent(jScrollPane2))
@@ -246,41 +221,36 @@ public class StudentViewer extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        String keyWord;
+
         try {
+            // Get keyWord to search from the text field
+            String keyWord = txtSearch.getText();
+            // get what to search from combo box
             String searchPara = comboPara.getSelectedItem().toString();
 
-            if ("Birth date".equals(comboPara.getSelectedItem())) {
+            List<Club> club = null;
 
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                keyWord = sdf.format(jDateChooser1.getDate());
-                System.out.println(keyWord);
-            } else {
-                // Get keyWord to search from the text field
-                keyWord = txtSearch.getText();
-                // get what to search from combo box
-
-            }
-            List<Student> student = null;
-
-            // Call DAO and get students relevent to the "searchpara"
+            // Call DAO and get clubs relevent to the "searchpara"
             if (keyWord != null && keyWord.trim().length() > 0) {
-                student = studentDAO.searchStudent(keyWord, searchPara);
+                System.out.println("keyword is "+keyWord+" and searchPara is "+searchPara);
+                club = clubDAO.searchClub(keyWord, searchPara);
             } else {
-                // If last name is empty, then get all employees
-                student = studentDAO.getAllStudent();
+                System.out.println("field is empty, getting all");
+                // If field is empty, then get all employees
+                club = clubDAO.getAllClub();
             }
 
             // create the model and update the "table"
-            StudentTableModel model = new StudentTableModel(student);
+            ClubTableModel model = new ClubTableModel(club);
             table.setModel(model);
-        } catch (Exception exc) {
-            JOptionPane.showMessageDialog(StudentViewer.this, "Error: " + exc, "Error", JOptionPane.ERROR_MESSAGE);
+
+        } catch (SQLException exc) {
+            JOptionPane.showMessageDialog(ClubViewer.this, "Error: " + exc, "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnNewContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewContactActionPerformed
-        new AddOrEditStudent(studentDAO).setVisible(true);
+        new AddClub(this, rootPaneCheckingEnabled).setVisible(true);
 
     }//GEN-LAST:event_btnNewContactActionPerformed
 
@@ -290,38 +260,34 @@ public class StudentViewer extends javax.swing.JFrame {
 
         //make sure a row is selected
         if (row < 0) {
-            JOptionPane.showMessageDialog(StudentViewer.this, "You must select a student first!", "Selection Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(ClubViewer.this, "You must select a club first!", "Selection Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        // get the selected current Student
-        Student tempStudent = (Student) table.getValueAt(row, StudentTableModel.OBJECT_COL);
-
-        new AddOrEditStudent(studentDAO, tempStudent).setVisible(true);
-
+        // get the selected current Club
+        Club tempClub = (Club) table.getValueAt(row, ClubTableModel.OBJECT_COL);
+        
+        
 
     }//GEN-LAST:event_btnUpdateContactActionPerformed
 
     private void btnDeleteContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteContactActionPerformed
         int row = table.getSelectedRow();
         if (row < 0) {
-            JOptionPane.showMessageDialog(rootPane, "You must select a student", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(rootPane, "You must select a club", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
-        int response = JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to delete this student details!!!", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-
+        int response = JOptionPane.showConfirmDialog(rootPane, "This will delete this Contact!!!", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (response != JOptionPane.YES_OPTION) {
             return;
         }
-
-        Student tempStudent = (Student) table.getValueAt(row, StudentTableModel.OBJECT_COL);
+        Club tempClub = (Club) table.getValueAt(row, ClubTableModel.OBJECT_COL);
         try {
-            studentDAO.deleteStudent(tempStudent.getAdmissionNumber());
+            clubDAO.deleteClub(tempClub.getClubId());
         } catch (SQLException ex) {
-            Logger.getLogger(StudentViewer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClubViewer.class.getName()).log(Level.SEVERE, null, ex);
         }
         refreshGUI();
-        JOptionPane.showMessageDialog(StudentViewer.this, "Student deleted successfully", "Student deleted", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(ClubViewer.this, "Club deleted successfully", "Club deleted", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnDeleteContactActionPerformed
 
     private void tableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMousePressed
@@ -329,46 +295,21 @@ public class StudentViewer extends javax.swing.JFrame {
 
     }//GEN-LAST:event_tableMousePressed
 
-    private void jDateChooser1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jDateChooser1MouseReleased
-
-    }//GEN-LAST:event_jDateChooser1MouseReleased
-
-    private void jDateChooser1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jDateChooser1MouseExited
-
-    }//GEN-LAST:event_jDateChooser1MouseExited
-
-    private void comboParaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboParaItemStateChanged
-
-        //when search using a birthdate, day chooser will visible
-        if ("Birth date".equals(comboPara.getSelectedItem())) {
-            txtSearch.setVisible(false);
-            jDateChooser1.setVisible(true);
-        } else {
-            jDateChooser1.setVisible(false);
-            txtSearch.setVisible(true);
-
-        }
-    }//GEN-LAST:event_comboParaItemStateChanged
-
-    private void comboParaPopupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_comboParaPopupMenuCanceled
-
-    }//GEN-LAST:event_comboParaPopupMenuCanceled
-
     /**
      * method will refresh the GUI showing the latest update on the table
      *
      */
     public void refreshGUI() {
         try {
-            // get all student theough the DAO to a tempory List
-            List studentList = studentDAO.getAllStudent();
+            // get all club theough the DAO to a tempory List
+            List clubList = clubDAO.getAllClub();
 
             // create the model and update the "table"
-            StudentTableModel model = new StudentTableModel(studentList);
+            ClubTableModel model = new ClubTableModel(clubList);
             table.setModel(model);
 
         } catch (Exception exc) {
-            JOptionPane.showMessageDialog(StudentViewer.this, "Error: " + exc, "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(ClubViewer.this, "Error: " + exc, "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -381,17 +322,17 @@ public class StudentViewer extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-
+        
         //</editor-fold>
-        try {
-            UIManager.setLookAndFeel(new BernsteinLookAndFeel());
+          try {
+            UIManager.setLookAndFeel(new LunaLookAndFeel());
         } catch (Exception e) {
             e.printStackTrace();
         }
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new StudentViewer(2).setVisible(true);
+                new ClubViewer(2).setVisible(true);
             }
         });
     }
@@ -402,7 +343,6 @@ public class StudentViewer extends javax.swing.JFrame {
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdateContact;
     private javax.swing.JComboBox comboPara;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

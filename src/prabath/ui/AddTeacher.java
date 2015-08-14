@@ -645,6 +645,7 @@ public class AddTeacher extends javax.swing.JDialog {
                  tempPerson.setWebPagePersonal(webPagePersonal);
                  tempPerson.setWebPageBusiness(webPageBusiness);
                  */
+                
             } else {
                 tempTeacher = new Teacher(nic, rNo, nameWithIn, fullName, gender, dob, civilStates, address, telNoMobile, telNoRecident, dateOfAssignmentAsTeacher, dateOfAssignmentToSchool, educationalQual, proffessionalQual, subjectsAndClassesStr, subjectsWishToTeach, gradesWishToTeach, natureOfPresentPossition, gradeOfService, dateOfPromotion, sectionTaught, serviceRecordStr, positionInSchool);
 

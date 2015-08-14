@@ -85,6 +85,12 @@ public class AddOrEditStudent extends javax.swing.JDialog {
 
         jLabel4.setText("Gender");
 
+        txtFullnameEnglish.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtFullnameEnglishKeyReleased(evt);
+            }
+        });
+
         buttonGroupGender.add(rdoMale);
         rdoMale.setText("Male");
 
@@ -133,20 +139,20 @@ public class AddOrEditStudent extends javax.swing.JDialog {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnAdd)
+                .addGap(202, 202, 202))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3))
-                                .addGap(274, 274, 274)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtFullnameEnglish, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel2)
+                                .addGap(281, 281, 281)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(txtNameWithInitial, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtFullNameSinhala, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGap(94, 94, 94)
                                         .addComponent(rdoFemale))
@@ -157,7 +163,9 @@ public class AddOrEditStudent extends javax.swing.JDialog {
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(dchBirthDate, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtTelephone, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                            .addComponent(txtTelephone, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(txtFullnameEnglish, javax.swing.GroupLayout.DEFAULT_SIZE, 611, Short.MAX_VALUE)
+                                    .addComponent(txtFullNameSinhala)))
                             .addComponent(jLabel4)
                             .addComponent(jLabel5)
                             .addComponent(jLabel9)
@@ -178,12 +186,11 @@ public class AddOrEditStudent extends javax.swing.JDialog {
                                     .addComponent(cboHouse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(553, 553, 553)
-                        .addComponent(jLabel1)))
-                .addGap(133, 521, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnAdd)
-                .addGap(202, 202, 202))
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel3)))
+                .addGap(133, 146, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -196,12 +203,12 @@ public class AddOrEditStudent extends javax.swing.JDialog {
                     .addComponent(txtAdmissionNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtNameWithInitial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(22, 22, 22)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtFullnameEnglish, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtNameWithInitial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
@@ -253,7 +260,9 @@ public class AddOrEditStudent extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1153, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1069, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 84, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -293,11 +302,16 @@ public class AddOrEditStudent extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
+    private void txtFullnameEnglishKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFullnameEnglishKeyReleased
+        fillNameWithInitial();
+    }//GEN-LAST:event_txtFullnameEnglishKeyReleased
+
     public void saveOrUpdateStudent() throws SQLException {
 
         String admissionNumber = txtAdmissionNo.getText();
         String fullNameEnglish = txtFullnameEnglish.getText();
         String fullNameSinhala = txtFullNameSinhala.getText();
+        String nameWithInitials = txtNameWithInitial.getText();
         Date birthDate;
 
         try {
@@ -328,7 +342,7 @@ public class AddOrEditStudent extends javax.swing.JDialog {
         Student tempStudent = null;
 
         if (This_is_AddMode_but_not_EditMode) {
-            tempStudent = new Student(admissionNumber, fullNameEnglish, fullNameSinhala, birthDate, house, religion, address, telephoneNumber, dateOfAdmission, classOfAdmission, gender);
+            tempStudent = new Student(admissionNumber, fullNameEnglish, fullNameSinhala, birthDate, house, religion, address, telephoneNumber, dateOfAdmission, classOfAdmission, gender, nameWithInitials);
             studentDAO.addStudent(tempStudent);
 
         } else if (!This_is_AddMode_but_not_EditMode) {
@@ -346,7 +360,7 @@ public class AddOrEditStudent extends javax.swing.JDialog {
             tempStudent.setDateOfAdmission(dateOfAdmission);
             tempStudent.setClassOfAdmission(classOfAdmission);
             tempStudent.setGender(gender);
-
+tempStudent.setNameWithInitials(nameWithInitials);
             studentDAO.updateStudent(tempStudent, previousAdmissionNumber);
         }
     }
@@ -362,7 +376,7 @@ public class AddOrEditStudent extends javax.swing.JDialog {
         txtTelephone.setText(student.getTelephoneNumber());
         dchDateOfAdmission.setDate(student.getDateOfAdmission());
         txtClassOfAdmission.setText(student.getClassOfAdmission());
-
+txtNameWithInitial.setText(student.getNameWithInitials());
         String gender = student.getGender();
         switch (gender) {
             case "Male":
@@ -372,6 +386,19 @@ public class AddOrEditStudent extends javax.swing.JDialog {
                 rdoFemale.setSelected(true);
                 break;
         }
+
+    }
+
+    void fillNameWithInitial() {
+        String tempName = txtFullnameEnglish.getText();
+        String[] nameList = tempName.split(" ");
+        String nameWithInitial = "";
+        for (int ui = 0; ui < nameList.length - 1; ui++) {
+            nameWithInitial += nameList[ui].substring(0, 1) + ". ";
+        }
+        nameWithInitial += nameList[nameList.length - 1];
+
+        txtNameWithInitial.setText(nameWithInitial);
     }
 
 

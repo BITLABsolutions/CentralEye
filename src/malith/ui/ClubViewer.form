@@ -32,11 +32,9 @@
                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                           <Component id="comboPara" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="txtSearch" min="-2" pref="200" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                          <Component id="txtSearch" min="-2" pref="395" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="jDateChooser1" min="-2" pref="200" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="btnSearch" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                       </Group>
@@ -59,19 +57,16 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="3" pref="3" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="txtSearch" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnSearch" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="comboPara" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="3" pref="3" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jDateChooser1" min="-2" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="txtSearch" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="btnSearch" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -135,11 +130,6 @@
       </SubComponents>
     </Container>
     <Component class="javax.swing.JTextField" name="txtSearch">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Iskoola Pota" size="11" style="0"/>
-        </Property>
-      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnSearch">
       <Properties>
@@ -187,7 +177,7 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="btnNewContact">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Add New Student"/>
+            <Property name="text" type="java.lang.String" value="Add New Teacher"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNewContactActionPerformed"/>
@@ -195,7 +185,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnUpdateContact">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Update Student"/>
+            <Property name="text" type="java.lang.String" value="Update Teacher"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUpdateContactActionPerformed"/>
@@ -203,7 +193,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnDeleteContact">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Delete Student"/>
+            <Property name="text" type="java.lang.String" value="Delete Teacher"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeleteContactActionPerformed"/>
@@ -214,21 +204,12 @@
     <Component class="javax.swing.JComboBox" name="comboPara">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="7">
-            <StringItem index="0" value="Name"/>
-            <StringItem index="1" value="Admission number"/>
-            <StringItem index="2" value="Telephone"/>
-            <StringItem index="3" value="Address"/>
-            <StringItem index="4" value="Birth date"/>
-            <StringItem index="5" value="Religion"/>
-            <StringItem index="6" value="All"/>
+          <StringArray count="2">
+            <StringItem index="0" value="Club Name"/>
+            <StringItem index="1" value="Club Id"/>
           </StringArray>
         </Property>
       </Properties>
-      <Events>
-        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="comboParaItemStateChanged"/>
-        <EventHandler event="popupMenuCanceled" listener="javax.swing.event.PopupMenuListener" parameters="javax.swing.event.PopupMenuEvent" handler="comboParaPopupMenuCanceled"/>
-      </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane2">
 
@@ -243,11 +224,5 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser1">
-      <Events>
-        <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jDateChooser1MouseExited"/>
-        <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jDateChooser1MouseReleased"/>
-      </Events>
-    </Component>
   </SubComponents>
 </Form>

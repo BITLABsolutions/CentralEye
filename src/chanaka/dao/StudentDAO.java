@@ -1,7 +1,6 @@
 package chanaka.dao;
 
 //This is the controller class for add a student
-
 import chanaka.data.Student;
 import java.util.List;
 import java.io.IOException;
@@ -11,7 +10,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class StudentDAO {
 
@@ -25,7 +28,7 @@ public class StudentDAO {
         return myConn;
     }
 
-      /**
+    /**
      * get all student to a List
      *
      */
@@ -49,11 +52,11 @@ public class StudentDAO {
             close(myStmt, myRs);
         }
     }
-    
+
     public void addStudent(Student student) throws SQLException {
         PreparedStatement myStmt = null;
         try {
-            myStmt = myConn.prepareStatement("INSERT INTO student (AdmissionNumber,FullNameEnglish, FullNameSinhala, BirthDate, House, Religion, Address, TelephoneNumber, DateOfAdmission, ClassOfAdmission, Gender) values (?,?,?,?,?,?,?,?,?,?,?)");
+            myStmt = myConn.prepareStatement("INSERT INTO student (AdmissionNumber,FullNameEnglish, FullNameSinhala, BirthDate, House, Religion, Address, TelephoneNumber, DateOfAdmission, ClassOfAdmission, Gender, NameWithInitials) values (?,?,?,?,?,?,?,?,?,?,?,?)");
             myStmt.setString(1, student.getAdmissionNumber());
             myStmt.setString(2, student.getFullNameEnglish());
             myStmt.setString(3, student.getFullNameSinhala());
@@ -65,7 +68,7 @@ public class StudentDAO {
             myStmt.setDate(9, student.getDateOfAdmission());
             myStmt.setString(10, student.getClassOfAdmission());
             myStmt.setString(11, student.getGender());
-
+            myStmt.setString(12, student.getNameWithInitials());
             myStmt.executeUpdate();
         } finally {
             close(myStmt);
@@ -76,7 +79,7 @@ public class StudentDAO {
     public void updateStudent(Student selectedStudent, String previousAdmissionNumber) throws SQLException {
         PreparedStatement myStmt = null;
         try {
-            myStmt = myConn.prepareStatement("update student set AdmissionNumber=?, FullNameEnglish=?, FullNameSinhala=?, BirthDate=?, House=?, Religion=?, Address=?, TelephoneNumber=?, DateOfAdmission=?, ClassOfAdmission=?, Gender=? where AdmissionNumber=?");
+            myStmt = myConn.prepareStatement("update student set AdmissionNumber=?, FullNameEnglish=?, FullNameSinhala=?, BirthDate=?, House=?, Religion=?, Address=?, TelephoneNumber=?, DateOfAdmission=?, ClassOfAdmission=?, Gender=?, NameWithInitials=? where AdmissionNumber=?");
             myStmt.setString(1, selectedStudent.getAdmissionNumber());
             myStmt.setString(2, selectedStudent.getFullNameEnglish());
             myStmt.setString(3, selectedStudent.getFullNameSinhala());
@@ -88,7 +91,8 @@ public class StudentDAO {
             myStmt.setDate(9, selectedStudent.getDateOfAdmission());
             myStmt.setString(10, selectedStudent.getClassOfAdmission());
             myStmt.setString(11, selectedStudent.getGender());
-            myStmt.setString(12, previousAdmissionNumber);
+            myStmt.setString(12, selectedStudent.getNameWithInitials());
+            myStmt.setString(13, previousAdmissionNumber);
 
             myStmt.executeUpdate();
         } catch (Exception e) {
@@ -104,17 +108,58 @@ public class StudentDAO {
         List<Student> list = new ArrayList<>();
         String query;
         try {
-            keyWord += "%";
+            if (!"Birth date".equals(searchPara)) {
+                keyWord = "%" + keyWord + "%";
+            }
 
-            if (!"".equals(searchPara)) {
-                query = "select * from student where " + searchPara + " like ?";
+            if ("Birth date".equals(searchPara)) {
+                query = "select * from student where BirthDate like ?";
+
+                myStmt = myConn.prepareStatement(query);
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                Date date;
+                try {
+                    date = new java.sql.Date(sdf.parse(keyWord).getTime());
+                    myStmt.setDate(1, date);
+                } catch (ParseException ex) {
+                    System.out.println("see date formatting Chanaka");
+                    Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            } else if ("Name".equals(searchPara)) {
+                query = "select * from student where FullNameEnglish like ? or FullNameSinhala like ? or NameWithInitials like ?";
+
+                myStmt = myConn.prepareStatement(query);
+                for (int i = 1; i < 4; i++) {
+                    myStmt.setString(i, keyWord);
+                }
+
+            } else if ("Admission number".equals(searchPara)) {
+                query = "select * from student where AdmissionNumber like ?";
 
                 myStmt = myConn.prepareStatement(query);
                 myStmt.setString(1, keyWord);
-            } else {
-                query = "select * from student where AdmissionNumber like ? or FullNameEnglish like ? or FullNameSinhala like ? or BirthDate like ? or House like ? or Religion like ? or Address like ? or TelephoneNumber like ? or DateOfAdmission like ? or ClassOfAdmission like ? or Gender like ?";
+
+            } else if ("Telephone".equals(searchPara)) {
+                query = "select * from student where TelephoneNumber like ?";
+
                 myStmt = myConn.prepareStatement(query);
-                for (int i = 1; i < 12; i++) {
+
+                myStmt.setString(1, keyWord);
+            } else if ("Address".equals(searchPara)) {
+                query = "select * from student where Address like ?";
+
+                myStmt = myConn.prepareStatement(query);
+
+                myStmt.setString(1, keyWord);
+            } else if ("Religion".equals(searchPara)) {
+                query = "select * from student where Religion like ?";
+                myStmt = myConn.prepareStatement(query);
+                myStmt.setString(1, keyWord);
+            } else if  ("All".equals(searchPara)) {
+                query = "select * from student where AdmissionNumber like ? or FullNameEnglish like ? or FullNameSinhala like ? or BirthDate like ? or House like ? or Religion like ? or Address like ? or TelephoneNumber like ? or DateOfAdmission like ? or ClassOfAdmission like ? or Gender like ? or NameWithInitials like ?";
+                myStmt = myConn.prepareStatement(query);
+                for (int i = 1; i < 13; i++) {
                     myStmt.setString(i, keyWord);
                 }
             }
@@ -133,11 +178,10 @@ public class StudentDAO {
         }
     }
 
-    
     /**
      * delete student
      *
-     * @param admissionNo
+     * @param admissionNumber
      * @throws SQLException
      */
     public void deleteStudent(String admissionNumber) throws SQLException {
@@ -155,20 +199,21 @@ public class StudentDAO {
             close(myStmt);
         }
     }
-    
+
     private Student convertRowToStudent(ResultSet myRs) throws SQLException {
-        String AdmissionNumber = myRs.getString(1);
-        String FullNameEnglish = myRs.getString(2);
-        String FullNameSinhala = myRs.getString(3);
-        Date BirthDate = myRs.getDate(4);
-        String House = myRs.getString(5);
-        String Religion = myRs.getString(6);
-        String Address = myRs.getString(7);
-        String TelephoneNumber = myRs.getString(8);
-        Date DateOfAdmission = myRs.getDate(9);
-        String ClassOfAdmission = myRs.getString(10);
-        String Gender = myRs.getString(11);
-        Student tempStudent = new Student(AdmissionNumber, FullNameEnglish, FullNameSinhala, BirthDate, House, Religion, Address, TelephoneNumber, DateOfAdmission, ClassOfAdmission, Gender);
+        String admissionNumber = myRs.getString(1);
+        String fullNameEnglish = myRs.getString(2);
+        String fullNameSinhala = myRs.getString(3);
+        Date birthDate = myRs.getDate(4);
+        String house = myRs.getString(5);
+        String religion = myRs.getString(6);
+        String address = myRs.getString(7);
+        String telephoneNumber = myRs.getString(8);
+        Date dateOfAdmission = myRs.getDate(9);
+        String classOfAdmission = myRs.getString(10);
+        String gender = myRs.getString(11);
+        String nameWithInitials = myRs.getString(12);
+        Student tempStudent = new Student(admissionNumber, fullNameEnglish, fullNameSinhala, birthDate, house, religion, address, telephoneNumber, dateOfAdmission, classOfAdmission, gender, nameWithInitials);
         return tempStudent;
 
     }
