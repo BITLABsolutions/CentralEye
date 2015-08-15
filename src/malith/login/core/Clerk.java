@@ -1,34 +1,36 @@
 package malith.login.core;
 
-public class User {
+import common.User;
+
+public class Clerk extends User{
 
 	private String id;
 	private String lastName;
 	private String firstName;
 	private String email;
-	private int accessPriviledge;
-	private String password;
+	
+	
 
-	public User() {
+	public Clerk() {
 		
 	}
 	
-	public User(String lastName, String firstName, String email, int accessPriviledge, String password) {
-		super();
+	public Clerk(String lastName, String firstName, String email, int accessPriviledge, String password) {
+		
 		this.lastName = lastName;
 		this.firstName = firstName;
 		this.email = email;
-		this.accessPriviledge = accessPriviledge;
-		this.password = password;
+		super.setAccessPriviledge(accessPriviledge);
+		super.setPassword(password);
 	}
 	
-	public User(String id, String lastName, String firstName, String email, int accessPriviledge) {
-		super();
+	public Clerk(String id, String lastName, String firstName, String email, int accessPriviledge) {
+		super(id);
 		this.id = id;
 		this.lastName = lastName;
 		this.firstName = firstName;
 		this.email = email;
-		this.accessPriviledge = accessPriviledge;
+		super.setAccessPriviledge(accessPriviledge);
 	}
 	
 	public String getId() {
@@ -64,11 +66,11 @@ public class User {
 	}
 
     public int getAccessPriviledge() {
-        return accessPriviledge;
+        return super.getAccessPriviledge();
     }
 
     public void setAccessPriviledge(int accessPriviledge) {
-        this.accessPriviledge = accessPriviledge;
+        super.setAccessPriviledge(accessPriviledge);
     }
 	
 	
@@ -76,11 +78,11 @@ public class User {
 
 	
 	public String getPassword() {
-		return password;
+		return super.getPassword();
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		super.setPassword(password);
 	}
 
 	@Override

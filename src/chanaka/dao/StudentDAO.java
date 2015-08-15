@@ -2,8 +2,8 @@ package chanaka.dao;
 
 //This is the controller class for add a student
 import chanaka.data.Student;
+import common.DAO;
 import java.util.List;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -16,11 +16,11 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class StudentDAO {
+public class StudentDAO extends DAO{
 
     Connection myConn;
 
-    public StudentDAO(Connection myConn){
+    public StudentDAO(Connection myConn) {
         this.myConn = myConn;
 
     }
@@ -74,10 +74,31 @@ public class StudentDAO {
         }
     }
 
+    private Student convertRowToStudent(ResultSet myRs) throws SQLException {
+        String admissionNumber = myRs.getString(1);
+        String fullNameEnglish = myRs.getString(2);
+        String fullNameSinhala = myRs.getString(3);
+        Date birthDate = myRs.getDate(4);
+        String house = myRs.getString(5);
+        String religion = myRs.getString(6);
+        String address = myRs.getString(7);
+        String telephoneNumber = myRs.getString(8);
+        Date dateOfAdmission = myRs.getDate(9);
+        String classOfAdmission = myRs.getString(10);
+        String gender = myRs.getString(11);
+        String nameWithInitials = myRs.getString(12);
+        String gramaNiladhariVasama = myRs.getString(13);
+        String comeToSchoolBy = myRs.getString(14);
+
+        Student tempStudent = new Student(admissionNumber, fullNameEnglish, fullNameSinhala, birthDate, house, religion, address, telephoneNumber, dateOfAdmission, classOfAdmission, gender, nameWithInitials, gramaNiladhariVasama, comeToSchoolBy);
+        return tempStudent;
+
+    }
+
     public void addStudent(Student student) throws SQLException {
         PreparedStatement myStmt = null;
         try {
-            myStmt = myConn.prepareStatement("INSERT INTO student (AdmissionNumber,FullNameEnglish, FullNameSinhala, BirthDate, House, Religion, Address, TelephoneNumber, DateOfAdmission, ClassOfAdmission, Gender, NameWithInitials) values (?,?,?,?,?,?,?,?,?,?,?,?)");
+            myStmt = myConn.prepareStatement("INSERT INTO student (AdmissionNumber,FullNameEnglish, FullNameSinhala, BirthDate, House, Religion, Address, TelephoneNumber, DateOfAdmission, ClassOfAdmission, Gender, NameWithInitials, GramaNiladhariVasama, ComeToSchoolBy) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             myStmt.setString(1, student.getAdmissionNumber());
             myStmt.setString(2, student.getFullNameEnglish());
             myStmt.setString(3, student.getFullNameSinhala());
@@ -90,6 +111,8 @@ public class StudentDAO {
             myStmt.setString(10, student.getClassOfAdmission());
             myStmt.setString(11, student.getGender());
             myStmt.setString(12, student.getNameWithInitials());
+            myStmt.setString(13, student.getGramaNiladhariVasama());
+            myStmt.setString(14, student.getComeToSchoolBy());
             myStmt.executeUpdate();
         } finally {
             close(myStmt);
@@ -100,7 +123,7 @@ public class StudentDAO {
     public void updateStudent(Student selectedStudent, String previousAdmissionNumber) throws SQLException {
         PreparedStatement myStmt = null;
         try {
-            myStmt = myConn.prepareStatement("update student set AdmissionNumber=?, FullNameEnglish=?, FullNameSinhala=?, BirthDate=?, House=?, Religion=?, Address=?, TelephoneNumber=?, DateOfAdmission=?, ClassOfAdmission=?, Gender=?, NameWithInitials=? where AdmissionNumber=?");
+            myStmt = myConn.prepareStatement("update student set AdmissionNumber=?, FullNameEnglish=?, FullNameSinhala=?, BirthDate=?, House=?, Religion=?, Address=?, TelephoneNumber=?, DateOfAdmission=?, ClassOfAdmission=?, Gender=?, NameWithInitials=?, GramaNiladhariVasama=?, ComeToSchoolBy=? where AdmissionNumber=?");
             myStmt.setString(1, selectedStudent.getAdmissionNumber());
             myStmt.setString(2, selectedStudent.getFullNameEnglish());
             myStmt.setString(3, selectedStudent.getFullNameSinhala());
@@ -113,7 +136,9 @@ public class StudentDAO {
             myStmt.setString(10, selectedStudent.getClassOfAdmission());
             myStmt.setString(11, selectedStudent.getGender());
             myStmt.setString(12, selectedStudent.getNameWithInitials());
-            myStmt.setString(13, previousAdmissionNumber);
+            myStmt.setString(13, selectedStudent.getGramaNiladhariVasama());
+            myStmt.setString(14, selectedStudent.getComeToSchoolBy());
+            myStmt.setString(15, previousAdmissionNumber);
 
             myStmt.executeUpdate();
         } catch (Exception e) {
@@ -123,18 +148,17 @@ public class StudentDAO {
     }
 
     public Student getStudentObject(String admissionNo) throws SQLException {
-        
         String query;
         ResultSet myRs = null;
         PreparedStatement myStmt = null;
         try {
-            
+
             query = "select * from student where AdmissionNumber = ?";
-            
+
             myStmt = myConn.prepareStatement(query);
-            
+
             myStmt.setString(1, admissionNo);
-            
+
             myRs = myStmt.executeQuery();
 
             myRs.next();
@@ -245,41 +269,4 @@ public class StudentDAO {
         }
     }
 
-    private Student convertRowToStudent(ResultSet myRs) throws SQLException {
-        String admissionNumber = myRs.getString(1);
-        String fullNameEnglish = myRs.getString(2);
-        String fullNameSinhala = myRs.getString(3);
-        Date birthDate = myRs.getDate(4);
-        String house = myRs.getString(5);
-        String religion = myRs.getString(6);
-        String address = myRs.getString(7);
-        String telephoneNumber = myRs.getString(8);
-        Date dateOfAdmission = myRs.getDate(9);
-        String classOfAdmission = myRs.getString(10);
-        String gender = myRs.getString(11);
-        String nameWithInitials = myRs.getString(12);
-        Student tempStudent = new Student(admissionNumber, fullNameEnglish, fullNameSinhala, birthDate, house, religion, address, telephoneNumber, dateOfAdmission, classOfAdmission, gender, nameWithInitials);
-        return tempStudent;
-
-    }
-
-    private void close(Statement myStmt, ResultSet myRs) throws SQLException {
-        close(null, myStmt, myRs);
-    }
-
-    private void close(Statement myStmt) throws SQLException {
-        close(null, myStmt, null);
-    }
-
-    private void close(Connection myConn, Statement myStmt, ResultSet myRs) throws SQLException {
-        if (myRs != null) {
-            myRs.close();
-        }
-        if (myStmt != null) {
-            myStmt.close();
-        }
-        if (myConn != null) {
-            myConn.close();
-        }
-    }
 }

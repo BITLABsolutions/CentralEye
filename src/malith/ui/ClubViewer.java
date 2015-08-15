@@ -276,6 +276,7 @@ public class ClubViewer extends javax.swing.JFrame {
         // get the selected current Club
         Club tempClub = (Club) table.getValueAt(row, ClubTableModel.OBJECT_COL);
         
+        //get the add club form, fill it with the current club, then update
         
 
     }//GEN-LAST:event_btnUpdateContactActionPerformed

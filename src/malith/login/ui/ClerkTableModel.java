@@ -4,10 +4,10 @@ package malith.login.ui;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
-import malith.login.core.User;
+import malith.login.core.Clerk;
 
 
-public class UserTableModel extends AbstractTableModel {
+public class ClerkTableModel extends AbstractTableModel {
 
 	public static final int OBJECT_COL = -1;
 	private static final int LAST_NAME_COL = 0;
@@ -17,9 +17,9 @@ public class UserTableModel extends AbstractTableModel {
 
 	private String[] columnNames = { "Last Name", "First Name", "Email",
 			"Access Priviledge" };
-	private List<User> users;
+	private List<Clerk> users;
 
-	public UserTableModel(List<User> theUsers) {
+	public ClerkTableModel(List<Clerk> theUsers) {
 		users = theUsers;
 	}
 
@@ -41,7 +41,7 @@ public class UserTableModel extends AbstractTableModel {
 	@Override
 	public Object getValueAt(int row, int col) {
 
-		User tempUser = users.get(row);
+		Clerk tempUser = users.get(row);
 
 		switch (col) {
 		case LAST_NAME_COL:

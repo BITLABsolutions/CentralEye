@@ -5,6 +5,14 @@
  */
 package prabath.ui;
 
+import common.DbConnector;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import prabath.dao.TeacherDAO;
+
 /**
  *
  * @author prabath s
@@ -14,10 +22,23 @@ public class ChangePassword extends javax.swing.JDialog {
     /**
      * Creates new form ChangePassword
      */
-    public ChangePassword(java.awt.Frame parent, boolean modal) {
+    String NIC;
+    DbConnector con;
+    TeacherDAO td;
+
+    public ChangePassword(java.awt.Frame parent, boolean modal, String NIC) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
+        this.NIC = NIC;
+        try {
+            con = new DbConnector();
+        } catch (IOException ex) {
+            Logger.getLogger(ChangePassword.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(ChangePassword.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        td = new TeacherDAO(con.getMyConn());
     }
 
     /**
@@ -33,9 +54,9 @@ public class ChangePassword extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jPasswordField2 = new javax.swing.JPasswordField();
-        jPasswordField3 = new javax.swing.JPasswordField();
+        oldPassWrdTxt = new javax.swing.JPasswordField();
+        newPassWrdTxt = new javax.swing.JPasswordField();
+        confirmPassWrdTxt = new javax.swing.JPasswordField();
         submitBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -65,9 +86,9 @@ public class ChangePassword extends javax.swing.JDialog {
                     .addComponent(jLabel3))
                 .addGap(25, 25, 25)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPasswordField3, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
-                    .addComponent(jPasswordField2)
-                    .addComponent(jPasswordField1))
+                    .addComponent(confirmPassWrdTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                    .addComponent(newPassWrdTxt)
+                    .addComponent(oldPassWrdTxt))
                 .addContainerGap(85, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -80,15 +101,15 @@ public class ChangePassword extends javax.swing.JDialog {
                 .addGap(53, 53, 53)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(oldPassWrdTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(newPassWrdTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jPasswordField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(confirmPassWrdTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(submitBtn)
                 .addContainerGap(35, Short.MAX_VALUE))
@@ -109,7 +130,24 @@ public class ChangePassword extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void submitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitBtnActionPerformed
-        // TODO add your handling code here:
+        if (newPassWrdTxt.getText().length() < 4) {
+            JOptionPane.showMessageDialog(rootPane, "Password should contain atleast 4 characters");
+        } else {
+            try {
+            // TODO add your handling code here:
+
+                td.changePassword(NIC, oldPassWrdTxt.getText(), newPassWrdTxt.getText(), confirmPassWrdTxt.getText());
+                if (td.isPasswordChangeSuccessfully()) {
+                    this.setVisible(false);
+                    JOptionPane.showMessageDialog(rootPane, "Password changed succesfully");
+                }
+                td.setPasswordChangeSuccessfully(false);
+
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(rootPane, "Error in database connection");
+                Logger.getLogger(ChangePassword.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_submitBtnActionPerformed
 
     /**
@@ -142,7 +180,7 @@ public class ChangePassword extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ChangePassword dialog = new ChangePassword(new javax.swing.JFrame(), true);
+                ChangePassword dialog = new ChangePassword(new javax.swing.JFrame(), true, "543362306v");
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -155,13 +193,13 @@ public class ChangePassword extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPasswordField confirmPassWrdTxt;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JPasswordField jPasswordField2;
-    private javax.swing.JPasswordField jPasswordField3;
+    private javax.swing.JPasswordField newPassWrdTxt;
+    private javax.swing.JPasswordField oldPassWrdTxt;
     private javax.swing.JButton submitBtn;
     // End of variables declaration//GEN-END:variables
 }

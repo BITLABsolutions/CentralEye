@@ -6,30 +6,22 @@
 package malith.login.ui;
 
 import com.jtattoo.plaf.acryl.AcrylLookAndFeel;
-import com.jtattoo.plaf.aero.AeroLookAndFeel;
-import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
-import com.jtattoo.plaf.bernstein.BernsteinLookAndFeel;
-import com.jtattoo.plaf.fast.FastLookAndFeel;
-import com.jtattoo.plaf.graphite.GraphiteLookAndFeel;
-import com.jtattoo.plaf.hifi.HiFiLookAndFeel;
-import com.jtattoo.plaf.luna.LunaLookAndFeel;
-import com.jtattoo.plaf.mcwin.McWinLookAndFeel;
-import com.jtattoo.plaf.mint.MintLookAndFeel;
-import com.jtattoo.plaf.noire.NoireLookAndFeel;
-import com.jtattoo.plaf.smart.SmartLookAndFeel;
-import com.jtattoo.plaf.texture.TextureLookAndFeel;
-import com.sun.java.swing.plaf.motif.MotifLookAndFeel;
+import common.DAO;
+import common.DbConnector;
+import common.User;
+import java.io.IOException;
 import static java.lang.System.exit;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
-import javax.swing.plaf.metal.MetalLookAndFeel;
-import javax.swing.plaf.multi.MultiLookAndFeel;
-import javax.swing.plaf.nimbus.NimbusLookAndFeel;
-import malith.login.core.User;
-import malith.login.dao.UserDAO;
-import malith.ui.PrincipalHome;
+import malith.login.core.Clerk;
+import malith.login.dao.ClerkDAO;
+import prabath.dao.TeacherDAO;
+import prabath.data.Teacher;
+import prabath.ui.ClerkHomeMenu;
 
 /**
  *
@@ -37,18 +29,20 @@ import malith.ui.PrincipalHome;
  */
 public class Login extends javax.swing.JFrame {
 
-    UserDAO userDAO;
+    Connection myConn;
 
     /**
      * Creates new form Login
      */
     public Login() {
         initComponents();
+
         try {
-            userDAO = new UserDAO();
-        } catch (Exception ex) {
+            myConn = new DbConnector().getMyConn();
+        } catch (IOException | SQLException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         setLocationRelativeTo(null);
     }
 
@@ -194,37 +188,75 @@ public class Login extends javax.swing.JFrame {
     private void performUserLogin() {
 
         try {
+
             // check whether a user type is selected
             if (cmbUserType.getSelectedIndex() == -1) {
                 JOptionPane.showMessageDialog(this, "You must select a user type.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
+            // get the user type
+            String userType = cmbUserType.getSelectedItem().toString();
+
             //get the user ID
             String userId = txtUserID.getText();
 
-            // get the relevent user from the db according to the user ID
-            User logingUser = userDAO.searchUser(userId);
-
             // get the password
             String plainTextPassword = new String(pfield.getPassword());
-            logingUser.setPassword(plainTextPassword);
 
+            /* switch between these users
+             Principle
+             Clerk
+             Teacher In Charge
+             Teacher
+             Student
+             */
+            switch (userType) {
+                case "Principle":
+
+                    break;
+                case "Clerk":
+                    ClerkDAO clerkDAO = new ClerkDAO(myConn);
+
+                    // get the relevent user from the db according to the user ID
+                    Clerk logingClerk = clerkDAO.searchClerk(userId);
+                    // set password in the tempory object
+                    logingClerk.setPassword(plainTextPassword);
+                    // check the password and login
+                    loginAuthenticate(clerkDAO, logingClerk);
+                    break;
+                case "Teacher In Charge":
+                    break;
+                case "Teacher":
+                    break;
+                case "Student":
+
+            }
+
+        } catch (Exception exc) {
+            JOptionPane.showMessageDialog(this, "Error during login", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void loginAuthenticate(DAO dao, User logingUser) {
+        try {
             // check the user's password against the encrypted version in the database
-            boolean isValidPassword = userDAO.authenticate(logingUser);
+            boolean isValidPassword = dao.authenticate(logingUser);
 
             if (isValidPassword) {
                 // get the accessPriviledge 
                 int accessPriviledge = logingUser.getAccessPriviledge();
-                System.out.println("user ID " + userId + " accessPriviledge " + accessPriviledge + " name " + logingUser.getEmail());
+                System.out.println("user ID " + logingUser.getId() + " accessPriviledge " + accessPriviledge + " name " + logingUser.getPassword());
 
                 // hide the login window
                 setVisible(false);
                 switch (accessPriviledge) {
                     case 1:
-                      //  new PrincipalHome(DbConnector)
+                        //  new PrincipalHome(DbConnector)
                         break;
                     case 2:
+                        new ClerkHomeMenu(this, true).setVisible(true);
                         break;
                     case 3:
                         break;
@@ -233,12 +265,7 @@ public class Login extends javax.swing.JFrame {
                     case 5:
 
                 }
-                /*// now show the main app window
-                 EmployeeSearchApp frame = new EmployeeSearchApp(userId, admin, employeeDAO, userDAO);
-                 frame.setLoggedInUserName(logingUser.getFirstName(), logingUser.getLastName());
 
-                 frame.setVisible(true);*/
-                System.out.println("loged in to the main panel");
             } else {
                 // show error message
                 JOptionPane.showMessageDialog(this, "Invalid login", "Invalid Login",
@@ -246,9 +273,8 @@ public class Login extends javax.swing.JFrame {
 
                 return;
             }
-        } catch (Exception exc) {
-            JOptionPane.showMessageDialog(this, "Error during login", "Error",
-                    JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

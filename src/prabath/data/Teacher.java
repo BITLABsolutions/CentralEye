@@ -5,6 +5,7 @@
  */
 package prabath.data;
 
+import common.User;
 import java.sql.Date;
 import java.util.ArrayList;
 //import java.util.Date;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
  *
  * @author prabath s
  */
-public class Teacher {
+public class Teacher extends User{
 
     private String NIC;
     private String RNo;
@@ -35,16 +36,10 @@ public class Teacher {
     private String natureOfPresentPost;
     private String gradeOfService;
     private Date dateOfPromotion;
-    private int AccessPriviledge;
+   
     private String ClubIncharge;
 
-    public int getAccessPriviledge() {
-        return AccessPriviledge;
-    }
-
-    public void setAccessPriviledge(int AccessPriviledge) {
-        this.AccessPriviledge = AccessPriviledge;
-    }
+   
 
     public String getClubIncharge() {
         return ClubIncharge;
@@ -83,6 +78,7 @@ public class Teacher {
     private ArrayList<String> subjects;
 
     public Teacher(String NIC, String RNo, String nameWithin, String fullName, String gender, Date dob, String civilStatus, String Address, String telNoMobile, String telNoRecident, Date dateOfAssignAsTeacher, Date dateOfAssignToSchool, String educationQual, String professionalQual, String subjectsAndClasses, String subjectsWishToTeach, String gradesWishToTeach, String natureOfPresentPost, String gradeOfService, Date dateOfPromotion, String sectionTaught, String serviceRecord, String positionInSchool) {
+        super.setId(NIC);
         this.NIC = NIC;
         this.RNo = RNo;
         this.nameWithin = nameWithin;

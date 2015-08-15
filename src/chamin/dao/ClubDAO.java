@@ -6,6 +6,7 @@
 package chamin.dao;
 
 import chamin.data.Club;
+import common.DAO;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -178,26 +179,7 @@ public class ClubDAO {
         }
     }
 
-    private static void close(Connection myConn, Statement myStmt, ResultSet myRs) throws SQLException {
-
-        if (myRs != null) {
-            myRs.close();
-        }
-        if (myStmt != null) {
-            myStmt.close();
-        }
-        if (myConn != null) {
-            myConn.close();
-        }
-    }
-
-    private void close(Statement myStmt, ResultSet myRs) throws SQLException {
-        close(null, myStmt, myRs);
-    }
-
-    private void close(Statement myStmt) throws SQLException {
-        close(null, myStmt, null);
-    }
+   
 
     private Club convertRawToClub(ResultSet myRslt) throws SQLException {
 
@@ -221,6 +203,28 @@ public class ClubDAO {
 
         return tempClub;
 
+    }
+      public void close(Connection myConn, Statement myStmt, ResultSet myRs) throws SQLException {
+
+        if (myRs != null) {
+            myRs.close();
+        }
+
+        if (myStmt != null) {
+
+        }
+
+        if (myConn != null) {
+            myConn.close();
+        }
+    }
+
+    public void close(Statement myStmt, ResultSet myRs) throws SQLException {
+        close(null, myStmt, myRs);
+    }
+
+    public void close(Statement myStmt) throws SQLException {
+        close(null, myStmt, null);
     }
 
 }

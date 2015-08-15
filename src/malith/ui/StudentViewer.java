@@ -192,6 +192,11 @@ public class StudentViewer extends javax.swing.JFrame {
             public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
             }
         });
+        comboPara.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboParaActionPerformed(evt);
+            }
+        });
 
         txtQuickPane.setEditable(false);
         txtQuickPane.setContentType("text/html"); // NOI18N
@@ -359,16 +364,7 @@ public class StudentViewer extends javax.swing.JFrame {
     }//GEN-LAST:event_jDateChooser1MouseExited
 
     private void comboParaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboParaItemStateChanged
-
-        //when search using a birthdate, day chooser will visible
-        if ("Birth date".equals(comboPara.getSelectedItem())) {
-            txtSearch.setVisible(false);
-            jDateChooser1.setVisible(true);
-        } else {
-            jDateChooser1.setVisible(false);
-            txtSearch.setVisible(true);
-
-        }
+     
     }//GEN-LAST:event_comboParaItemStateChanged
 
     private void comboParaPopupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_comboParaPopupMenuCanceled
@@ -390,6 +386,19 @@ public class StudentViewer extends javax.swing.JFrame {
         new Certificate(tempStudent).setVisible(true);
         
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void comboParaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboParaActionPerformed
+        
+        //when search using a birthdate, day chooser will visible
+        if ("Birth date".equals(comboPara.getSelectedItem())) {
+            txtSearch.setVisible(false);
+            jDateChooser1.setVisible(true);
+        } else {
+            jDateChooser1.setVisible(false);
+            txtSearch.setVisible(true);
+      
+        }
+    }//GEN-LAST:event_comboParaActionPerformed
 
     /**
      * method will refresh the GUI showing the latest update on the table

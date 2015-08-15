@@ -3,11 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package prabath.ui;
+package chamin.gui;
 
-import chamin.gui.AddClub;
 import chanaka.dao.StudentDAO;
-import chanaka.gui.AddOrEditStudent;
 import common.DbConnector;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -15,31 +13,33 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JLabel;
 import malith.ui.ClubViewer;
 import malith.ui.StudentViewer;
-import malith.ui.TeacherViewer;
 import prabath.dao.TeacherDAO;
+import prabath.ui.Teacherincharge;
 
 /**
  *
- * @author prabath s
+ * @author Chamin
  */
-public class Teacherincharge extends javax.swing.JDialog {
+public class LibrarianUi extends javax.swing.JDialog {
 
     /**
-     * Creates new form Clerk
+     * Creates new form LibrarianUi
      */
+    
     StudentDAO studentDao;
     TeacherDAO teacherDao;
     DbConnector dbConnector;
-    public Teacherincharge(java.awt.Frame parent, boolean modal) {
-       // super(parent, modal);
+    public LibrarianUi(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
+        initComponents();
+        
+         // super(parent, modal);
         try {
-            initComponents();
+            
             Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
             DateFormat df1=new SimpleDateFormat("MM/dd/yyyy");
             dbConnector=new DbConnector();
@@ -57,9 +57,8 @@ public class Teacherincharge extends javax.swing.JDialog {
         } catch (SQLException ex) {
             Logger.getLogger(Teacherincharge.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -70,7 +69,6 @@ public class Teacherincharge extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jMenuItem2 = new javax.swing.JMenuItem();
         jPanel2 = new javax.swing.JPanel();
         clubView = new javax.swing.JButton();
         clubUpdateBtn = new javax.swing.JButton();
@@ -87,9 +85,12 @@ public class Teacherincharge extends javax.swing.JDialog {
         timeLbl = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         usernameLbl = new javax.swing.JLabel();
-        jDesktopPane1 = new javax.swing.JDesktopPane();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        studentViewBtn1 = new javax.swing.JButton();
+        studentUpdateBtn1 = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
@@ -100,8 +101,6 @@ public class Teacherincharge extends javax.swing.JDialog {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
-
-        jMenuItem2.setText("jMenuItem2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -179,7 +178,7 @@ public class Teacherincharge extends javax.swing.JDialog {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(79, 79, 79)
                         .addComponent(jLabel4)))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -190,7 +189,7 @@ public class Teacherincharge extends javax.swing.JDialog {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(studentViewBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(studentUpdateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         jLabel2.setText("C.W.W.Kannangara M.M.V");
@@ -203,20 +202,53 @@ public class Teacherincharge extends javax.swing.JDialog {
 
         jLabel14.setText("User Name:");
 
-        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
-        jDesktopPane1.setLayout(jDesktopPane1Layout);
-        jDesktopPane1Layout.setHorizontalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 506, Short.MAX_VALUE)
-        );
-        jDesktopPane1Layout.setVerticalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 160, Short.MAX_VALUE)
-        );
-
         jButton1.setText("View profile");
 
         jButton2.setText("Change password");
+
+        studentViewBtn1.setText("View");
+        studentViewBtn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                studentViewBtn1ActionPerformed(evt);
+            }
+        });
+
+        studentUpdateBtn1.setText("Update");
+        studentUpdateBtn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                studentUpdateBtn1ActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setText("Update book transaction");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(studentViewBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(studentUpdateBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(jLabel7)))
+                .addContainerGap(38, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGap(4, 4, 4)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(studentViewBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(studentUpdateBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(33, Short.MAX_VALUE))
+        );
 
         jMenu2.setText("Student");
 
@@ -274,36 +306,39 @@ public class Teacherincharge extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(278, 278, 278)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel8)
-                                    .addComponent(jLabel6))
-                                .addGap(48, 48, 48)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(timeLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(dateLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addComponent(jLabel14)
-                                .addGap(18, 18, 18)
-                                .addComponent(usernameLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(169, 169, 169)
-                        .addComponent(jLabel2))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(477, 477, 477)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(477, 477, 477)
                             .addComponent(jLabel5))
-                        .addGap(43, 43, 43)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(20, 20, 20)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGap(43, 43, 43)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(311, Short.MAX_VALUE))
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(278, 278, 278)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel8)
+                                .addComponent(jLabel6))
+                            .addGap(48, 48, 48)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(timeLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(dateLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(1, 1, 1)
+                            .addComponent(jLabel14)
+                            .addGap(18, 18, 18)
+                            .addComponent(usernameLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGap(169, 169, 169)
+                    .addComponent(jLabel2)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jButton1)
@@ -319,7 +354,7 @@ public class Teacherincharge extends javax.swing.JDialog {
                     .addComponent(jButton2))
                 .addGap(35, 35, 35)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel5)
                 .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -335,44 +370,17 @@ public class Teacherincharge extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
                     .addComponent(usernameLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(254, 254, 254)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(242, 242, 242)
-                        .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(161, 161, 161))
+                .addGap(254, 254, 254)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(162, 162, 162))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void studentViewBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentViewBtnActionPerformed
-        // TODO add your handling code here:
-        StudentViewer studentViewer= new StudentViewer(1);
-        studentViewer.setVisible(true);
-    }//GEN-LAST:event_studentViewBtnActionPerformed
-
-    private void studentUpdateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentUpdateBtnActionPerformed
-        // TODO add your handling code here:
-        StudentViewer studentViewer=new StudentViewer(PROPERTIES);
-        studentViewer.setVisible(true);
-    }//GEN-LAST:event_studentUpdateBtnActionPerformed
-
-    private void clubViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clubViewActionPerformed
-        // TODO add your handling code here:
-        ClubViewer clubViewer= new ClubViewer(PROPERTIES);
-        clubViewer.setVisible(true);
-    }//GEN-LAST:event_clubViewActionPerformed
-
-    private void clubUpdateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clubUpdateBtnActionPerformed
-        // TODO add your handling code here:
-        ClubViewer clubViewer= new ClubViewer(PROPERTIES);
-        clubViewer.setVisible(true);
-    }//GEN-LAST:event_clubUpdateBtnActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         // TODO add your handling code here:
@@ -386,17 +394,49 @@ public class Teacherincharge extends javax.swing.JDialog {
         studentViewer.setVisible(true);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        // TODO add your handling code here:
+        ClubViewer clubViewer= new ClubViewer(PROPERTIES);
+        clubViewer.setVisible(true);
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
         // TODO add your handling code here:
         ClubViewer clubViewer= new ClubViewer(PROPERTIES);
         clubViewer.setVisible(true);
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
-    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+    private void clubViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clubViewActionPerformed
         // TODO add your handling code here:
         ClubViewer clubViewer= new ClubViewer(PROPERTIES);
         clubViewer.setVisible(true);
-    }//GEN-LAST:event_jMenuItem9ActionPerformed
+    }//GEN-LAST:event_clubViewActionPerformed
+
+    private void clubUpdateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clubUpdateBtnActionPerformed
+        // TODO add your handling code here:
+        ClubViewer clubViewer= new ClubViewer(PROPERTIES);
+        clubViewer.setVisible(true);
+    }//GEN-LAST:event_clubUpdateBtnActionPerformed
+
+    private void studentViewBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentViewBtnActionPerformed
+        // TODO add your handling code here:
+        StudentViewer studentViewer= new StudentViewer(1);
+        studentViewer.setVisible(true);
+    }//GEN-LAST:event_studentViewBtnActionPerformed
+
+    private void studentUpdateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentUpdateBtnActionPerformed
+        // TODO add your handling code here:
+        StudentViewer studentViewer=new StudentViewer(PROPERTIES);
+        studentViewer.setVisible(true);
+    }//GEN-LAST:event_studentUpdateBtnActionPerformed
+
+    private void studentViewBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentViewBtn1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_studentViewBtn1ActionPerformed
+
+    private void studentUpdateBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentUpdateBtn1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_studentUpdateBtn1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -415,23 +455,20 @@ public class Teacherincharge extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Teacherincharge.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LibrarianUi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Teacherincharge.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LibrarianUi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Teacherincharge.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LibrarianUi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Teacherincharge.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LibrarianUi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                Teacherincharge dialog = new Teacherincharge(null, true);
+                LibrarianUi dialog = new LibrarianUi(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -449,13 +486,13 @@ public class Teacherincharge extends javax.swing.JDialog {
     private javax.swing.JLabel dateLbl;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -463,15 +500,17 @@ public class Teacherincharge extends javax.swing.JDialog {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JButton studentUpdateBtn;
+    private javax.swing.JButton studentUpdateBtn1;
     private javax.swing.JButton studentViewBtn;
+    private javax.swing.JButton studentViewBtn1;
     private javax.swing.JLabel timeLbl;
     private javax.swing.JLabel usernameLbl;
     // End of variables declaration//GEN-END:variables

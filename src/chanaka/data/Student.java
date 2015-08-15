@@ -1,8 +1,9 @@
 package chanaka.data;
 
+import common.User;
 import java.sql.Date;
 
-public class Student {
+public class Student extends User{
 
     String admissionNumber;
     String fullNameEnglish;
@@ -16,8 +17,10 @@ public class Student {
     String classOfAdmission;
     String gender;
     String nameWithInitials;
+    String gramaNiladhariVasama;
+    String comeToSchoolBy;
 
-    public Student(String admissionNumber, String fullNameEnglish, String fullNameSinhala, Date birthDate, String house, String religion, String address, String telephoneNumber, Date dateOfAdmission, String classOfAdmission, String gender, String nameWithInitials) {
+    public Student(String admissionNumber, String fullNameEnglish, String fullNameSinhala, Date birthDate, String house, String religion, String address, String telephoneNumber, Date dateOfAdmission, String classOfAdmission, String gender, String nameWithInitials, String gramaNiladhariVasama, String comeToSchoolBy) {
         this.admissionNumber = admissionNumber;
         this.fullNameEnglish = fullNameEnglish;
         this.fullNameSinhala = fullNameSinhala;
@@ -29,23 +32,9 @@ public class Student {
         this.dateOfAdmission = dateOfAdmission;
         this.classOfAdmission = classOfAdmission;
         this.gender = gender;
-        this.nameWithInitials=nameWithInitials;
-    }
-
-    public String getClassOfAdmission() {
-        return classOfAdmission;
-    }
-
-    public void setClassOfAdmission(String ClassOfAdmission) {
-        this.classOfAdmission = ClassOfAdmission;
-    }
-
-    public String getAdmissionNumber() {
-        return admissionNumber;
-    }
-
-    public String getFullNameEnglish() {
-        return fullNameEnglish;
+        this.nameWithInitials = nameWithInitials;
+        this.gramaNiladhariVasama = gramaNiladhariVasama;
+        this.comeToSchoolBy = comeToSchoolBy;
     }
 
     public void setAdmissionNumber(String admissionNumber) {
@@ -84,12 +73,32 @@ public class Student {
         this.dateOfAdmission = dateOfAdmission;
     }
 
+    public void setClassOfAdmission(String classOfAdmission) {
+        this.classOfAdmission = classOfAdmission;
+    }
+
     public void setGender(String gender) {
         this.gender = gender;
     }
 
     public void setNameWithInitials(String nameWithInitials) {
         this.nameWithInitials = nameWithInitials;
+    }
+
+    public void setGramaNiladhariVasama(String gramaNiladhariVasama) {
+        this.gramaNiladhariVasama = gramaNiladhariVasama;
+    }
+
+    public void setComeToSchoolBy(String comeToSchoolBy) {
+        this.comeToSchoolBy = comeToSchoolBy;
+    }
+
+    public String getAdmissionNumber() {
+        return admissionNumber;
+    }
+
+    public String getFullNameEnglish() {
+        return fullNameEnglish;
     }
 
     public String getFullNameSinhala() {
@@ -120,6 +129,10 @@ public class Student {
         return dateOfAdmission;
     }
 
+    public String getClassOfAdmission() {
+        return classOfAdmission;
+    }
+
     public String getGender() {
         return gender;
     }
@@ -128,5 +141,12 @@ public class Student {
         return nameWithInitials;
     }
 
+    public String getGramaNiladhariVasama() {
+        return gramaNiladhariVasama;
+    }
+
+    public String getComeToSchoolBy() {
+        return comeToSchoolBy;
+    }
 
 }

@@ -75,6 +75,8 @@ public class AddTeacher extends javax.swing.JDialog {
         
         if (updateMode) {
             setTitle("Update Teacher");
+            jLabel1.setText("Update Teacher");
+            add2Btn.setText("Update");
             //call the method to populate gui with current teacher details
             populateGUI(selectedTeacher);
             previousNIC = selectedTeacher.getNIC();
@@ -260,6 +262,8 @@ public class AddTeacher extends javax.swing.JDialog {
 
         pQualTxt.setColumns(20);
         pQualTxt.setRows(5);
+        pQualTxt.setWrapStyleWord(true);
+        pQualTxt.setAutoscrolls(false);
         jScrollPane3.setViewportView(pQualTxt);
 
         jLabel28.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -332,6 +336,8 @@ public class AddTeacher extends javax.swing.JDialog {
         jLabel7.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel7.setText("Subjects wish to teach:");
 
+        jScrollPane4.setAutoscrolls(true);
+
         subjectWishToTeachTxt.setColumns(20);
         subjectWishToTeachTxt.setRows(5);
         jScrollPane4.setViewportView(subjectWishToTeachTxt);
@@ -379,12 +385,6 @@ public class AddTeacher extends javax.swing.JDialog {
                     .addComponent(jLabel14))
                 .addGap(185, 185, 185)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(nicTxt, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(fullNameTxt, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(nameWithInTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -421,7 +421,13 @@ public class AddTeacher extends javax.swing.JDialog {
                             .addComponent(positionTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(sectionCbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(addressTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 304, Short.MAX_VALUE))))
+                        .addGap(0, 304, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(nicTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fullNameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nameWithInTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
@@ -878,13 +884,16 @@ public class AddTeacher extends javax.swing.JDialog {
          if(teacher.getDateOfPromotion()!=null){doaDateChooser.setDate(new java.util.Date(teacher.getDateOfPromotion().getTime()));}
          eQualTxt.setText(teacher.getEducationQual());
          pQualTxt.setText(teacher.getProfessionalQual());
-         if(!teacher.getSubjectsAndClasses().equals("")){manageTables2.loadToTable(teacher.getSubjectsAndClasses());}
+         if(teacher.getSubjectsAndClasses()!=null){
+             System.out.println("inside error");
+             manageTables2.loadToTable(teacher.getSubjectsAndClasses())
+             ;}
          subjectWishToTeachTxt.setText(teacher.getSubjectsWishToTeach());
          gradesWishToTeachTxt.setText(teacher.getGradesWishToTeach());
          natureCbox.setSelectedItem(teacher.getNatureOfPresentPost());
          grdTxt.setText(teacher.getGradeOfService());
          sectionCbox.setSelectedItem(teacher.getSectionTaught());
-         if(!teacher.getServiceRecord().equals("")){manageTables1.loadToTable(teacher.getServiceRecord());}
+         if(teacher.getServiceRecord()!=null){manageTables1.loadToTable(teacher.getServiceRecord());}
          positionTxt.setText(teacher.getPositionInSchool());
                  
          

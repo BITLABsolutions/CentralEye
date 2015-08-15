@@ -6,6 +6,7 @@
  
 package chamin.data;
 
+import common.User;
 import java.sql.Date;
 
 /**
@@ -14,7 +15,7 @@ import java.sql.Date;
  */
 
 
-public class Club {
+public class Club extends User{
     private String ClubId;
     private String ClubName;
     private String TeacherInchargeId;

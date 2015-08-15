@@ -1,6 +1,6 @@
 package malith.login.dao;
 
-import common.DbConnector;
+import common.DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,17 +10,17 @@ import java.util.ArrayList;
 import java.util.List;
 import malith.login.core.PasswordUtils;
 
-import malith.login.core.User;
+import malith.login.core.Clerk;
 
-public class UserDAO {
+public class ClerkDAO extends DAO {
 
     private Connection myConn;
 
-    public UserDAO() throws Exception {
-        myConn = new DbConnector().getMyConn();
+    public ClerkDAO(Connection myConn) throws Exception {
+        this.myConn = myConn;
     }
 
-    private User convertRowToUser(ResultSet myRs) throws SQLException {
+    private Clerk convertRowToClerk(ResultSet myRs) throws SQLException {
 
         String id = myRs.getString("id");
         String lastName = myRs.getString("last_name");
@@ -28,13 +28,14 @@ public class UserDAO {
         String email = myRs.getString("email");
         int accessPriviledge = myRs.getInt("accessPriviledge");
 
-        User tempUser = new User(id, lastName, firstName, email, accessPriviledge);
+        Clerk tempClerk = new Clerk(id, lastName, firstName, email, accessPriviledge);
 
-        return tempUser;
+        return tempClerk;
     }
 
-    public List<User> getUsers(boolean admin, int userId) throws Exception {
-        List<User> list = new ArrayList<User>();
+    // modify to access priviledge!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    public List<Clerk> getClerks(boolean admin, int clerkId) throws Exception {
+        List<Clerk> list = new ArrayList<Clerk>();
 
         Statement myStmt = null;
         ResultSet myRs = null;
@@ -45,18 +46,18 @@ public class UserDAO {
             String sql = null;
 
             if (admin) {
-                // get all users
-                sql = "select * from users order by last_name";
+                // get all clerks
+                sql = "select * from clerks order by last_name";
             } else {
-                // only the current user
-                sql = "select * from users where id=" + userId + " order by last_name";
+                // only the current clerk
+                sql = "select * from clerk where id=" + clerkId + " order by last_name";
             }
 
             myRs = myStmt.executeQuery(sql);
 
             while (myRs.next()) {
-                User tempUser = convertRowToUser(myRs);
-                list.add(tempUser);
+                Clerk tempClerk = convertRowToClerk(myRs);
+                list.add(tempClerk);
             }
 
             return list;
@@ -66,17 +67,17 @@ public class UserDAO {
     }
 
     /**
-     * return the user object according to the name AC number
+     * return the clerk object according to the name AC number
      *
      */
-    public User searchUser(String keyWord) throws Exception {
+    public Clerk searchClerk(String keyWord) throws Exception {
         //keyWord = "%" + keyWord + "%";
         PreparedStatement myStmt = null;
         ResultSet myRs = null;
         String query;
 
-        User user = null;
-        query = "select * from users where id = ?";
+        Clerk clerk = null;
+        query = "select * from clerk where id = ?";
         myStmt = myConn.prepareStatement(query);
         myStmt.setString(1, keyWord);
 
@@ -91,30 +92,30 @@ public class UserDAO {
             String email = myRs.getString("email");
             int accessPriviledge = myRs.getInt("accessPriviledge");
 
-            user = new User(id, lastName, firstName,  email,accessPriviledge);
+            clerk = new Clerk(id, lastName, firstName,  email,accessPriviledge);
 
         }
-        return user;
+        return clerk;
 
     }
 
-    public void addUser(User theUser) throws Exception {
+    public void addClerk(Clerk theClerk) throws Exception {
         PreparedStatement myStmt = null;
 
         try {
             // prepare statement
-            myStmt = myConn.prepareStatement("insert into users"
+            myStmt = myConn.prepareStatement("insert into clerk"
                     + " (first_name, last_name, email, accessPriviledge, password)"
                     + " values (?, ?, ?, ?, ?)");
 
             // set params
-            myStmt.setString(1, theUser.getFirstName());
-            myStmt.setString(2, theUser.getLastName());
-            myStmt.setString(3, theUser.getEmail());
-            myStmt.setInt(4, theUser.getAccessPriviledge());
+            myStmt.setString(1, theClerk.getFirstName());
+            myStmt.setString(2, theClerk.getLastName());
+            myStmt.setString(3, theClerk.getEmail());
+            myStmt.setInt(4, theClerk.getAccessPriviledge());
 
             // encrypt password
-            String encryptedPassword = PasswordUtils.encryptPassword(theUser.getPassword());
+            String encryptedPassword = PasswordUtils.encryptPassword(theClerk.getPassword());
             myStmt.setString(5, encryptedPassword);
 
             // execute SQL
@@ -125,21 +126,21 @@ public class UserDAO {
 
     }
 
-    public void updateUser(User theUser) throws Exception {
+    public void updateClerk(Clerk theClerk) throws Exception {
         PreparedStatement myStmt = null;
 
         try {
             // prepare statement
-            myStmt = myConn.prepareStatement("update users"
+            myStmt = myConn.prepareStatement("update clerk"
                     + " set first_name=?, last_name=?, email=?, accessPriviledge=?"
                     + " where id=?");
 
             // set params
-            myStmt.setString(1, theUser.getFirstName());
-            myStmt.setString(2, theUser.getLastName());
-            myStmt.setString(3, theUser.getEmail());
-            myStmt.setInt(4, theUser.getAccessPriviledge());
-            myStmt.setString(5, theUser.getId());
+            myStmt.setString(1, theClerk.getFirstName());
+            myStmt.setString(2, theClerk.getLastName());
+            myStmt.setString(3, theClerk.getEmail());
+            myStmt.setInt(4, theClerk.getAccessPriviledge());
+            myStmt.setString(5, theClerk.getId());
 
             // execute SQL
             myStmt.executeUpdate();
@@ -150,18 +151,18 @@ public class UserDAO {
     }
 
     /**
-     * Return true if user's password is authenticated.
+     * Return true if clerk's password is authenticated.
      *
-     * @param theUser
+     * @param theClerk
      * @return
      */
-    public boolean authenticate(User theUser) throws Exception {
+    public boolean authenticate(Clerk theClerk) throws Exception {
         boolean result = false;
 
-        String plainTextPassword = theUser.getPassword();
+        String plainTextPassword = theClerk.getPassword();
 
-        // get the encrypted password from database for this user
-        String encryptedPasswordFromDatabase = getEncrpytedPassword(theUser.getId());
+        // get the encrypted password from database for this clerk
+        String encryptedPasswordFromDatabase = getEncrpytedPassword(theClerk.getId());
 
         // compare the passwords
         result = PasswordUtils.checkPassword(plainTextPassword, encryptedPasswordFromDatabase);
@@ -177,12 +178,12 @@ public class UserDAO {
 
         try {
             myStmt = myConn.createStatement();
-            myRs = myStmt.executeQuery("select password from users where id=" + id);
+            myRs = myStmt.executeQuery("select password from clerk where id=" + id);
 
             if (myRs.next()) {
                 encryptedPassword = myRs.getString("password");
             } else {
-                throw new Exception("User id not found: " + id);
+                throw new Exception("Clerk id not found: " + id);
             }
 
             return encryptedPassword;
@@ -191,10 +192,10 @@ public class UserDAO {
         }
     }
 
-    public void changePassword(User user) throws Exception {
+    public void changePassword(Clerk clerk) throws Exception {
 
         // get plain text password
-        String plainTextPassword = user.getPassword();
+        String plainTextPassword = clerk.getPassword();
 
         // encrypt the password
         String encryptedPassword = PasswordUtils.encryptPassword(plainTextPassword);
@@ -204,13 +205,13 @@ public class UserDAO {
 
         try {
             // prepare statement
-            myStmt = myConn.prepareStatement("update users"
+            myStmt = myConn.prepareStatement("update clerk"
                     + " set password=?"
                     + " where id=?");
 
             // set params
             myStmt.setString(1, encryptedPassword);
-            myStmt.setString(2, user.getId());
+            myStmt.setString(2, clerk.getId());
 
             // execute SQL
             myStmt.executeUpdate();

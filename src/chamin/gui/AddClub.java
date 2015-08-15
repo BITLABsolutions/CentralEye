@@ -127,6 +127,7 @@ public class AddClub extends javax.swing.JDialog {
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
+        jPanel1.setForeground(new java.awt.Color(51, 51, 51));
         jPanel1.setPreferredSize(new java.awt.Dimension(1327, 1000));
         jPanel1.setVerifyInputWhenFocusTarget(false);
 
@@ -266,28 +267,28 @@ public class AddClub extends javax.swing.JDialog {
         });
 
         lblClubId.setFont(new java.awt.Font("sansserif", 0, 10)); // NOI18N
-        lblClubId.setForeground(new java.awt.Color(255, 255, 153));
+        lblClubId.setForeground(new java.awt.Color(51, 51, 51));
 
         lblClubName.setFont(new java.awt.Font("sansserif", 0, 10)); // NOI18N
-        lblClubName.setForeground(new java.awt.Color(255, 255, 153));
+        lblClubName.setForeground(new java.awt.Color(51, 51, 51));
 
         lblInchage.setFont(new java.awt.Font("sansserif", 0, 10)); // NOI18N
-        lblInchage.setForeground(new java.awt.Color(255, 255, 153));
+        lblInchage.setForeground(new java.awt.Color(51, 51, 51));
 
         lblPresident.setFont(new java.awt.Font("sansserif", 0, 10)); // NOI18N
-        lblPresident.setForeground(new java.awt.Color(255, 255, 153));
+        lblPresident.setForeground(new java.awt.Color(51, 51, 51));
 
         lblVicePresident.setFont(new java.awt.Font("sansserif", 0, 10)); // NOI18N
-        lblVicePresident.setForeground(new java.awt.Color(255, 255, 153));
+        lblVicePresident.setForeground(new java.awt.Color(51, 51, 51));
 
         lblSecretary.setFont(new java.awt.Font("sansserif", 0, 10)); // NOI18N
-        lblSecretary.setForeground(new java.awt.Color(255, 255, 153));
+        lblSecretary.setForeground(new java.awt.Color(51, 51, 51));
 
         lblAssSecretary.setFont(new java.awt.Font("sansserif", 0, 10)); // NOI18N
-        lblAssSecretary.setForeground(new java.awt.Color(255, 255, 153));
+        lblAssSecretary.setForeground(new java.awt.Color(51, 51, 51));
 
         lblTreasurer.setFont(new java.awt.Font("sansserif", 0, 10)); // NOI18N
-        lblTreasurer.setForeground(new java.awt.Color(255, 255, 153));
+        lblTreasurer.setForeground(new java.awt.Color(51, 51, 51));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

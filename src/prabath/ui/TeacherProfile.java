@@ -55,7 +55,7 @@ public class TeacherProfile extends javax.swing.JDialog {
         
         super(parent, modal);
         initComponents();
-
+        //populateGUI(selectedTeacher);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         DateFormat df1 = new SimpleDateFormat("MM/dd/yyyy");
         // bDayDateChooser.setDateFormat(df1);
@@ -87,6 +87,41 @@ public class TeacherProfile extends javax.swing.JDialog {
         }
         this.setVisible(true);
     }
+    
+    
+    
+    public void populateGUI(Teacher teacher) {
+       
+         //get data from teacher object and set them in GUI
+         nicTxt.setText(teacher.getNIC());
+         idTxt.setText(teacher.getRNo());
+         nameWithInTxt.setText(teacher.getNameWithin());
+         fullNameTxt.setText(teacher.getFullName());
+         if(teacher.getGender().equals("female")){femaleRadioBtn.setSelected(true);}
+         else{maleRadioBtn.setSelected(true);}
+         dobDateChooser.setDate(new java.util.Date(teacher.getDob().getTime()));
+         civilCbox.setSelectedItem(teacher.getCivilStatus());
+         addressTxt.setText(teacher.getAddress());
+         mobileTelTxt.setText(teacher.getTelNoMobile());
+         recidentTelNo.setText(teacher.getTelNoRecident());
+         if(teacher.getDateOfAssignAsTeacher()!=null){doaDateChooser.setDate(new java.util.Date(teacher.getDateOfAssignAsTeacher().getTime()));}
+         if(teacher.getDateOfAssignToSchool()!=null){dosDateChooser.setDate(new java.util.Date(teacher.getDateOfAssignToSchool().getTime()));}
+         if(teacher.getDateOfPromotion()!=null){doaDateChooser.setDate(new java.util.Date(teacher.getDateOfPromotion().getTime()));}
+         eQualTxt.setText(teacher.getEducationQual());
+         pQualTxt.setText(teacher.getProfessionalQual());
+         if(!teacher.getSubjectsAndClasses().equals("")){manageTables2.loadToTable(teacher.getSubjectsAndClasses());}
+         subjectWishToTeachTxt.setText(teacher.getSubjectsWishToTeach());
+         gradesWishToTeachTxt.setText(teacher.getGradesWishToTeach());
+         natureCbox.setSelectedItem(teacher.getNatureOfPresentPost());
+         grdTxt.setText(teacher.getGradeOfService());
+         sectionCbox.setSelectedItem(teacher.getSectionTaught());
+         if(!teacher.getServiceRecord().equals("")){manageTables1.loadToTable(teacher.getServiceRecord());}
+         positionTxt.setText(teacher.getPositionInSchool());
+                 
+         
+         
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -103,7 +138,6 @@ public class TeacherProfile extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        nameWithInTxt = new javax.swing.JTextField();
         fullNameTxt = new javax.swing.JTextField();
         maleRadioBtn = new javax.swing.JRadioButton();
         femaleRadioBtn = new javax.swing.JRadioButton();
@@ -157,6 +191,7 @@ public class TeacherProfile extends javax.swing.JDialog {
         wrning2 = new javax.swing.JLabel();
         wrning3 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        nameWithInTxt = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -173,23 +208,6 @@ public class TeacherProfile extends javax.swing.JDialog {
 
         jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel4.setText("Gender");
-
-        nameWithInTxt.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                nameWithInTxtFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                nameWithInTxtFocusLost(evt);
-            }
-        });
-        nameWithInTxt.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                nameWithInTxtMouseEntered(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                nameWithInTxtMousePressed(evt);
-            }
-        });
 
         fullNameTxt.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -472,6 +490,22 @@ public class TeacherProfile extends javax.swing.JDialog {
             }
         });
 
+        nameWithInTxt.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                nameWithInTxtFocusLost(evt);
+            }
+        });
+        nameWithInTxt.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                nameWithInTxtMousePressed(evt);
+            }
+        });
+        nameWithInTxt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nameWithInTxtActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -541,16 +575,16 @@ public class TeacherProfile extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                             .addComponent(nicTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
                             .addComponent(wrning3))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(fullNameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(nameWithInTxt)
+                                .addComponent(fullNameTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(wrning2))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(nameWithInTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(30, 30, 30)
-                            .addComponent(wrning1)))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(wrning2, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(wrning1, javax.swing.GroupLayout.Alignment.TRAILING))))
                     .addComponent(dobDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(dosDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
@@ -567,7 +601,7 @@ public class TeacherProfile extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(46, 46, 46)
+                .addGap(45, 45, 45)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -582,9 +616,9 @@ public class TeacherProfile extends javax.swing.JDialog {
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                    .addComponent(nameWithInTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                     .addComponent(jLabel2)
-                                                    .addComponent(wrning1))
+                                                    .addComponent(wrning1)
+                                                    .addComponent(nameWithInTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                 .addGap(22, 22, 22)
                                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                                     .addComponent(jLabel3)
@@ -847,11 +881,9 @@ public class TeacherProfile extends javax.swing.JDialog {
                  tempTeacher.setPositionInSchool(positionInSchool);
                  tempTeacher.setServiceRecord(serviceRecordStr);
                  tempTeacher.setSubjectsAndClasses(subjectsAndClassesStr);
-                 //tempTeacher.setAcType(acType);
                  tempTeacher.setDateOfAssignAsTeacher(dateOfAssignmentAsTeacher);
                  tempTeacher.setDateOfAssignToSchool(dateOfAssignmentToSchool);
                  tempTeacher.setDateOfPromotion(dateOfPromotion);
-                 //tempTeacher.setWebPageBusiness(webPageBusiness);
                  
                 
             
@@ -909,35 +941,19 @@ public class TeacherProfile extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void nameWithInTxtMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameWithInTxtMouseEntered
-        // TODO add your handling code here:
-        System.out.println("pressed");
-    }//GEN-LAST:event_nameWithInTxtMouseEntered
-
-    private void nameWithInTxtFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nameWithInTxtFocusGained
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_nameWithInTxtFocusGained
-
-    private void nameWithInTxtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nameWithInTxtFocusLost
-        // TODO add your handling code here:
-        wrning1.setVisible(false);
-    }//GEN-LAST:event_nameWithInTxtFocusLost
-
     private void fullNameTxtFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fullNameTxtFocusGained
         // TODO add your handling code here:
         
     }//GEN-LAST:event_fullNameTxtFocusGained
 
+                                   
+
+    
+    
     private void fullNameTxtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fullNameTxtFocusLost
         // TODO add your handling code here:
         wrning2.setVisible(false);
     }//GEN-LAST:event_fullNameTxtFocusLost
-
-    private void nameWithInTxtMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameWithInTxtMousePressed
-        // TODO add your handling code here:
-        wrning1.setVisible(true);
-    }//GEN-LAST:event_nameWithInTxtMousePressed
 
     private void fullNameTxtMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fullNameTxtMousePressed
         // TODO add your handling code here:
@@ -1113,6 +1129,20 @@ public class TeacherProfile extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_civilCboxActionPerformed
 
+    private void nameWithInTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameWithInTxtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nameWithInTxtActionPerformed
+
+    private void nameWithInTxtMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameWithInTxtMousePressed
+        // TODO add your handling code here:
+        wrning1.setVisible(true);
+    }//GEN-LAST:event_nameWithInTxtMousePressed
+
+    private void nameWithInTxtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nameWithInTxtFocusLost
+        // TODO add your handling code here:
+        wrning1.setVisible(false);
+    }//GEN-LAST:event_nameWithInTxtFocusLost
+
     public String getTheDate(JComboBox year, JComboBox mnt, JComboBox date) {
         String s = "";
         s = year.getSelectedItem().toString() + mnt.getSelectedItem().toString() + date.getSelectedItem().toString();
@@ -1132,38 +1162,7 @@ public class TeacherProfile extends javax.swing.JDialog {
     }
 //populate GUI with a given person object
 
-    public void populateGUI(Teacher teacher) {
-       
-         //get data from teacher object and set them in GUI
-         nicTxt.setText(teacher.getNIC());
-         idTxt.setText(teacher.getRNo());
-         nameWithInTxt.setText(teacher.getNameWithin());
-         fullNameTxt.setText(teacher.getFullName());
-         if(teacher.getGender().equals("female")){femaleRadioBtn.setSelected(true);}
-         else{maleRadioBtn.setSelected(true);}
-         dobDateChooser.setDate(new java.util.Date(teacher.getDob().getTime()));
-         civilCbox.setSelectedItem(teacher.getCivilStatus());
-         addressTxt.setText(teacher.getAddress());
-         mobileTelTxt.setText(teacher.getTelNoMobile());
-         recidentTelNo.setText(teacher.getTelNoRecident());
-         if(teacher.getDateOfAssignAsTeacher()!=null){doaDateChooser.setDate(new java.util.Date(teacher.getDateOfAssignAsTeacher().getTime()));}
-         if(teacher.getDateOfAssignToSchool()!=null){dosDateChooser.setDate(new java.util.Date(teacher.getDateOfAssignToSchool().getTime()));}
-         if(teacher.getDateOfPromotion()!=null){doaDateChooser.setDate(new java.util.Date(teacher.getDateOfPromotion().getTime()));}
-         eQualTxt.setText(teacher.getEducationQual());
-         pQualTxt.setText(teacher.getProfessionalQual());
-         if(!teacher.getSubjectsAndClasses().equals("")){manageTables2.loadToTable(teacher.getSubjectsAndClasses());}
-         subjectWishToTeachTxt.setText(teacher.getSubjectsWishToTeach());
-         gradesWishToTeachTxt.setText(teacher.getGradesWishToTeach());
-         natureCbox.setSelectedItem(teacher.getNatureOfPresentPost());
-         grdTxt.setText(teacher.getGradeOfService());
-         sectionCbox.setSelectedItem(teacher.getSectionTaught());
-         if(!teacher.getServiceRecord().equals("")){manageTables1.loadToTable(teacher.getServiceRecord());}
-         positionTxt.setText(teacher.getPositionInSchool());
-                 
-         
-         
-    }
-
+   
     /**
      * @param args the command line arguments
      */

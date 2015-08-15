@@ -5,6 +5,7 @@
  */
 package prabath.dao;
 
+import common.DAO;
 import prabath.data.Teacher;
 import java.sql.Connection;
 import java.sql.Date;
@@ -16,24 +17,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import malith.login.core.PasswordUtils;
 
 /**
  *
  * @author prabath s
  */
-public class TeacherDAO {
+public class TeacherDAO extends DAO{
 
     Connection myCon;
+    boolean passwordChangeSuccessfully;
 
     public TeacherDAO(Connection myCon) {
         this.myCon = myCon;
+        this.passwordChangeSuccessfully=false;
     }
 
     public void addTeacher(Teacher teacher) throws SQLException {
         PreparedStatement myStmnt = null;
         try {
             myStmnt = myCon.prepareStatement("INSERT INTO Teacher (NIC,RNo,NameWithIn,FullName,Gender,Dob,CivilStatus,Address,TelNoMobile,TelNoRecident,DateOfAssignmentAsTeacher,DateOfAssignmentToSchool,EducationQual,ProffessionalQual,SubjectsAndClasses,SubjectsWishToTeach,GradesWishToTeach,"
-                    + "NatureOfPresentPost,GradeOfService,DateOfPromotion,SectionTaught,ServiceRecord,PositionInSchool,AccessPriviledge,ClubIncharge)values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                    + "NatureOfPresentPost,GradeOfService,DateOfPromotion,SectionTaught,ServiceRecord,PositionInSchool,AccessPriviledge,ClubIncharge,Password)values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             myStmnt.setString(1, teacher.getNIC());
             myStmnt.setString(2, teacher.getRNo());
             myStmnt.setString(3, teacher.getNameWithin());
@@ -59,6 +64,7 @@ public class TeacherDAO {
             myStmnt.setString(23, teacher.getPositionInSchool());
             myStmnt.setInt(24, 3);
             myStmnt.setString(25, null);
+            myStmnt.setString(26, PasswordUtils.encryptPassword("1234"));
 
             myStmnt.executeUpdate();
 
@@ -67,20 +73,66 @@ public class TeacherDAO {
         }
 
     }
+    
+    public void changePassword(String NIC,String oldPassword,String newPassword,String confirmPassword) throws SQLException{
+        
+        PreparedStatement myStmt=null;
+        String oldPass="";
+        try {
+            String query = "select Password from teacher where NIC like ? ";
+                    myStmt = myCon.prepareStatement(query);
+                    myStmt.setString(1, NIC);
+                    ResultSet rs=myStmt.executeQuery();
+                    rs.next();
+                    oldPass=rs.getString(1);
+                    
+                    
+            //rs.next();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(TeacherDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally{close(myStmt);}
+        System.out.println(oldPass);
+        System.out.println(oldPassword);
+        if(PasswordUtils.checkPassword(oldPassword, oldPass)){
+            if(newPassword.equals(confirmPassword)){
+                PreparedStatement myStmt1 = null;
+        try {
+            //prepare the statement
+            myStmt = myCon.prepareStatement("update teacher set Password=?  where NIC=? ");
 
-    private static void close(Connection myConn, Statement myStmt, ResultSet myRs) throws SQLException {
-
-        if (myRs != null) {
-            myRs.close();
+            // set params
+            //myStmt.setString(1, teacher.getNIC());
+            myStmt.setString(1, PasswordUtils.encryptPassword(newPassword));
+            myStmt.setString(2,NIC);
+            
+            //execute statement
+            myStmt.executeUpdate();
+            this.passwordChangeSuccessfully=true;
+        } finally {
+            close(myStmt);
         }
-        if (myStmt != null) {
-            myStmt.close();
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "New password and Confirm password does not match");
+            }
         }
-        if (myConn != null) {
-            myConn.close();
+        else{
+            JOptionPane.showMessageDialog(null, "Old password is wrong");
         }
+        
     }
 
+    public boolean isPasswordChangeSuccessfully() {
+        return passwordChangeSuccessfully;
+    }
+
+    public void setPasswordChangeSuccessfully(boolean passwordChangeSuccessfully) {
+        this.passwordChangeSuccessfully = passwordChangeSuccessfully;
+    }
+
+    
     public List<Teacher> getAllTeacher() throws Exception {
 
         List<Teacher> list = new ArrayList<>();
@@ -299,13 +351,6 @@ public class TeacherDAO {
         return tempTeacher;
     }
 
-    private void close(Statement myStmt, ResultSet myRs) throws SQLException {
-        close(null, myStmt, myRs);
-    }
-
-    private void close(Statement myStmt) throws SQLException {
-        close(null, myStmt, null);
-    }
 
     public void updateAccess(Teacher teacher) throws SQLException {
         PreparedStatement myStmt = null;
