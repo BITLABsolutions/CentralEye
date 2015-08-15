@@ -46,8 +46,9 @@ public class LibrarianUi extends javax.swing.JDialog {
             studentDao=new StudentDAO(dbConnector.getMyConn());
             teacherDao=new TeacherDAO(dbConnector.getMyConn());
             // bDayDateChooser.setDateFormat(df1);
-            //this.setLocation(dim.width/2-this.getWidth()/2, dim.height/2-this.getHeight()/2);
-            //this.setSize(dim.width, dim.height - 35);
+            this.setLocation(dim.width/2-this.getWidth()/2, dim.height/2-this.getHeight()/2);
+            this.setSize(dim.width, dim.height - 35);
+            this.setAlwaysOnTop(true);
             Thread updateTime=new Thread(new UpdateOtherUi(timeLbl,dateLbl));
             updateTime.start();
             
@@ -103,6 +104,7 @@ public class LibrarianUi extends javax.swing.JDialog {
         jMenuItem3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1366, 768));
 
         clubView.setText("View");
         clubView.addActionListener(new java.awt.event.ActionListener() {
@@ -206,37 +208,37 @@ public class LibrarianUi extends javax.swing.JDialog {
 
         jButton2.setText("Change password");
 
-        studentViewBtn1.setText("View");
+        studentViewBtn1.setText("<html><body>View / Edit <br>Book Data</body></html>");
         studentViewBtn1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 studentViewBtn1ActionPerformed(evt);
             }
         });
 
-        studentUpdateBtn1.setText("Update");
+        studentUpdateBtn1.setText("Transaction");
         studentUpdateBtn1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 studentUpdateBtn1ActionPerformed(evt);
             }
         });
 
-        jLabel7.setText("Update book transaction");
+        jLabel7.setText("Library transactions");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(studentViewBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(studentUpdateBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel7)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(jLabel7)))
-                .addContainerGap(38, Short.MAX_VALUE))
+                        .addComponent(studentViewBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(studentUpdateBtn1)
+                        .addGap(22, 22, 22))))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
