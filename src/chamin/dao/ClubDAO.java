@@ -15,6 +15,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
+
 public class ClubDAO {
 
     private final Connection myConn;
@@ -54,14 +57,14 @@ public class ClubDAO {
         PreparedStatement myStmnt = null;
 
         try {
-            String query = "INSERT INTO club (ClubId, ClubName, TeacherIncharge, Advisor, PresidentId, VisePresidentId, SecretaryId, AssSecretaryId, TreasurerId, Task, Suggestions, DateOfEstablish, MemberIdList) values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String query = "INSERT INTO club (ClubId, ClubName, TeacherInchargeId, Advisor, PresidentId, VisePresidentId, SecretaryId, AssSecretaryId, TreasurerId, Task, Suggestions, DateOfEstablish, MemberIdList) values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
             myStmnt = myConn.prepareStatement(query);
             System.out.println("create my stmnt");
             //set parameters
 
             myStmnt.setString(1, club.getClubId());
             myStmnt.setString(2, club.getClubName());
-            myStmnt.setString(3, club.getTeacherIncharge());
+            myStmnt.setString(3, club.getTeacherInchargeId());
             myStmnt.setString(4, club.getAdvisor());
             myStmnt.setString(5, club.getPresidentId());
             myStmnt.setString(6, club.getVisePresidentId());
@@ -91,11 +94,11 @@ public class ClubDAO {
         PreparedStatement myStmnt = null;
         try {
             //prepare the statement
-            String query = "UPDATE club set ClubId=?, ClubName=?, TeacherIncharge=?, Advisor=?, PresidentId=?, VisePresidentId=?, SecretaryId=?, AssSecretaryId=?, TreasurerId=?, Task=?, Suggestions=?, DateOfEstablish=?, MemberIdList=? WHERE values ClubName =?";
+            String query = "UPDATE club set ClubId=?, ClubName=?, TeacherInchargeId=?, Advisor=?, PresidentId=?, VisePresidentId=?, SecretaryId=?, AssSecretaryId=?, TreasurerId=?, Task=?, Suggestions=?, DateOfEstablish=?, MemberIdList=? WHERE values ClubName =?";
             // set params
             myStmnt.setString(1, club.getClubId());
             myStmnt.setString(2, club.getClubName());
-            myStmnt.setString(3, club.getTeacherIncharge());
+            myStmnt.setString(3, club.getTeacherInchargeId());
             myStmnt.setString(4, club.getAdvisor());
             myStmnt.setString(5, club.getPresidentId());
             myStmnt.setString(6, club.getVisePresidentId());
@@ -120,7 +123,7 @@ public class ClubDAO {
 
         List<Club> list = new ArrayList<>();
 
-        keyWord = "%" + keyWord + "%";
+        
         PreparedStatement myStmnt = null;
         ResultSet myRslt = null;
         String query = null;
@@ -128,13 +131,13 @@ public class ClubDAO {
 
             switch (searchPara) {
                 case "Club Name":
-                    System.out.println("Club Namevvvvvv");
+                  
                     query = "SELECT * from club where ClubName like ? ";
                     myStmnt = myConn.prepareStatement(query);
                     myStmnt.setString(1, keyWord);
                     break;
                 case "Club Id":
-                    System.out.println("club ID");
+                    
                     query = "SELECT * from club where ClubId like ? ";
                     myStmnt = myConn.prepareStatement(query);
                     myStmnt.setString(1, keyWord);
@@ -147,7 +150,7 @@ public class ClubDAO {
             myRslt = myStmnt.executeQuery();
 
             while (myRslt.next()) {
-                //System.out.println("there is a result************");
+                
                 Club tempClub = convertRawToClub(myRslt);
                 list.add(tempClub);
             }
@@ -163,7 +166,7 @@ public class ClubDAO {
         PreparedStatement myStmnt = null;
         try {
             // prepare statement
-            myStmnt = myConn.prepareStatement("delete from cub where ClubName=?");
+            myStmnt = myConn.prepareStatement("delete from club where ClubName=?");
 
             //set param
             myStmnt.setString(1, ClubName);
@@ -202,7 +205,7 @@ public class ClubDAO {
         System.out.println(ClubId + "   club id");
         String ClubName = myRslt.getString(2);
         System.out.println(ClubName + "    club name");
-        String TeacherIncharge = myRslt.getString(3);
+        String TeacherInchargeId = myRslt.getString(3);
         String Advisor = myRslt.getString(4);
         String PresidentId = myRslt.getString(5);
         String VisePresidentId = myRslt.getString(6);
@@ -214,7 +217,7 @@ public class ClubDAO {
         Date DateOfEstablish = myRslt.getDate(12);
         String MemberIdList[] = {myRslt.getString(13)};
 
-        Club tempClub = new Club(ClubId, ClubName, TeacherIncharge, Advisor, PresidentId, VisePresidentId, SecretaryId, AssSecretaryId, TreasurerId, Task, Suggestions, DateOfEstablish, MemberIdList);
+        Club tempClub = new Club(ClubId, ClubName, TeacherInchargeId, Advisor, PresidentId, VisePresidentId, SecretaryId, AssSecretaryId, TreasurerId, Task, Suggestions, DateOfEstablish, MemberIdList);
 
         return tempClub;
 

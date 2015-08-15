@@ -8,11 +8,16 @@ package chamin.data;
 
 import java.sql.Date;
 
+/**
+ *
+ * @author chamin
+ */
+
 
 public class Club {
     private String ClubId;
     private String ClubName;
-    private String TeacherIncharge;
+    private String TeacherInchargeId;
     private String Advisor;
     private String PresidentId;
     private String VisePresidentId;
@@ -24,10 +29,10 @@ public class Club {
     private Date DateOfEstablish;
     private String[] MemberIdList;
 
-    public Club(String ClubId, String ClubName, String TeacherIncharge, String Advisor, String PresidentId, String VisePresidentId, String SecretaryId, String AssSecretaryId, String TreasurerId, String Task, String Suggestions, Date DateOfEstablish, String[] MemberIdList) {
+    public Club(String ClubId, String ClubName, String TeacherInchargeId, String Advisor, String PresidentId, String VisePresidentId, String SecretaryId, String AssSecretaryId, String TreasurerId, String Task, String Suggestions, Date DateOfEstablish, String[] MemberIdList) {
         this.ClubId = ClubId;
         this.ClubName = ClubName;
-        this.TeacherIncharge = TeacherIncharge;
+        this.TeacherInchargeId = TeacherInchargeId;
         this.Advisor = Advisor;
         this.PresidentId = PresidentId;
         this.VisePresidentId = VisePresidentId;
@@ -56,12 +61,12 @@ public class Club {
         this.ClubName = ClubName;
     }
 
-    public String getTeacherIncharge() {
-        return TeacherIncharge;
+    public String getTeacherInchargeId() {
+        return TeacherInchargeId;
     }
 
-    public void setTeacherIncharge(String TeacherIncharge) {
-        this.TeacherIncharge = TeacherIncharge;
+    public void setTeacherInchargeId(String TeacherInchargeId) {
+        this.TeacherInchargeId = TeacherInchargeId;
     }
 
     public String getAdvisor() {

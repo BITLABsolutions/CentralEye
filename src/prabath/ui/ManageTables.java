@@ -65,10 +65,12 @@ public class ManageTables {
         String[] tokens3;
         String delims = "%";
         tokens = s.split(delims);
+        System.out.println(s);
         List<String> list = new ArrayList<String>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < y; i++) {
             tokens3 = tokens[i].split("#");
             list.addAll(Arrays.asList(tokens3));
+            System.out.println(list.get(i));
 
         }
         tokens1 = list.toArray();
@@ -80,10 +82,12 @@ public class ManageTables {
     }
 
     public String[][] addTo2DArray(Object[] tokens) {
-        String[][] arr = new String[10][4];
+        String[][] arr = new String[10][5];
         int k = 0;
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 4; j++) {
+       // System.out.println(tokens[0]);
+        for (int i = 0; i < y; i++) {
+            for (int j = 0; j < x; j++) {
+                System.out.println(tokens[k]);
                 arr[i][j] = tokens[k].toString();
                 k++;
             }
@@ -94,7 +98,9 @@ public class ManageTables {
         return arr;
     }
 
-    public void loadToTable(String[][] arr) {
+    public void loadToTable(String s) {
+        Object[] tokens=decodeDataToTable(s);
+        String[][] arr=addTo2DArray(tokens);
         for (int i = 0; i < y; i++) {
             for (int j = 0; j < x; j++) {
                 if (arr[i][j].equals("null")) {

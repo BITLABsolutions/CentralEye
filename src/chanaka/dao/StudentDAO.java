@@ -18,10 +18,11 @@ import java.util.logging.Logger;
 
 public class StudentDAO {
 
-    private final Connection myConn;
+    Connection myConn;
 
-    public StudentDAO(Connection myConn) throws IOException, SQLException {
+    public StudentDAO(Connection myConn){
         this.myConn = myConn;
+
     }
 
     public Connection getMyConn() {
@@ -31,7 +32,27 @@ public class StudentDAO {
     /**
      * get all student to a List
      *
+     * @return
+     * @throws java.lang.Exception
      */
+    /**
+     * get all student to a List
+     *
+     * @return
+     * @throws java.sql.SQLException
+     */
+    public int getStudentCount() throws SQLException {
+        int count;
+        Statement myStmt = null;
+        ResultSet myRs = null;
+
+        myStmt = myConn.createStatement();
+        myRs = myStmt.executeQuery("SELECT COUNT(*) FROM student");
+        myRs.next();
+        count = myRs.getInt(1);
+        return count;
+    }
+
     public List<Student> getAllStudent() throws Exception {
 
         List<Student> list = new ArrayList<>();
@@ -101,6 +122,30 @@ public class StudentDAO {
         }
     }
 
+    public Student getStudentObject(String admissionNo) throws SQLException {
+        
+        String query;
+        ResultSet myRs = null;
+        PreparedStatement myStmt = null;
+        try {
+            
+            query = "select * from student where AdmissionNumber = ?";
+            
+            myStmt = myConn.prepareStatement(query);
+            
+            myStmt.setString(1, admissionNo);
+            
+            myRs = myStmt.executeQuery();
+
+            myRs.next();
+            Student tempStudent = convertRowToStudent(myRs);
+            return tempStudent;
+        } finally {
+            close(myStmt, myRs);
+        }
+
+    }
+
     public List<Student> searchStudent(String keyWord, String searchPara) throws SQLException {
 
         PreparedStatement myStmt = null;
@@ -156,7 +201,7 @@ public class StudentDAO {
                 query = "select * from student where Religion like ?";
                 myStmt = myConn.prepareStatement(query);
                 myStmt.setString(1, keyWord);
-            } else if  ("All".equals(searchPara)) {
+            } else if ("All".equals(searchPara)) {
                 query = "select * from student where AdmissionNumber like ? or FullNameEnglish like ? or FullNameSinhala like ? or BirthDate like ? or House like ? or Religion like ? or Address like ? or TelephoneNumber like ? or DateOfAdmission like ? or ClassOfAdmission like ? or Gender like ? or NameWithInitials like ?";
                 myStmt = myConn.prepareStatement(query);
                 for (int i = 1; i < 13; i++) {

@@ -14,6 +14,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -55,12 +57,11 @@ public class TeacherDAO {
             myStmnt.setString(21, teacher.getSectionTaught());
             myStmnt.setString(22, teacher.getServiceRecord());
             myStmnt.setString(23, teacher.getPositionInSchool());
-            myStmnt.setInt(24,3 );
+            myStmnt.setInt(24, 3);
             myStmnt.setString(25, null);
 
             myStmnt.executeUpdate();
 
-   
         } finally {
             close(myStmnt);
         }
@@ -103,8 +104,8 @@ public class TeacherDAO {
     }
 
     /**
-     * search teachers for given input parameters = last name, tel number, id, AC
-     * number
+     * search teachers for given input parameters = last name, tel number, id,
+     * AC number
      *
      */
     public List<Teacher> searchTeacher(String keyWord, String searchPara) throws Exception {
@@ -118,27 +119,27 @@ public class TeacherDAO {
             keyWord = "%" + keyWord + "%";
             switch (searchPara) {
                 case "Name":
-                    query = "select * from teacher where FullName = ? or NameWithIn =?";
+                    query = "select * from teacher where FullName like ? or NameWithIn like ?";
                     myStmt = myCon.prepareStatement(query);
                     myStmt.setString(1, keyWord);
                     myStmt.setString(2, keyWord);
 
                     break;
                 case "NIC":
-                    query = "select * from teacher where NIC = ?";
+                    query = "select * from teacher where NIC like ?";
                     myStmt = myCon.prepareStatement(query);
                     myStmt.setString(1, keyWord);
 
                     break;
                 case "RNo":
-                    query = "select * from teacher where RNo = ?";
+                    query = "select * from teacher where RNo like ?";
                     myStmt = myCon.prepareStatement(query);
                     myStmt.setString(1, keyWord);
 
                     break;
                 //if "keyWord" in any field in the record, return them
                 case "All":
-                    query = "select * from teacher where NIC = ? or RNo = ? or NameWithIN = ? or FullName = ? or Gender = ? or Dob = ? or CivilStatus = ? or Address = ? or TelNoMobile = ? or TelNoRecident = ? or DateOfAssignmentAsTeacher = ? or DateOfAssignmentToSchool = ? or EducationQual = ? or ProffessionalQual = ? or SubjectsAndClasses = ? or SubjectsWishToTeach = ? or GradesWishToTeach = ? or NatureOfPresentPost = ? or GradeOfService = ? or DateOfPromotion = ?  or SectionTaught = ? or ServiceRecord = ? or PositionInSchool = ? ";
+                    query = "select * from teacher where NIC like ? or RNo like ? or NameWithIN like ? or FullName like ? or Gender like ? or Dob like ? or CivilStatus like ? or Address like ? or TelNoMobile like ? or TelNoRecident like ? or DateOfAssignmentAsTeacher like ? or DateOfAssignmentToSchool like ? or EducationQual = ? or ProffessionalQual like ? or SubjectsAndClasses like ? or SubjectsWishToTeach like ? or GradesWishToTeach like ? or NatureOfPresentPost like ? or GradeOfService like ? or DateOfPromotion like ?  or SectionTaught like ? or ServiceRecord like ? or PositionInSchool like ? ";
                     myStmt = myCon.prepareStatement(query);
                     //set parameters
                     for (int i = 1; i < 24; i++) {
@@ -223,6 +224,48 @@ public class TeacherDAO {
             close(myStmt);
         }
     }
+    
+    public int getTeacherCount() throws SQLException {
+        int count=0;
+        Statement myStatment=null;
+        try {
+            myStatment = myCon.createStatement();
+            ResultSet rs=myStatment.executeQuery("SELECT COUNT(*) FROM Teacher");
+            rs.next();
+            count=rs.getInt(1);
+            return count;
+        } catch (SQLException ex) {
+            Logger.getLogger(TeacherDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally{close(myStatment);}
+        return count;
+    }
+
+    public Teacher getTeacherById(String RNo) throws SQLException {
+
+        PreparedStatement myStmt = null;
+        ResultSet myRs = null;
+        String query;
+        
+        try {
+
+            query = "select * from teacher where RNo = ?";
+            myStmt = myCon.prepareStatement(query);
+            myStmt.setString(1, RNo);
+
+            // execute statement
+            myRs = myStmt.executeQuery();
+            
+            //load teachers to a Teacher List
+            myRs.next();
+            Teacher teacherIn =convertRowToTeacher(myRs);
+            //System.out.println(NameWithIn);
+            return  teacherIn;
+             
+        } finally {
+            close(myStmt, myRs);
+        }
+    }
 
     private Teacher convertRowToTeacher(ResultSet myRs) throws SQLException {
 
@@ -252,7 +295,7 @@ public class TeacherDAO {
         String ServiceRecord = myRs.getString(22);
         String PositionInSchool = myRs.getString(23);
 
-        Teacher tempTeacher = new Teacher(NIC, RNo, NameWithIn, FullName, Gender, Dob, CivilStatus, Address, TelNoMobile, TelNoRecident, DateOfAssignmentAsTeacher, DateOfAssignmentToSchool, EducationQual, ProffessionalQual, SubjectsAndClasses, SubjectsWishToTeach, GradesWishToTeach, NatureOfPresentPost,  GradeOfPromotion,DateOfPromotion, SectionTaught, ServiceRecord, PositionInSchool);
+        Teacher tempTeacher = new Teacher(NIC, RNo, NameWithIn, FullName, Gender, Dob, CivilStatus, Address, TelNoMobile, TelNoRecident, DateOfAssignmentAsTeacher, DateOfAssignmentToSchool, EducationQual, ProffessionalQual, SubjectsAndClasses, SubjectsWishToTeach, GradesWishToTeach, NatureOfPresentPost, GradeOfPromotion, DateOfPromotion, SectionTaught, ServiceRecord, PositionInSchool);
         return tempTeacher;
     }
 
@@ -263,8 +306,8 @@ public class TeacherDAO {
     private void close(Statement myStmt) throws SQLException {
         close(null, myStmt, null);
     }
-    
-    private void updateAccess(Teacher teacher,String NIC,String clubName) throws SQLException{
+
+    public void updateAccess(Teacher teacher) throws SQLException {
         PreparedStatement myStmt = null;
         try {
             //prepare the statement
@@ -272,12 +315,9 @@ public class TeacherDAO {
 
             // set params
             //myStmt.setString(1, teacher.getNIC());
-            
-            myStmt.setInt(1, 2);
-            myStmt.setString(2, clubName);
-            myStmt.setString(3, NIC);
-            
-            
+            myStmt.setInt(1, teacher.getAccessPriviledge());
+            myStmt.setString(2, teacher.getClubIncharge());
+            myStmt.setString(3, teacher.getNIC());
 
             //execute statement
             myStmt.executeUpdate();

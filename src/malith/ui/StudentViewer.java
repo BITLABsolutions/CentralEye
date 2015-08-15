@@ -3,18 +3,20 @@ package malith.ui;
 import chanaka.dao.StudentDAO;
 import chanaka.data.Student;
 import chanaka.gui.AddOrEditStudent;
+import chanaka.gui.Certificate;
 import com.jtattoo.plaf.bernstein.BernsteinLookAndFeel;
 import common.DbConnector;
+import static java.awt.image.ImageObserver.WIDTH;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -37,6 +39,8 @@ public class StudentViewer extends javax.swing.JFrame {
             dbConnector = new DbConnector();
             // make a DAO for Student class by sending in the DB Connection from dbConnector
             studentDAO = new StudentDAO(dbConnector.getMyConn());
+            
+            
 
         } catch (IOException | SQLException ex) {
             JOptionPane.showMessageDialog(StudentViewer.this, "Error: " + ex, "Error", JOptionPane.ERROR_MESSAGE);
@@ -66,12 +70,13 @@ public class StudentViewer extends javax.swing.JFrame {
         btnNewContact = new javax.swing.JButton();
         btnUpdateContact = new javax.swing.JButton();
         btnDeleteContact = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         comboPara = new javax.swing.JComboBox();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtQuickPane = new javax.swing.JEditorPane();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Central Eye");
 
         table.setAutoCreateRowSorter(true);
@@ -138,6 +143,13 @@ public class StudentViewer extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -149,6 +161,8 @@ public class StudentViewer extends javax.swing.JFrame {
                 .addComponent(btnUpdateContact, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnDeleteContact)
+                .addGap(28, 28, 28)
+                .addComponent(jButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -158,7 +172,8 @@ public class StudentViewer extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNewContact)
                     .addComponent(btnUpdateContact)
-                    .addComponent(btnDeleteContact))
+                    .addComponent(btnDeleteContact)
+                    .addComponent(jButton1))
                 .addContainerGap())
         );
 
@@ -270,7 +285,13 @@ public class StudentViewer extends javax.swing.JFrame {
                 // If last name is empty, then get all employees
                 student = studentDAO.getAllStudent();
             }
-
+             // when there is no search results to show, clear the table
+            if (student.isEmpty()) {
+                String[] columnNames = { "Admission No", "Name", "DOB","Gender" };
+                DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+                table.setModel(model);
+                return;
+            }
             // create the model and update the "table"
             StudentTableModel model = new StudentTableModel(student);
             table.setModel(model);
@@ -280,7 +301,7 @@ public class StudentViewer extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnNewContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewContactActionPerformed
-        new AddOrEditStudent(studentDAO).setVisible(true);
+        new AddOrEditStudent(this,rootPaneCheckingEnabled,studentDAO).setVisible(true);
 
     }//GEN-LAST:event_btnNewContactActionPerformed
 
@@ -296,7 +317,7 @@ public class StudentViewer extends javax.swing.JFrame {
         // get the selected current Student
         Student tempStudent = (Student) table.getValueAt(row, StudentTableModel.OBJECT_COL);
 
-        new AddOrEditStudent(studentDAO, tempStudent).setVisible(true);
+        new AddOrEditStudent(this,rootPaneCheckingEnabled,studentDAO, tempStudent).setVisible(true);
 
 
     }//GEN-LAST:event_btnUpdateContactActionPerformed
@@ -354,6 +375,22 @@ public class StudentViewer extends javax.swing.JFrame {
 
     }//GEN-LAST:event_comboParaPopupMenuCanceled
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // get the selected row
+        int row = table.getSelectedRow();
+
+        //make sure a row is selected
+        if (row < 0) {
+            JOptionPane.showMessageDialog(StudentViewer.this, "You must select a student first!", "Selection Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        // get the selected current Student
+        Student tempStudent = (Student) table.getValueAt(row, StudentTableModel.OBJECT_COL);
+
+        new Certificate(tempStudent).setVisible(true);
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * method will refresh the GUI showing the latest update on the table
      *
@@ -402,6 +439,7 @@ public class StudentViewer extends javax.swing.JFrame {
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdateContact;
     private javax.swing.JComboBox comboPara;
+    private javax.swing.JButton jButton1;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;

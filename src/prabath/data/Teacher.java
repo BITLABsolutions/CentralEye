@@ -35,6 +35,24 @@ public class Teacher {
     private String natureOfPresentPost;
     private String gradeOfService;
     private Date dateOfPromotion;
+    private int AccessPriviledge;
+    private String ClubIncharge;
+
+    public int getAccessPriviledge() {
+        return AccessPriviledge;
+    }
+
+    public void setAccessPriviledge(int AccessPriviledge) {
+        this.AccessPriviledge = AccessPriviledge;
+    }
+
+    public String getClubIncharge() {
+        return ClubIncharge;
+    }
+
+    public void setClubIncharge(String ClubIncharge) {
+        this.ClubIncharge = ClubIncharge;
+    }
 
     public String getGender() {
         return gender;
@@ -156,6 +174,7 @@ public class Teacher {
     }
 
     public Date getDateOfAssignToSchool() {
+        if(dateOfAssignAsTeacher==null){System.out.println("null");}
         return dateOfAssignToSchool;
     }
 

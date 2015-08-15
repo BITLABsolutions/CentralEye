@@ -52,7 +52,7 @@ public class ClubTableModel extends AbstractTableModel {
 		case CLUB_NAME:
 			return tempClub.getClubName();
 		case TEACHER_IN_CHARGE:
-			return tempClub.getTeacherIncharge();
+			return tempClub.getTeacherInchargeId();
 		case PRESIDENT:
 			return tempClub.getPresidentId();
                 case OBJECT_COL:

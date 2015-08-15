@@ -1,9 +1,8 @@
 package malith.ui;
 
-
 import com.jtattoo.plaf.bernstein.BernsteinLookAndFeel;
 import common.DbConnector;
-
+import static java.awt.image.ImageObserver.WIDTH;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -12,10 +11,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
 import prabath.dao.TeacherDAO;
 import prabath.data.Teacher;
 import prabath.ui.AddTeacher;
-
 
 /**
  *
@@ -30,7 +29,7 @@ public class TeacherViewer extends javax.swing.JFrame {
      * Creates new form ContactsBook
      */
     public TeacherViewer(int accessPriviledge) {
-     
+
         initComponents();
 
         try {
@@ -42,11 +41,12 @@ public class TeacherViewer extends javax.swing.JFrame {
         } catch (IOException | SQLException ex) {
             JOptionPane.showMessageDialog(TeacherViewer.this, "Error: " + ex, "Error", JOptionPane.ERROR_MESSAGE);
         }
-         switch (accessPriviledge) {
-            case (1): // if a clerk has logged in        
-            case (2): // if the principal has logged in
-                  
+        switch (accessPriviledge) {
+            case (1): // if the principal has logged in
+            case (2): // if a clerk has logged in        
+
         }
+
     }
 
     /**
@@ -71,7 +71,7 @@ public class TeacherViewer extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         txtQuickPane = new javax.swing.JEditorPane();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Central Eye");
 
         table.setAutoCreateRowSorter(true);
@@ -174,27 +174,27 @@ public class TeacherViewer extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel1)
-                            .addGap(18, 18, 18)
-                            .addComponent(comboPara, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(12, 12, 12)
-                            .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(btnSearch)
-                            .addGap(5, 5, 5))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 691, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(86, 86, 86)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(comboPara, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(12, 12, 12)
+                        .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(5, 5, 5))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(9, 9, 9)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(5, 5, 5)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -233,6 +233,13 @@ public class TeacherViewer extends javax.swing.JFrame {
                 // If last name is empty, then get all employees
                 teacher = teacherDAO.getAllTeacher();
             }
+            // when there is no search results to show, clear the table
+            if (teacher.isEmpty()) {
+                String[] columnNames = {"Last Name", "First Name", "NIC", "Account No"};
+                DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+                table.setModel(model);
+                return;
+            }
 
             // create the model and update the "table"
             TeacherTableModel model = new TeacherTableModel(teacher);
@@ -244,7 +251,7 @@ public class TeacherViewer extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnNewContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewContactActionPerformed
-        new AddTeacher(this, rootPaneCheckingEnabled, teacherDAO, false, null).setVisible(true);
+        new AddTeacher(this, rootPaneCheckingEnabled, teacherDAO, false, null, this).setVisible(true);
 
     }//GEN-LAST:event_btnNewContactActionPerformed
 
@@ -259,8 +266,8 @@ public class TeacherViewer extends javax.swing.JFrame {
         }
         // get the selected current Teacher
         Teacher tempTeacher = (Teacher) table.getValueAt(row, TeacherTableModel.OBJECT_COL);
-        
-        
+
+        new AddTeacher(this, rootPaneCheckingEnabled, teacherDAO, true, tempTeacher, this).setVisible(true);
 
     }//GEN-LAST:event_btnUpdateContactActionPerformed
 
@@ -316,9 +323,9 @@ public class TeacherViewer extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        
+
         //</editor-fold>
-          try {
+        try {
             UIManager.setLookAndFeel(new BernsteinLookAndFeel());
         } catch (Exception e) {
             e.printStackTrace();

@@ -26,7 +26,12 @@ public class T {
             dbConnector = new DbConnector();
             Connection con = dbConnector.getMyConn();
             ScriptRunner runner = new ScriptRunner(con, false, true);
-            runner.runScript(new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("demo.sql"))));
+
+            //runner.runScript(new BufferedReader(new FileReader("C:\\Users\\Malith\\Dropbox\\OOSD\\CentralEye\\src\\malith\\scriptRunner\\demo.sql")));
+            runner.runScript(new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("club.sql"))));
+            runner.runScript(new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("teacher.sql"))));
+          //  runner.runScript(new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("student.sql"))));
+           runner.runScript(new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("login.sql"))));
         } catch (IOException | SQLException ex) {
             Logger.getLogger(T.class.getName()).log(Level.SEVERE, null, ex);
         }

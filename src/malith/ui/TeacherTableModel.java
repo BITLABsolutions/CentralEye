@@ -17,8 +17,7 @@ public class TeacherTableModel extends AbstractTableModel {
 	private static final int POSITION_COL = 2;
 	private static final int TEL_NO_MOBLIE_COL = 3;
 
-	private String[] columnNames = { "Name with Initials", "NIC", "Position",
-			"Mobile No" };// this should come from user input..... user can customize what fields to show
+	private String[] columnNames = { "Name with Initials", "NIC", "Position","Mobile No" };// this should come from user input..... user can customize what fields to show
 	private List<Teacher> teacher;
 
 	public TeacherTableModel(List<Teacher> teacher) {

@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
 
 
 /**
@@ -75,7 +76,7 @@ public class ClubViewer extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         txtQuickPane = new javax.swing.JEditorPane();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Central Eye");
 
         table.setAutoCreateRowSorter(true);
@@ -119,21 +120,21 @@ public class ClubViewer extends javax.swing.JFrame {
 
         jLabel1.setText("Search by");
 
-        btnNewContact.setText("Add New Teacher");
+        btnNewContact.setText("Add New Club");
         btnNewContact.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNewContactActionPerformed(evt);
             }
         });
 
-        btnUpdateContact.setText("Update Teacher");
+        btnUpdateContact.setText("Update Club");
         btnUpdateContact.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdateContactActionPerformed(evt);
             }
         });
 
-        btnDeleteContact.setText("Delete Teacher");
+        btnDeleteContact.setText("Delete Club");
         btnDeleteContact.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteContactActionPerformed(evt);
@@ -225,6 +226,9 @@ public class ClubViewer extends javax.swing.JFrame {
         try {
             // Get keyWord to search from the text field
             String keyWord = txtSearch.getText();
+            
+            keyWord = "%" + keyWord + "%"; //for search all
+            
             // get what to search from combo box
             String searchPara = comboPara.getSelectedItem().toString();
 
@@ -232,14 +236,20 @@ public class ClubViewer extends javax.swing.JFrame {
 
             // Call DAO and get clubs relevent to the "searchpara"
             if (keyWord != null && keyWord.trim().length() > 0) {
-                System.out.println("keyword is "+keyWord+" and searchPara is "+searchPara);
+               
                 club = clubDAO.searchClub(keyWord, searchPara);
             } else {
                 System.out.println("field is empty, getting all");
                 // If field is empty, then get all employees
                 club = clubDAO.getAllClub();
             }
-
+             // when there is no search results to show, clear the table
+            if (club.isEmpty()) {
+                String[] columnNames = { "Club ID", "Club Name", "Teacher InCharge","President" };
+                DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+                table.setModel(model);
+                return;
+            }
             // create the model and update the "table"
             ClubTableModel model = new ClubTableModel(club);
             table.setModel(model);

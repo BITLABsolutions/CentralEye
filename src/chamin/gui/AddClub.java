@@ -8,21 +8,39 @@ package chamin.gui;
 import chamin.dao.ClubDAO;
 import chamin.dao.DbConnector;
 import chamin.data.Club;
+import chanaka.dao.StudentDAO;
+import chanaka.data.Student;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import javax.swing.JOptionPane;
+import prabath.dao.TeacherDAO;
+import prabath.data.Teacher;
 
 /**
  *
- * @author prabath s
+ * @author chamin
  */
 public class AddClub extends javax.swing.JDialog {
 
     DbConnector dbConnector;
     ClubDAO clubDAO;
+    TeacherDAO teacherDAO;
+    StudentDAO studentDAO;
+    
+    Teacher TeacherIn;
+    Student President;
+    Student VicePresident;
+    Student Secretary;
+    Student AssSecretary;
+    Student Treasurer;
+    
+    int error[] = {0,0,0,0,0,0,0,0};
 
     public AddClub(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -31,14 +49,17 @@ public class AddClub extends javax.swing.JDialog {
         //set the form in mmdle of the window
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         //this.setLocation(dim.width/2-this.getWidth()/2, dim.height/2-this.getHeight()/2);
-        this.setSize(dim.width, dim.height - 35);
-        jScrollPane1.setSize(dim.width, dim.height - 35);
+        this.setSize(dim.width, dim.height - 40);
+        jScrollPane1.setSize(dim.width, dim.height - 40);
+        jPanel1.setSize(dim.width, dim.height - 40);
 
         try {
             // create the central DAO
             dbConnector = new DbConnector();
             // make a DAO for Person class by sending in the DB Connection from dbConnector
             clubDAO = new ClubDAO(dbConnector.getMyConn());
+            teacherDAO =new TeacherDAO(dbConnector.getMyConn());
+            studentDAO = new StudentDAO(dbConnector.getMyConn());
 
         } catch (IOException | SQLException ex) {
             JOptionPane.showMessageDialog(this, "Error: " + ex, "Error", JOptionPane.ERROR_MESSAGE);
@@ -79,8 +100,6 @@ public class AddClub extends javax.swing.JDialog {
         txtSecretaryId = new javax.swing.JTextField();
         jScrollPane4 = new javax.swing.JScrollPane();
         txtSuggestions = new javax.swing.JTextArea();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        txtTeacherIncharge = new javax.swing.JTextArea();
         jScrollPane5 = new javax.swing.JScrollPane();
         txtAdvisor = new javax.swing.JTextArea();
         jLabel28 = new javax.swing.JLabel();
@@ -93,8 +112,18 @@ public class AddClub extends javax.swing.JDialog {
         txtAssSecretaryId = new javax.swing.JTextField();
         dtChooserDateOfEstablish = new com.toedter.calendar.JDateChooser();
         jLabel6 = new javax.swing.JLabel();
+        txtTeacherInchargeId = new javax.swing.JTextField();
+        lblClubId = new javax.swing.JLabel();
+        lblClubName = new javax.swing.JLabel();
+        lblInchage = new javax.swing.JLabel();
+        lblPresident = new javax.swing.JLabel();
+        lblVicePresident = new javax.swing.JLabel();
+        lblSecretary = new javax.swing.JLabel();
+        lblAssSecretary = new javax.swing.JLabel();
+        lblTreasurer = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -107,17 +136,37 @@ public class AddClub extends javax.swing.JDialog {
 
         jLabel3.setText("Name* :");
 
-        jLabel4.setText("Teachers Incharge* :");
+        jLabel4.setText("Teacher Incharge's Index Number* :");
 
         txtClubId.setToolTipText("10 characters");
+        txtClubId.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtClubIdFocusLost(evt);
+            }
+        });
+        txtClubId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtClubIdActionPerformed(evt);
+            }
+        });
 
         txtClubName.setToolTipText("100 characters");
+        txtClubName.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtClubNameFocusLost(evt);
+            }
+        });
 
-        jLabel5.setText("Advisors :");
+        jLabel5.setText("Advisors Names :");
 
         jLabel9.setText("President's Index Number :");
 
         txtPresidentId.setToolTipText("10 characters");
+        txtPresidentId.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtPresidentIdFocusLost(evt);
+            }
+        });
 
         jLabel10.setText("Vise President's Index Number :");
 
@@ -141,23 +190,23 @@ public class AddClub extends javax.swing.JDialog {
         jButton3.setText("Add");
 
         txtSecretaryId.setToolTipText("10 characters");
+        txtSecretaryId.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtSecretaryIdFocusLost(evt);
+            }
+        });
 
         txtSuggestions.setColumns(20);
         txtSuggestions.setRows(5);
         txtSuggestions.setToolTipText("1000 characters");
         jScrollPane4.setViewportView(txtSuggestions);
 
-        txtTeacherIncharge.setColumns(20);
-        txtTeacherIncharge.setRows(5);
-        txtTeacherIncharge.setToolTipText("500 characters, use comma to separate");
-        jScrollPane3.setViewportView(txtTeacherIncharge);
-
         txtAdvisor.setColumns(20);
         txtAdvisor.setRows(5);
         txtAdvisor.setToolTipText("500 characters, use comma to separate");
         jScrollPane5.setViewportView(txtAdvisor);
 
-        jLabel28.setText("Members Iindex List :");
+        jLabel28.setText("Members Index List :");
 
         txtMembersId.setColumns(20);
         txtMembersId.setRows(5);
@@ -179,15 +228,66 @@ public class AddClub extends javax.swing.JDialog {
         });
 
         txtVicePresidentId.setToolTipText("10 characters");
+        txtVicePresidentId.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtVicePresidentIdFocusLost(evt);
+            }
+        });
 
         txtTreasurerId.setToolTipText("10 characters");
+        txtTreasurerId.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtTreasurerIdFocusLost(evt);
+            }
+        });
 
         txtAssSecretaryId.setToolTipText("10 characters");
+        txtAssSecretaryId.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtAssSecretaryIdFocusLost(evt);
+            }
+        });
 
         dtChooserDateOfEstablish.setDateFormatString("MM-dd-yyyy");
 
         jLabel6.setFont(new java.awt.Font("Dialog", 0, 8)); // NOI18N
         jLabel6.setText("* required");
+
+        txtTeacherInchargeId.setToolTipText("100 characters");
+        txtTeacherInchargeId.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtTeacherInchargeIdFocusLost(evt);
+            }
+        });
+        txtTeacherInchargeId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTeacherInchargeIdActionPerformed(evt);
+            }
+        });
+
+        lblClubId.setFont(new java.awt.Font("sansserif", 0, 10)); // NOI18N
+        lblClubId.setForeground(new java.awt.Color(255, 255, 153));
+
+        lblClubName.setFont(new java.awt.Font("sansserif", 0, 10)); // NOI18N
+        lblClubName.setForeground(new java.awt.Color(255, 255, 153));
+
+        lblInchage.setFont(new java.awt.Font("sansserif", 0, 10)); // NOI18N
+        lblInchage.setForeground(new java.awt.Color(255, 255, 153));
+
+        lblPresident.setFont(new java.awt.Font("sansserif", 0, 10)); // NOI18N
+        lblPresident.setForeground(new java.awt.Color(255, 255, 153));
+
+        lblVicePresident.setFont(new java.awt.Font("sansserif", 0, 10)); // NOI18N
+        lblVicePresident.setForeground(new java.awt.Color(255, 255, 153));
+
+        lblSecretary.setFont(new java.awt.Font("sansserif", 0, 10)); // NOI18N
+        lblSecretary.setForeground(new java.awt.Color(255, 255, 153));
+
+        lblAssSecretary.setFont(new java.awt.Font("sansserif", 0, 10)); // NOI18N
+        lblAssSecretary.setForeground(new java.awt.Color(255, 255, 153));
+
+        lblTreasurer.setFont(new java.awt.Font("sansserif", 0, 10)); // NOI18N
+        lblTreasurer.setForeground(new java.awt.Color(255, 255, 153));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -197,55 +297,61 @@ public class AddClub extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel9)
+                                    .addComponent(jLabel10)
+                                    .addComponent(jLabel11)
+                                    .addComponent(jLabel12)
+                                    .addComponent(jLabel13)
+                                    .addComponent(jLabel25))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(624, 624, 624)
+                                        .addComponent(jButton3))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(202, 202, 202)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(txtVicePresidentId, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtPresidentId, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtAssSecretaryId, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtTreasurerId, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(dtChooserDateOfEstablish, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtClubId, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtClubName, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(txtSecretaryId, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
+                                            .addComponent(jScrollPane4)
+                                            .addComponent(jScrollPane6)
+                                            .addComponent(jScrollPane5)
+                                            .addComponent(txtTeacherInchargeId, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lblClubId, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(lblClubName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(lblInchage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(lblPresident, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(lblVicePresident, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(lblSecretary, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(lblAssSecretary, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(lblTreasurer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                            .addComponent(jLabel27)
+                            .addComponent(jLabel28)
+                            .addComponent(jLabel6)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
                         .addComponent(jLabel26))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(553, 553, 553)
                         .addComponent(jLabel1)))
-                .addContainerGap(704, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel11)
-                            .addComponent(jLabel12)
-                            .addComponent(jLabel13)
-                            .addComponent(jLabel25))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(624, 624, 624)
-                                .addComponent(jButton3))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(204, 204, 204)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtClubId, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(txtClubName)
-                                        .addComponent(txtSecretaryId, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
-                                        .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jScrollPane3)
-                                        .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.LEADING))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(txtVicePresidentId, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtPresidentId, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtAssSecretaryId, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtTreasurerId, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(dtChooserDateOfEstablish, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addComponent(jLabel27)
-                    .addComponent(jLabel28)
-                    .addComponent(jLabel6))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(439, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -258,15 +364,21 @@ public class AddClub extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtClubId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(2, 2, 2)
+                .addComponent(lblClubId, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtClubName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblClubName, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(txtTeacherInchargeId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(1, 1, 1)
+                .addComponent(lblInchage, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(4, 4, 4)
@@ -276,23 +388,33 @@ public class AddClub extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(txtPresidentId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(2, 2, 2)
+                .addComponent(lblPresident, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(txtVicePresidentId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
+                .addGap(3, 3, 3)
+                .addComponent(lblVicePresident, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel11)
                     .addComponent(txtSecretaryId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(1, 1, 1)
+                .addComponent(lblSecretary, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
                     .addComponent(txtAssSecretaryId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(1, 1, 1)
+                .addComponent(lblAssSecretary, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
                     .addComponent(txtTreasurerId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
+                .addGap(3, 3, 3)
+                .addComponent(lblTreasurer, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel25)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -308,7 +430,7 @@ public class AddClub extends javax.swing.JDialog {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel28)
-                                .addGap(407, 407, 407)
+                                .addGap(481, 481, 481)
                                 .addComponent(jButton3))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -326,30 +448,38 @@ public class AddClub extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 946, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1026, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 757, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 848, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-
+        int x=0;// check for errors
+        for(int i :error){
+            if(i==1){x=1;}
+        }
+        
         if (txtClubId.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Club Index field should filled");
         } else if (txtClubName.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Club Name field should filled");
-        } else if (txtTeacherIncharge.getText().equals("")) {
+        } else if (txtTeacherInchargeId.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Teacher Incharge field should filled");
-        } else {
-
+        } else if(x==1) {
+            JOptionPane.showMessageDialog(null, "Fill the form correctly");
+        }
+        else{
             try {
                 addClub();
 
@@ -365,11 +495,169 @@ public class AddClub extends javax.swing.JDialog {
 
     }//GEN-LAST:event_btnAddActionPerformed
 
+    private void txtClubIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtClubIdFocusLost
+        try {
+            List<Club> list = null;
+            list = clubDAO.searchClub(txtClubId.getText(), "Club Id");
+
+            if (!list.isEmpty()) {
+                lblClubId.setText("Duplicate index number");
+                error[0] = 1;
+            } else if(!txtClubId.getText().equals("")){
+                
+                try {
+                    Integer.parseInt(txtClubId.getText());
+                    lblClubId.setText("Valid Index");
+                    error[0] = 0;
+                } catch (NumberFormatException e) {
+                    lblClubId.setText("Invalid index number.Enter Numeric input");
+                    error[0] = 1;
+                }
+            }
+            else{
+                lblClubId.setText("Fill the field");
+                error[0] = 1;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Sql Error happend");
+        }
+    }//GEN-LAST:event_txtClubIdFocusLost
+
+    private void txtClubIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClubIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtClubIdActionPerformed
+
+    private void txtClubNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtClubNameFocusLost
+        try {
+            List<Club> list = null;
+            list = clubDAO.searchClub(txtClubName.getText(), "Club Name");
+
+            if (!list.isEmpty()) {
+                lblClubName.setText("Duplicate club name");
+                error[1] = 1;
+            } else if(!txtClubName.getText().equals("")){
+                
+                //lblClubName.setText("Valid name");
+                //try {
+                //    Integer.parseInt(txtClubId.getText());
+                //    System.out.println("parsing to int");
+                //    lblClubName.setText("Invalid name");
+                //    error[1] = 1;
+                //} catch (NumberFormatException e) {
+                    lblClubName.setText("Valid name");
+                    error[1] = 0;
+                //}
+            }
+            else{
+                lblClubName.setText("Fill the field");
+                error[0] = 1;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Sql Error happend");
+        }
+    }//GEN-LAST:event_txtClubNameFocusLost
+
+    private void txtTeacherInchargeIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTeacherInchargeIdFocusLost
+        
+        try {
+            TeacherIn=teacherDAO.getTeacherById(txtTeacherInchargeId.getText());
+            lblInchage.setText(TeacherIn.getNameWithin());
+            error[2] = 0;
+        } catch (SQLException ex) {
+            lblInchage.setText("This index number is not in the database.First add the teacher.");
+            error[2] = 1;
+        }
+        if(txtTeacherInchargeId.getText().equals("")){
+            lblInchage.setText("");
+            error[2] = 0;
+        }
+    }//GEN-LAST:event_txtTeacherInchargeIdFocusLost
+
+    private void txtTeacherInchargeIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTeacherInchargeIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTeacherInchargeIdActionPerformed
+
+    private void txtPresidentIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPresidentIdFocusLost
+        try {
+            President =studentDAO.getStudentObject(txtPresidentId.getText());
+            lblPresident.setText(President.getNameWithInitials());
+            error[3] = 0;
+        } catch (SQLException ex) {
+            lblPresident.setText("This index number is not in the database.First add the student.");
+            error[3] = 1;
+        }
+        if(txtPresidentId.getText().equals("")){
+            lblPresident.setText("");
+            error[3] = 0;
+        }
+    }//GEN-LAST:event_txtPresidentIdFocusLost
+
+    private void txtVicePresidentIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtVicePresidentIdFocusLost
+        try {
+            VicePresident=studentDAO.getStudentObject(txtVicePresidentId.getText());
+            lblVicePresident.setText(VicePresident.getNameWithInitials());
+            error[4] = 0;
+        } catch (SQLException ex) {
+            lblVicePresident.setText("This index number is not in the database.First add the student.");
+            error[4] = 1;
+        }
+        if(txtVicePresidentId.getText().equals("")){
+            lblVicePresident.setText("");
+            error[4] = 0;
+        }
+    }//GEN-LAST:event_txtVicePresidentIdFocusLost
+
+    private void txtSecretaryIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSecretaryIdFocusLost
+        try {
+            Secretary=studentDAO.getStudentObject(txtSecretaryId.getText());
+            lblSecretary.setText(Secretary.getNameWithInitials());
+            error[5] = 0;
+        } catch (SQLException ex) {
+            lblSecretary.setText("This index number is not in the database.First add the student.");
+            error[5] = 1;
+            
+        }
+        if(txtSecretaryId.getText().equals("")){
+            lblSecretary.setText("");
+            error[5] = 0;
+        }
+    }//GEN-LAST:event_txtSecretaryIdFocusLost
+
+    private void txtAssSecretaryIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtAssSecretaryIdFocusLost
+        try {
+            AssSecretary=studentDAO.getStudentObject(txtAssSecretaryId.getText());
+            lblAssSecretary.setText(AssSecretary.getNameWithInitials());
+            error[6] = 0;
+        } catch (SQLException ex) {
+            lblAssSecretary.setText("This index number is not in the database.First add the student.");
+            error[6] = 1;
+        }
+        if(txtAssSecretaryId.getText().equals("")){
+            lblAssSecretary.setText("");
+            error[6] = 0;
+        }
+    }//GEN-LAST:event_txtAssSecretaryIdFocusLost
+
+    private void txtTreasurerIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTreasurerIdFocusLost
+        try {
+            Treasurer=studentDAO.getStudentObject(txtTreasurerId.getText());
+            lblTreasurer.setText(Treasurer.getNameWithInitials());
+            error[7] = 0;
+        } catch (SQLException ex) {
+            lblTreasurer.setText("This index number is not in the database.First add the teacher.");
+            error[7] = 1;
+        }
+        if(txtTreasurerId.getText().equals("")){
+            lblTreasurer.setText("");
+            error[7] = 0;
+        }
+    }//GEN-LAST:event_txtTreasurerIdFocusLost
+
     private void addClub() throws SQLException {
 
         String ClubId = txtClubId.getText();
         String ClubName = txtClubName.getText();
-        String TeacherIncharge = txtTeacherIncharge.getText();
+        String TeacherInchargeId = txtTeacherInchargeId.getText();
         String Advisor = txtAdvisor.getText();
         String PresidentId = txtPresidentId.getText();
         String VisePresidentId = txtVicePresidentId.getText();
@@ -382,16 +670,34 @@ public class AddClub extends javax.swing.JDialog {
 
         String MemberIdList[] = {txtMembersId.getText()};  // check this
 
-        Club club = new Club(ClubId, ClubName, TeacherIncharge, Advisor, PresidentId, VisePresidentId, SecretaryId, AssSecretaryId, TreasurerId, Task, Suggestions, DateOfEstablish, MemberIdList);
+        Club club = new Club(ClubId, ClubName, TeacherInchargeId, Advisor, PresidentId, VisePresidentId, SecretaryId, AssSecretaryId, TreasurerId, Task, Suggestions, DateOfEstablish, MemberIdList);
 
         clubDAO.addClub(club);
-
+        
+        //update incharge
+        TeacherIn.setAccessPriviledge(2);
+        TeacherIn.setClubIncharge(TeacherIn.getClubIncharge()+"#"+ClubId);
+        teacherDAO.updateAccess(TeacherIn);
+        
+        /*
+        
+        
+        studentDAO.updateStudent(President, President.getAdmissionNumber());
+        studentDAO.updateStudent(VicePresident, VicePresident.getAdmissionNumber());
+        studentDAO.updateStudent(Secretary, Secretary.getAdmissionNumber());
+        studentDAO.updateStudent(AssSecretary, AssSecretary.getAdmissionNumber());
+        studentDAO.updateStudent(Treasurer, Rreasurer.getAdmissionNumber());
+        */
     }/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private void searchClub(String keyWord, String searchPera) {
+
+    }
 
     public void clearForm() {
         txtClubId.setText("");
         txtClubName.setText("");
-        txtTeacherIncharge.setText("");
+        txtTeacherInchargeId.setText("");
         txtAdvisor.setText("");
         txtPresidentId.setText("");
         txtVicePresidentId.setText("");
@@ -403,7 +709,20 @@ public class AddClub extends javax.swing.JDialog {
         dtChooserDateOfEstablish.setDate(new Date(0));
 
         txtMembersId.setText("");
-
+        
+        lblAssSecretary.setText("");
+        lblClubId.setText("");
+        lblClubName.setText("");
+        lblInchage.setText("");
+        lblPresident.setText("");
+        lblSecretary.setText("");
+        lblTreasurer.setText("");
+        lblVicePresident.setText("");
+        
+        
+        
+        
+        
     }
 
     public static void main(String args[]) {
@@ -469,10 +788,17 @@ public class AddClub extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JLabel lblAssSecretary;
+    private javax.swing.JLabel lblClubId;
+    private javax.swing.JLabel lblClubName;
+    private javax.swing.JLabel lblInchage;
+    private javax.swing.JLabel lblPresident;
+    private javax.swing.JLabel lblSecretary;
+    private javax.swing.JLabel lblTreasurer;
+    private javax.swing.JLabel lblVicePresident;
     private javax.swing.JTextArea txtAdvisor;
     private javax.swing.JTextField txtAssSecretaryId;
     private javax.swing.JTextField txtClubId;
@@ -482,7 +808,7 @@ public class AddClub extends javax.swing.JDialog {
     private javax.swing.JTextField txtSecretaryId;
     private javax.swing.JTextArea txtSuggestions;
     private javax.swing.JTextArea txtTask;
-    private javax.swing.JTextArea txtTeacherIncharge;
+    private javax.swing.JTextField txtTeacherInchargeId;
     private javax.swing.JTextField txtTreasurerId;
     private javax.swing.JTextField txtVicePresidentId;
     // End of variables declaration//GEN-END:variables
